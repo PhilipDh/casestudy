@@ -1,0 +1,54 @@
+{
+  "issues": [
+    {
+      "id": 10,
+      "title": "IT in the Valley #10",
+      "releaseDate": "30.10.19"
+    },
+    {
+      "id": 9,
+      "title": "IT in the Valley #9",
+      "releaseDate": "30.09.19"
+    },
+    {
+      "id": 8,
+      "title": "IT in the Valley #8",
+      "releaseDate": "30.08.19"
+    },
+    {
+      "id": 7,
+      "title": "IT in the Valley #7",
+      "releaseDate": "30.07.19"
+    },
+    {
+      "id": 6,
+      "title": "IT in the Valley #6",
+      "releaseDate": "30.06.19"
+    },
+    {
+      "id": 5,
+      "title": "IT in the Valley #5",
+      "releaseDate": "30.05.19"
+    },
+    {
+      "id": 4,
+      "title": "IT in the Valley #4",
+      "releaseDate": "30.04.19"
+    },
+    {
+      "id": 3,
+      "title": "IT in the Valley #3",
+      "releaseDate": "30.03.19"
+    },
+    {
+      "id": 2,
+      "title": "IT in the Valley #2",
+      "releaseDate": "30.02.19"
+    },
+    {
+      "id": 1,
+      "title": "IT in the Valley #1",
+      "releaseDate": "30.01.19"
+    }
+  ]
+}

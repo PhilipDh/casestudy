@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>Picker</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="291" height="110" rx="10"></rect>
+        <filter x="-2.4%" y="-4.5%" width="104.8%" height="112.7%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Layout" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="EditAd" transform="translate(-38.000000, -208.000000)">
+            <rect fill="#5D1049" x="0" y="0" width="360" height="720"></rect>
+            <g id="Group" transform="translate(35.000000, 164.000000)">
+                <g id="Rectangle">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <g id="Picker" transform="translate(3.000000, 44.000000)">
+                    <circle id="Oval" stroke="#979797" stroke-width="2" cx="11" cy="11" r="10"></circle>
+                    <circle id="Oval" fill="#5D1049" cx="11" cy="11" r="8"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

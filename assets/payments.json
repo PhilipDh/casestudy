@@ -1,0 +1,144 @@
+{
+  "list": [
+    {
+      "issueId": 10,
+      "payments": [
+        {
+          "pId": 1,
+          "name": "Philip Dahmen",
+          "job": "Journalist",
+          "isCompany": false,
+          "money": 500,
+          "date": "30.10.19",
+          "contributions": [
+            {
+              "id": 101,
+              "type": "Article",
+              "title": "Is AI taking over",
+              "moneyOwed": 250,
+              "payed": true
+            },
+            {
+              "id": 102,
+              "type": "Article",
+              "title": "AI in your home",
+              "moneyOwed": 250,
+              "payed": true
+            }
+          ]
+        },
+        {
+          "pId": 2,
+          "date": "30.10.19",
+          "name": "John Doe",
+          "job": "Photographer",
+          "isCompany": false,
+          "money": 200,
+          "contributions": [
+            {
+              "id": 201,
+              "type": "Picture",
+              "title": "Image of robot",
+              "moneyOwed": 200,
+              "payed": true
+            }
+          ]
+        },
+        {
+          "pId": 3,
+          "date": "30.10.19",
+          "name": "Google",
+          "job": "Company",
+          "isCompany": true,
+          "money": 1200,
+          "contributions": [
+            {
+              "id": 301,
+              "type": "Ad",
+              "title": "Google AI",
+              "moneyOwed": 400,
+              "payed": false
+            },
+            {
+              "id": 302,
+              "type": "Ad",
+              "title": "Google Search Enginge",
+              "moneyOwed": 800,
+              "payed": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "issueId": 7,
+      "payments": [
+        {
+          "pId": 1,
+          "name": "Philip Dahmen",
+          "job": "Journalist",
+          "isCompany": false,
+          "money": 500,
+          "date": "30.10.19",
+          "contributions": [
+            {
+              "id": 101,
+              "type": "Article",
+              "title": "Is AI taking over",
+              "moneyOwed": 250,
+              "payed": true
+            },
+            {
+              "id": 102,
+              "type": "Article",
+              "title": "AI in your home",
+              "moneyOwed": 250,
+              "payed": true
+            }
+          ]
+        },
+        {
+          "pId": 2,
+          "date": "30.10.19",
+          "name": "John Doe",
+          "job": "Photographer",
+          "isCompany": false,
+          "money": 200,
+          "contributions": [
+            {
+              "id": 201,
+              "type": "Picture",
+              "title": "Image of robot",
+              "moneyOwed": 200,
+              "payed": true
+            }
+          ]
+        },
+        {
+          "pId": 3,
+          "date": "30.10.19",
+          "name": "Google",
+          "job": "Company",
+          "isCompany": true,
+          "money": 1200,
+          "contributions": [
+            {
+              "id": 301,
+              "type": "Ad",
+              "title": "Google AI",
+              "moneyOwed": 400,
+              "payed": false
+            },
+            {
+              "id": 302,
+              "type": "Ad",
+              "title": "Google Search Enginge",
+              "moneyOwed": 800,
+              "payed": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

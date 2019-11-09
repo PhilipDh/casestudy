@@ -1,0 +1,44 @@
+{
+  "list": [
+    {
+      "issueId": 10,
+      "items": [
+        {
+          "id": 101,
+          "type": "Article",
+          "title": "AI in your Home",
+          "content": "Test 123",
+          "author": "Philip Dahmen"
+        },
+        {
+          "id": 102,
+          "type": "Article",
+          "title": "Is AI taking over",
+          "content": "Test 123",
+          "author": "Philip Dahmen"
+        },
+        {
+          "id": 201,
+          "type": "Picture",
+          "title": "Image of robot",
+          "content": "Test 123",
+          "author": "John Doe"
+        },
+        {
+          "id": 301,
+          "type": "Ad",
+          "title": "Google AI",
+          "content": "Test 123",
+          "author": "Google"
+        },
+        {
+          "id": 302,
+          "type": "Ad",
+          "title": "Google Search",
+          "content": "Test 123",
+          "author": "Google"
+        }
+      ]
+    }
+  ]
+}
