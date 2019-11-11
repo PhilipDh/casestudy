@@ -31,6 +31,7 @@ export default class EditArticleList extends Component<Props, State> {
       isLoading: true,
       id: props.screenProps.id,
       dataChanged: true,
+      showSnackbar: false,
     };
   }
 
@@ -53,7 +54,7 @@ export default class EditArticleList extends Component<Props, State> {
         );
       })
       .catch(err => {
-        console.log(err);
+        this.setState({data: [], isLoading: false, showSnackbar: true});
         return null;
       });
   }
@@ -63,7 +64,26 @@ export default class EditArticleList extends Component<Props, State> {
   };
 
   componentDidMount() {
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      this.setState({id: this.props.screenProps.id});
+    });
     this.getArticleList();
+  }
+
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
+  }
+
+  _listEmptyComponent() {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyListText}>There seems to be nothing here</Text>
+        <Text style={styles.reloadText} onPress={() => this.getArticleList()}>
+          Reload
+        </Text>
+      </View>
+    );
   }
 
   render() {
@@ -71,8 +91,10 @@ export default class EditArticleList extends Component<Props, State> {
       return <View></View>;
     } else {
       return (
-        <View style={styles.container}>
+        <View style={styles.rootContainer}>
           <FlatList
+            contentContainerStyle={styles.rootContainer}
+            ListEmptyComponent={this._listEmptyComponent()}
             data={this.state.data}
             renderItem={({item}) => (
               <EditListItem
@@ -91,7 +113,22 @@ export default class EditArticleList extends Component<Props, State> {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    margin: 10,
+  rootContainer: {
+    margin: 5,
+    flex: 1,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyListText: {
+    color: 'white',
+    fontSize: 20,
+  },
+  reloadText: {
+    color: '#fa3336',
+    fontSize: 20,
+    textDecorationLine: 'underline',
   },
 });

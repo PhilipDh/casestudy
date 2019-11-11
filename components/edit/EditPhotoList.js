@@ -19,6 +19,7 @@ type State = {
   data: any,
   isLoading: boolean,
   id: string,
+  showSnackbar: boolean,
 };
 
 export default class EditPhotoList extends Component<Props, State> {
@@ -29,6 +30,7 @@ export default class EditPhotoList extends Component<Props, State> {
       data: {},
       isLoading: true,
       id: props.screenProps.id,
+      showSnackbar: false,
     };
   }
 
@@ -53,13 +55,32 @@ export default class EditPhotoList extends Component<Props, State> {
         this.setState({data: data.data, isLoading: false}, function() {});
       })
       .catch(err => {
-        console.log(err);
+        this.setState({data: [], isLoading: false, showSnackbar: true});
         return null;
       });
   }
 
   componentDidMount() {
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      this.setState({id: this.props.screenProps.id});
+    });
     this.getPhotoList();
+  }
+
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
+  }
+
+  _listEmptyComponent() {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyListText}>There seems to be nothing here</Text>
+        <Text style={styles.reloadText} onPress={() => this.getPhotoList()}>
+          Reload
+        </Text>
+      </View>
+    );
   }
 
   render() {
@@ -67,8 +88,10 @@ export default class EditPhotoList extends Component<Props, State> {
       return <View></View>;
     } else {
       return (
-        <View style={styles.container}>
+        <View style={styles.rootContainer}>
           <FlatList
+            contentContainerStyle={styles.rootContainer}
+            ListEmptyComponent={this._listEmptyComponent()}
             data={this.state.data}
             renderItem={({item}) => (
               <EditListItem
@@ -87,7 +110,22 @@ export default class EditPhotoList extends Component<Props, State> {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    margin: 10,
+  rootContainer: {
+    margin: 5,
+    flex: 1,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyListText: {
+    color: 'white',
+    fontSize: 20,
+  },
+  reloadText: {
+    color: '#fa3336',
+    fontSize: 20,
+    textDecorationLine: 'underline',
   },
 });

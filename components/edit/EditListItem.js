@@ -52,8 +52,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
     flexDirection: 'row',
-    marginLeft: 10,
-    marginRight: 10,
+
     margin: 5,
     height: 66,
     borderColor: 'red',

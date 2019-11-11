@@ -15,20 +15,24 @@ import {
   StyleSheet,
 } from 'react-native';
 import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
+import {Snackbar} from 'react-native-paper';
 import IssueItem from './IssueItem';
 
 const axios = require('axios').default;
 
-type State = {data: any, isLoading: boolean};
+type State = {data: any, isLoading: boolean, showSnackbar: boolean};
 type Props = {data: any, isLoading: boolean};
 
 export default class IssueList extends Component<State, Props> {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       data: {},
       isLoading: true,
+      showSnackbar: false,
     };
+
+    console.log(this.props.navigation.state);
   }
 
   setDataState(data) {
@@ -36,13 +40,33 @@ export default class IssueList extends Component<State, Props> {
   }
 
   componentDidMount() {
-    (async () => {
-      const response = await axios.get('http://10.0.2.2:3000/issue');
-      this.setDataState(response.data);
-    })();
+    this.getIssueList();
+  }
 
-    const dataJson = require('../assets/issueList.json');
-    //this.setState({data: dataJson.issues, isLoading: false});
+  getIssueList() {
+    (async () => {
+      try {
+        const response = await axios.get('http://10.0.2.2:3000/issue');
+        this.setDataState(response.data);
+      } catch (erorr) {
+        this.setState({isLoading: false, data: [], showSnackbar: true});
+      }
+    })();
+  }
+
+  setTitle = title => {
+    this.props.navigation.setParams({title: title});
+  };
+
+  _listEmptyComponent() {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyListText}>There seems to be nothing here</Text>
+        <Text style={styles.reloadText} onPress={() => this.getIssueList()}>
+          Reload
+        </Text>
+      </View>
+    );
   }
 
   render() {
@@ -54,20 +78,35 @@ export default class IssueList extends Component<State, Props> {
       );
     } else {
       return (
-        <View>
+        <View style={styles.rootContainer}>
           <FlatList
+            contentContainerStyle={styles.rootContainer}
             style={styles.issueList}
             data={this.state.data}
+            ListEmptyComponent={this._listEmptyComponent()}
             renderItem={({item}) => (
               <IssueItem
                 title={item.title}
                 date={item.releaseDate}
                 id={item._id}
                 updateContext={this.props.screenProps.updateContext}
+                setTitle={this.setTitle}
               />
             )}
             keyExtractor={({_id}, index) => _id}
           />
+          <Snackbar
+            style={styles.snackbar}
+            visible={this.state.showSnackbar}
+            onDismiss={() => this.setState({showSnackbar: false})}
+            action={{
+              label: 'Undo',
+              onPress: () => {
+                // Do something
+              },
+            }}>
+            Network Error
+          </Snackbar>
         </View>
       );
     }
@@ -75,8 +114,28 @@ export default class IssueList extends Component<State, Props> {
 }
 
 const styles = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyListText: {
+    color: 'white',
+    fontSize: 20,
+  },
+  reloadText: {
+    color: '#fa3336',
+    fontSize: 20,
+    textDecorationLine: 'underline',
+  },
   issueList: {
-    height: '100%',
     padding: 5,
+  },
+  snackbar: {
+    backgroundColor: '#fa3336',
+    color: 'white',
   },
 });

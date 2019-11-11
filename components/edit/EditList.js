@@ -24,6 +24,7 @@ type State = {
   data: any,
   id: string,
   isLoading: boolean,
+  showSnackbar: boolean,
 };
 
 export default class EditList extends Component<Props, State> {
@@ -34,6 +35,7 @@ export default class EditList extends Component<Props, State> {
       id: '-1',
       data: {},
       isLoading: true,
+      showSnackbar: false,
     };
   }
 
@@ -48,7 +50,7 @@ export default class EditList extends Component<Props, State> {
         });
       })
       .catch(err => {
-        console.log(err);
+        this.setState({data: [], isLoading: false, showSnackbar: true});
         return null;
       });
   }
@@ -58,7 +60,15 @@ export default class EditList extends Component<Props, State> {
   };
 
   componentDidMount() {
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      this.setState({id: this.props.screenProps.id});
+    });
     this.getAdList();
+  }
+
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
   }
 
   navigateToDetail = id => {
@@ -69,21 +79,30 @@ export default class EditList extends Component<Props, State> {
     });
   };
 
-  componentWillUnmount() {
-    // Remove the event listener
+  _listEmptyComponent() {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyListText}>There seems to be nothing here</Text>
+        <Text style={styles.reloadText} onPress={() => this.getAdList()}>
+          Reload
+        </Text>
+      </View>
+    );
   }
 
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={styles.container}>
+        <View style={styles.rootContainer}>
           <Text> {this.props.screenProps.id} </Text>
         </View>
       );
     } else {
       return (
-        <View style={styles.container}>
+        <View style={styles.rootContainer}>
           <FlatList
+            contentContainerStyle={styles.rootContainer}
+            ListEmptyComponent={this._listEmptyComponent()}
             data={this.state.data}
             renderItem={({item}) => (
               <EditListItem
@@ -102,5 +121,19 @@ export default class EditList extends Component<Props, State> {
 }
 
 const styles = StyleSheet.create({
-  container: {height: '100%', margin: 10},
+  rootContainer: {flex: 1, margin: 5},
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyListText: {
+    color: 'white',
+    fontSize: 20,
+  },
+  reloadText: {
+    color: '#fa3336',
+    fontSize: 20,
+    textDecorationLine: 'underline',
+  },
 });

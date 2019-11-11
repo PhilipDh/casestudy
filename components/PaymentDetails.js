@@ -12,9 +12,7 @@ import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
 import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Feather';
 import {StackActions} from 'react-navigation';
-import PaymentDetailsItem from './PaymentDetailsItem';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import PaymentBottomSheet from './PaymentBottomSheet';
 
 const axios = require('axios').default;
 

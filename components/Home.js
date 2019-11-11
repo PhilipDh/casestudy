@@ -131,6 +131,8 @@ const IssueStack = createStackNavigator(
     List: {
       // `ProfileScreen` is a React component that will be the main content of the screen.
       screen: IssueList,
+      params: {title: 'Issues'},
+
       // When `ProfileScreen` is loaded by the StackNavigator, it will be given a `navigation` prop.
 
       // Optional: When deep linking or using react-navigation in a web app, this path is used:
@@ -138,9 +140,9 @@ const IssueStack = createStackNavigator(
       // The action and route params are extracted from the path.
 
       // Optional: Override the `navigationOptions` for the screen
-      //    navigationOptions: ({navigation}) => ({
-      //      title: `${navigation.state.params.name}'s Profile'`,
-      //    }),
+      navigationOptions: ({navigation}) => ({
+        title: `${navigation.state.params.title}`,
+      }),
     },
   },
   {
@@ -243,51 +245,6 @@ const EditStack = createStackNavigator(
   },
 );
 
-const SecondStack = createStackNavigator(
-  {
-    // For each screen that you can navigate to, create a new entry like this:
-    List: {
-      // `ProfileScreen` is a React component that will be the main content of the screen.
-      screen: SecondPage,
-      title: 'abc',
-      // When `ProfileScreen` is loaded by the StackNavigator, it will be given a `navigation` prop.
-
-      // Optional: When deep linking or using react-navigation in a web app, this path is used:
-      //path: 'people/:name',
-      // The action and route params are extracted from the path.
-
-      navigationOptions: ({navigation}) => {
-        return {
-          title: 'A c',
-          headerStyle: {
-            backgroundColor: '#5d1049',
-          },
-          headerTitleStyle: {
-            color: '#FFFFFF',
-          },
-        };
-      },
-      cardStyle: {
-        backgroundColor: '#5d1049',
-      },
-    },
-  },
-  {},
-  /*
-  {
-    defaultNavigationOptions: ({navigation}) => {
-      return {
-        header: (
-          <Appbar.Header>
-            <Appbar.BackAction onPress={() => navigation.goBack()} />
-          </Appbar.Header>
-        ),
-      };
-    },
-  },
-  */
-);
-
 const bottomTabNavigator = createMaterialBottomTabNavigator(
   //RouteConfigs
   {
@@ -323,12 +280,16 @@ const bottomTabNavigator = createMaterialBottomTabNavigator(
 
         return <Icon name={iconName} color={tintColor} size={iconSize} />;
       },
-      tabBarOnPress: ({defaultHandler}) => {
-        //console.log(navigation.state);
-        defaultHandler();
-      },
       backgroundColor: '#5d1049',
     }),
+    navigationOptions: ({navigation}) => {
+      return {
+        params: {
+          tit: 'abc',
+        },
+      };
+    },
+
     tabBarOptions: {
       activeTintColor: 'tomato',
       inactiveTintColor: 'grey',

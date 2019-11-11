@@ -26,25 +26,26 @@ type Props = {data: any, isLoading: boolean, id: number, title: string};
 export default class PaymentList extends Component<State, Props> {
   static navigationOptions = ({navigation}) => {
     return {
-      title: navigation.getParam('issueTitle', 'Titler'),
+      title: 'Payments',
     };
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     //console.info(this.props.navigation.getParam('issueTitle'), 'abc');
     this.state = {
       data: {},
       isLoading: true,
-      id: '-1',
+      id: this.props.screenProps.issueTitle,
+      title: this.props.screenProps.issueTitle,
     };
+    console.log(this.props.screenProps);
   }
 
   navigateToDetail = data => {
     //this.props.navigation.setParams('data', inp);
 
     var job = data.owner.job;
-
     var type = '';
 
     if (job == undefined) {
@@ -65,20 +66,42 @@ export default class PaymentList extends Component<State, Props> {
     this.setState({data: data, isLoading: false});
   }
 
-  componentDidMount() {
-    //TODO only update when the issue changes
+  getPaymentList() {
     this.setState({id: this.props.screenProps.id}, function() {
       var pId = this.props.screenProps.id;
       (async () => {
-        const response = await axios.get(
-          'http://10.0.2.2:3000/payment/' + this.state.id,
-        );
-        this.setDataState(response.data);
+        try {
+          const response = await axios.get(
+            'http://10.0.2.2:3000/payment/' + this.state.id,
+          );
+          this.setDataState(response.data);
+        } catch (error) {
+          this.setState({
+            data: {ads: [], articles: [], photos: []},
+            isLoading: false,
+          });
+        }
       })();
-      this.focusListener = this.props.navigation.addListener('didFocus', () => {
-        console.log('Payment list now in focus');
-        //this.forceUpdate();
-      });
+    });
+  }
+
+  _listEmptyComponent() {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyListText}>There seems to be nothing here</Text>
+        <Text style={styles.reloadText} onPress={() => this.getPaymentList()}>
+          Reload
+        </Text>
+      </View>
+    );
+  }
+
+  componentDidMount() {
+    //TODO only update when the issue changes
+    this.getPaymentList();
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      console.log('Payment list now in focus');
+      this.getPaymentList();
     });
   }
 
@@ -86,13 +109,6 @@ export default class PaymentList extends Component<State, Props> {
     // Remove the event listener
     this.focusListener.remove();
   }
-
-  FlatListItemSeparator = () => {
-    return (
-      //Item Separator
-      <View style={{height: 0.5, width: '100%', backgroundColor: '#C8C8C8'}} />
-    );
-  };
 
   render() {
     if (this.state.isLoading) {
@@ -103,73 +119,60 @@ export default class PaymentList extends Component<State, Props> {
       );
     } else {
       return (
-        <SectionList
-          //ItemSeparatorComponent={this.FlatListItemSeparator}
-          sections={[
-            {title: 'Ads', data: this.state.data.ads},
-            {title: 'Articles', data: this.state.data.articles},
-            {title: 'Photos', data: this.state.data.photos},
-          ]}
-          renderSectionHeader={({section}) => (
-            <View style={{}}>
-              <Text style={{color: 'white', fontSize: 18, marginLeft: 10}}>
-                {section.title}
-              </Text>
-            </View>
-          )}
-          renderItem={({item}) => (
-            // Single Comes here which will be repeatative for the FlatListItems
-            <PaymentItem
-              title={item.title}
-              data={item}
-              money={item.payment}
-              name={item.owner.name}
-              job={item.owner.job}
-              navigateToDetail={this.navigateToDetail}
-            />
-          )}
-          keyExtractor={({_id}, index) => _id}
-          //keyExtractor={(item, index) => index}
-        />
+        <View style={styles.rootContainer}>
+          <SectionList
+            //ItemSeparatorComponent={this.FlatListItemSeparator}
+            ListEmptyComponent={this._listEmptyComponent()}
+            sections={[
+              {title: 'Ads', data: this.state.data.ads},
+              {title: 'Articles', data: this.state.data.articles},
+              {title: 'Photos', data: this.state.data.photos},
+            ]}
+            renderSectionHeader={({section}) => (
+              <View style={{}}>
+                <Text style={styles.sectionText}>{section.title}</Text>
+              </View>
+            )}
+            renderItem={({item}) => (
+              <PaymentItem
+                title={item.title}
+                data={item}
+                money={item.payment}
+                name={item.owner.name}
+                job={item.owner.job}
+                navigateToDetail={this.navigateToDetail}
+              />
+            )}
+            keyExtractor={({_id}, index) => _id}
+            //keyExtractor={(item, index) => index}
+          />
+        </View>
       );
     }
   }
 }
 
-const style = StyleSheet.create({
-  container: {
+const styles = StyleSheet.create({
+  rootContainer: {
     padding: 5,
   },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyListText: {
+    color: 'white',
+    fontSize: 20,
+  },
+  reloadText: {
+    color: '#fa3336',
+    fontSize: 20,
+    textDecorationLine: 'underline',
+  },
+  sectionText: {
+    color: 'white',
+    fontSize: 18,
+    marginLeft: 10,
+  },
 });
-
-/*
-
-
-                <FlatList
-          style={style.container}
-          data={this.state.data}
-          renderItem={({item}) => (
-            <PaymentItem
-              name={item.name}
-              date={item.date}
-              money={item.money}
-              job={item.job}
-              contributions={item.contributions}
-              nav={this.navigateToDetail}
-            />
-          )}
-          keyExtractor={({pId}, index) => pId}
-          ListEmptyComponent={
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderWidth: 1,
-                borderColor: 'red',
-                flex: 1,
-              }}>
-              <Text>There is nothing here</Text>
-            </View>
-          }
-        />
-        */

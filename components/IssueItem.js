@@ -22,6 +22,7 @@ type Props = {
   date: string,
   id: string,
   updateContext: any,
+  setTitle: any,
 };
 
 export default class IssueItem extends Component<Props> {
@@ -42,6 +43,7 @@ export default class IssueItem extends Component<Props> {
         style={{elevation: 10}}
         onPress={() => {
           this.props.updateContext(this.props.title, this.props.id);
+          this.props.setTitle(this.props.title);
         }}>
         <View style={styles.container}>
           <View style={styles.imageContainer}>
@@ -55,7 +57,6 @@ export default class IssueItem extends Component<Props> {
               }}
             />
           </View>
-
           <View style={styles.textContainer}>
             <Text style={styles.issueText}>{this.props.title}</Text>
           </View>
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     flex: 2,
     alignItems: 'flex-end',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
   dateIconTextInnerContainer: {
     flexDirection: 'row',
