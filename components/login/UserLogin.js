@@ -18,6 +18,7 @@ import {
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import auth from '@react-native-firebase/auth';
+import theme from '../../styles/main.theme';
 const axios = require('axios').default;
 
 type State = {
@@ -54,54 +55,66 @@ export default class UserLogin extends Component<State> {
       auth()
         .signInWithEmailAndPassword(username, password)
         .then(() => this.props.navigation.navigate('Home'))
-        .catch(error => this.setState({errorMessage: error.message}));
+        .catch(error => {
+          this.setState({errorMessage: error.message, visible: true});
+          console.log(error.message);
+        });
     } else {
-      this.setState({visible: true});
+      this.setState({visible: true, errorMessage: "Login can't be empty"});
     }
   };
 
   render() {
     return (
       <View style={styles.rootContainer}>
-        <View style={styles.loginCard}>
-          <Text style={styles.loginTitleText}>{'Login'}</Text>
-          <TextInput
-            label={'Username'}
-            value={this.state.username}
-            placeholder={'Username'}
-            underlineColor="#5d1049"
-            onChangeText={text => this.setState({username: text})}
-            style={{backgroundColor: '#FFF', margin: 10}}
-          />
-          <TextInput
-            label={'Password'}
-            value={this.state.password}
-            placeholder={'Password'}
-            underlineColor="#5d1049"
-            secureTextEntry={true}
-            onChangeText={text => this.setState({password: text})}
-            style={{backgroundColor: '#FFF', margin: 10}}
+        <View style={styles.logoContainer}>
+          <Image
+            source={require('../../assets/itInTheValley.png')}
+            style={{width: 150, height: 90}}
           />
         </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            //icon={this.getIcon()}
-            style={styles.saveButton}
-            loading={this.state.loading}
-            color={'#fa3336'}
-            mode={'contained'}
-            onPress={() => this.navigateToHome()}>
-            Home
-          </Button>
-          <Button
-            //icon={this.getIcon()}
-            style={styles.saveButton}
-            loading={this.state.loading}
-            color={'#fa3336'}
-            mode={'contained'}
-            onPress={() => this.handleLogin()}>
-            Login
-          </Button>
+
+        <View style={styles.loginContainer}>
+          <View style={styles.loginCard}>
+            <Text style={styles.loginTitleText}>{'Login'}</Text>
+            <TextInput
+              label={'Username'}
+              value={this.state.username}
+              placeholder={'Username'}
+              underlineColor={theme.colors.primary}
+              onChangeText={text => this.setState({username: text})}
+              style={{backgroundColor: '#FFF', margin: 10}}
+            />
+            <TextInput
+              label={'Password'}
+              value={this.state.password}
+              placeholder={'Password'}
+              underlineColor={theme.colors.primary}
+              secureTextEntry={true}
+              onChangeText={text => this.setState({password: text})}
+              style={{backgroundColor: '#FFF', margin: 10}}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              //icon={this.getIcon()}
+              style={styles.saveButton}
+              loading={this.state.loading}
+              color={theme.colors.accent}
+              mode={'contained'}
+              onPress={() => this.navigateToHome()}>
+              Home
+            </Button>
+            <Button
+              //icon={this.getIcon()}
+              style={styles.saveButton}
+              loading={this.state.loading}
+              color={theme.colors.accent}
+              mode={'contained'}
+              onPress={() => this.handleLogin()}>
+              Login
+            </Button>
+          </View>
         </View>
         <Snackbar
           style={styles.snackbar}
@@ -113,7 +126,7 @@ export default class UserLogin extends Component<State> {
               // Do something
             },
           }}>
-          Username and password can't be empty!
+          {this.state.errorMessage}
         </Snackbar>
       </View>
     );
@@ -122,14 +135,23 @@ export default class UserLogin extends Component<State> {
 
 const styles = StyleSheet.create({
   rootContainer: {
-    justifyContent: 'center',
-    backgroundColor: '#5d1049',
-
+    backgroundColor: theme.colors.primary,
+    flexDirection: 'column',
     flex: 1,
+  },
+  logoContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  loginContainer: {
+    flex: 3,
+    justifyContent: 'flex-start',
   },
 
   loginCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.colors.surface,
     elevation: 5,
     margin: 10,
     borderRadius: 4,
@@ -148,9 +170,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     margin: 10,
+    color: theme.setContrast(theme.colors.surface),
   },
   snackbar: {
-    backgroundColor: '#fa3336',
-    color: 'white',
+    backgroundColor: theme.colors.accent,
   },
 });

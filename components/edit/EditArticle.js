@@ -9,6 +9,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {Avatar, Button, Card, Title, TextInput} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import theme from '../../styles/main.theme.js';
 const axios = require('axios').default;
 
 type Props = {
@@ -105,7 +106,7 @@ export default class EditArticle extends Component<State, Props> {
               label={'Title'}
               value={this.state.title}
               placeholder={'Title of the Article'}
-              underlineColor="#5d1049"
+              underlineColor={theme.colors.primary}
               onChangeText={text => this.setState({title: text})}
               style={{backgroundColor: '#ECECEC', margin: 10}}
             />
@@ -116,9 +117,9 @@ export default class EditArticle extends Component<State, Props> {
               label={'Content'}
               value={this.state.content}
               placeholder={'Article content'}
-              underlineColor="#5d1049"
+              underlineColor={theme.colors.primary}
               multiline={true}
-              onChangeText={text => this.setState({title: text})}
+              onChangeText={text => this.setState({content: text})}
               style={{backgroundColor: '#ECECEC', margin: 10}}
             />
           </View>
@@ -128,7 +129,7 @@ export default class EditArticle extends Component<State, Props> {
               //icon={this.getIcon()}
               style={styles.saveButton}
               loading={this.state.loading}
-              color={'#fa3336'}
+              color={theme.colors.accent}
               mode={'contained'}
               onPress={() =>
                 this.updateArticle(this.state.title, this.state.content)

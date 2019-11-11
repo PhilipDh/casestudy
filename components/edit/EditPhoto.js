@@ -17,6 +17,7 @@ import {
 import {Avatar, Button, Card, Title, TextInput} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
+import theme from '../../styles/main.theme.js';
 
 const axios = require('axios').default;
 
@@ -167,7 +168,7 @@ export default class EditPhoto extends Component<Props, State> {
             //icon={this.getIcon()}
             style={styles.saveButton}
             loading={this.state.loading}
-            color={'#fa3336'}
+            color={theme.colors.accent}
             mode={'contained'}
             onPress={() => this.handleChoosePhoto()}>
             Choose Photo
@@ -188,7 +189,7 @@ export default class EditPhoto extends Component<Props, State> {
           //icon={this.getIcon()}
           style={styles.saveButton}
           loading={this.state.loading}
-          color={'#fa3336'}
+          color={theme.colors.accent}
           mode={'contained'}
           onPress={() => this.updatePhoto()}>
           Upload

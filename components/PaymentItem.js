@@ -8,7 +8,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
-//import PaymentDetails from './PaymentDetails';
+import theme from '../styles/main.theme.js';
 
 type Props = {
   title: string,
@@ -66,10 +66,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  nameText: {color: '#000000', fontSize: 16, fontWeight: 'bold'},
+  nameText: {color: theme.colors.textAlt, fontSize: 16, fontWeight: 'bold'},
   jobText: {color: '#4B4B4B', fontSize: 12, marginTop: -2},
   container: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.colors.surface,
     flexDirection: 'row',
     marginLeft: 10,
     marginRight: 10,

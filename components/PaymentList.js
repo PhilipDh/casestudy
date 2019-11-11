@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
 import PaymentItem from './PaymentItem';
+import theme from '../styles/main.theme.js';
 
 const axios = require('axios').default;
 
@@ -162,16 +163,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emptyListText: {
-    color: 'white',
+    color: theme.colors.text,
     fontSize: 20,
   },
   reloadText: {
-    color: '#fa3336',
+    color: theme.colors.accent,
     fontSize: 20,
     textDecorationLine: 'underline',
   },
   sectionText: {
-    color: 'white',
+    color: theme.colors.text,
     fontSize: 18,
     marginLeft: 10,
   },

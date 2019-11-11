@@ -15,15 +15,16 @@ import {
   StyleSheet,
 } from 'react-native';
 import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
-import {Snackbar} from 'react-native-paper';
+import {Snackbar, withTheme} from 'react-native-paper';
 import IssueItem from './IssueItem';
+import theme from '../styles/main.theme.js';
 
 const axios = require('axios').default;
 
 type State = {data: any, isLoading: boolean, showSnackbar: boolean};
 type Props = {data: any, isLoading: boolean};
 
-export default class IssueList extends Component<State, Props> {
+class IssueList extends Component<State, Props> {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,8 +32,6 @@ export default class IssueList extends Component<State, Props> {
       isLoading: true,
       showSnackbar: false,
     };
-
-    console.log(this.props.navigation.state);
   }
 
   setDataState(data) {
@@ -113,6 +112,8 @@ export default class IssueList extends Component<State, Props> {
   }
 }
 
+export default withTheme(IssueList);
+
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
@@ -123,11 +124,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emptyListText: {
-    color: 'white',
+    color: theme.colors.text,
     fontSize: 20,
   },
   reloadText: {
-    color: '#fa3336',
+    color: theme.colors.accent,
     fontSize: 20,
     textDecorationLine: 'underline',
   },
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   snackbar: {
-    backgroundColor: '#fa3336',
-    color: 'white',
+    backgroundColor: theme.colors.accent,
+    color: theme.colors.text,
   },
 });

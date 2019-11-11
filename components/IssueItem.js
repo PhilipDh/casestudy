@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {TouchableRipple} from 'react-native-paper';
+import theme from '../styles/main.theme.js';
 
 type Props = {
   title: string,
@@ -84,10 +85,9 @@ const styles = StyleSheet.create({
     color: '#565656',
     fontSize: 12,
   },
-  dayText: {color: '#FFFFFF', fontSize: 16},
   issueText: {color: '#000000', fontSize: 16, fontWeight: 'bold'},
   container: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.colors.surface,
     flexDirection: 'row',
     marginLeft: 10,
     marginRight: 10,

@@ -9,7 +9,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import theme from '../../styles/main.theme.js';
 type Props = {
   id: string,
   title: string,
@@ -30,7 +30,7 @@ export default class EditListItem extends Component<State, Props> {
           <View style={styles.contentContainer}>
             <Text style={styles.titleText}> {this.props.title}</Text>
             <Text numberOfLines={1} style={styles.subtitleText}>
-              {this.props.content}{' '}
+              {this.props.content}
             </Text>
           </View>
         </View>
@@ -41,7 +41,7 @@ export default class EditListItem extends Component<State, Props> {
 
 const styles = StyleSheet.create({
   titleText: {
-    color: '#000000',
+    color: theme.colors.textAlt,
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   container: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.colors.text,
     flexDirection: 'row',
 
     margin: 5,

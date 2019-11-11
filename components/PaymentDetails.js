@@ -13,6 +13,7 @@ import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Feather';
 import {StackActions} from 'react-navigation';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import theme from '../styles/main.theme.js';
 
 const axios = require('axios').default;
 
@@ -195,7 +196,7 @@ export default class PaymentDetails extends Component<Props, State> {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.colors.surface,
     height: 250,
     margin: 15,
     borderRadius: 8,

@@ -10,6 +10,7 @@ import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {Avatar, Button, Card, Title, RadioButton} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AdRadioButton from '../custom/AdRadioButton';
+import theme from '../../styles/main.theme.js';
 const axios = require('axios').default;
 
 type Props = {
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     padding: 5,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.colors.surface,
     elevation: 5,
     borderRadius: 4,
     margin: 10,

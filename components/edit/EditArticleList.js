@@ -10,6 +10,7 @@ import {View, Text, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EditListItem from './EditListItem';
+import theme from '../../styles/main.theme.js';
 
 const axios = require('axios').default;
 
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   reloadText: {
-    color: '#fa3336',
+    color: theme.colors.accent,
     fontSize: 20,
     textDecorationLine: 'underline',
   },

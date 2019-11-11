@@ -16,6 +16,7 @@ import Home from './components/Home';
 import PaymentDetails from './components/PaymentDetails';
 import UserLogin from './components/login/UserLogin';
 import {withNavigation} from 'react-navigation';
+import theme from './styles/main.theme.js';
 
 type State = {
   title: string,
@@ -39,21 +40,22 @@ export default class App extends Component<Props, State> {
 
   render() {
     return (
-      <PaperProvider theme={theme}>
+      <PaperProvider theme={themes}>
         <SwitchNav />
       </PaperProvider>
     );
   }
 }
 
-const theme = {
+const themes = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#5d1049',
-    accent: '#fa3336',
-    background: '#5d1049',
-    surface: 'white',
+    primary: theme.colors.primary,
+    accent: theme.colors.accent,
+    background: theme.colors.background,
+    surface: theme.colors.surface,
+    text: theme.setContrast(theme.colors.primary),
   },
 };
 

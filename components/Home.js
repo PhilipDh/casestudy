@@ -8,14 +8,13 @@
 
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {BottomNavigation, Appbar} from 'react-native-paper';
+import {BottomNavigation, Appbar, withTheme} from 'react-native-paper';
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {createAppContainer} from 'react-navigation';
 import IssueList from './IssueList';
-import SecondPage from './SecondPage';
 import PaymentList from './PaymentList';
 import PaymentDetails from './PaymentDetails';
 import EditList from './edit/EditList';
@@ -24,6 +23,7 @@ import EditArticleList from './edit/EditArticleList';
 import EditPhotoList from './edit/EditPhotoList';
 import EditArticle from './edit/EditArticle';
 import EditPhoto from './edit/EditPhoto';
+import theme from '../styles/main.theme.js';
 
 type Props = {
   issueTitle: string,
@@ -37,9 +37,7 @@ type State = {
   id: string,
 };
 
-var x = 0;
-
-export default class Home extends Component<State, Props> {
+class Home extends Component<State, Props> {
   constructor(props) {
     super(props);
 
@@ -73,6 +71,8 @@ export default class Home extends Component<State, Props> {
   }
 }
 
+export default withTheme(Home);
+
 const PaymentStack = createStackNavigator(
   {
     // For each screen that you can navigate to, create a new entry like this:
@@ -99,17 +99,17 @@ const PaymentStack = createStackNavigator(
       return {
         title: 'Second',
         headerStyle: {
-          backgroundColor: '#5d1049',
+          backgroundColor: theme.colors.primary,
         },
-        headerTintColor: '#fff',
+        headerTintColor: theme.setContrast(theme.colors.primary),
         headerTitleStyle: {
-          color: '#FFFFFF',
+          color: theme.setContrast(theme.colors.primary),
         },
         tabBarVisible: false,
       };
     },
     cardStyle: {
-      backgroundColor: '#5d1049',
+      backgroundColor: theme.colors.primary,
       //opacity: 1,
     },
   },
@@ -142,6 +142,9 @@ const IssueStack = createStackNavigator(
       // Optional: Override the `navigationOptions` for the screen
       navigationOptions: ({navigation}) => ({
         title: `${navigation.state.params.title}`,
+        headerStyle: {
+          backgroundColor: theme.colors.priamry,
+        },
       }),
     },
   },
@@ -149,16 +152,13 @@ const IssueStack = createStackNavigator(
     defaultNavigationOptions: ({navigation}) => {
       return {
         title: 'Issues',
-        headerStyle: {
-          backgroundColor: '#5d1049',
-        },
         headerTitleStyle: {
-          color: '#FFFFFF',
+          color: theme.setContrast(theme.colors.primary),
         },
       };
     },
     cardStyle: {
-      backgroundColor: '#5d1049',
+      backgroundColor: theme.colors.primary,
     },
   },
 );
@@ -182,11 +182,14 @@ const EditTopNavigatior = createMaterialTopTabNavigator(
     tabBarOptions: {
       swipeEnabled: true,
       style: {
-        backgroundColor: '#5d1049',
+        backgroundColor: theme.colors.primary,
         elevation: 5,
       },
+      labelStyle: {
+        color: theme.setContrast(theme.colors.primary),
+      },
       indicatorStyle: {
-        backgroundColor: '#fa3336',
+        backgroundColor: theme.colors.accent,
       },
     },
     navigationOptions: {
@@ -205,7 +208,7 @@ const EditStack = createStackNavigator(
         swipeEnabled: true,
 
         tabBarOptions: {
-          backgroundColor: '#5d1049',
+          backgroundColor: theme.colors.primary,
         },
       },
     },
@@ -229,17 +232,18 @@ const EditStack = createStackNavigator(
     defaultNavigationOptions: ({navigation}) => {
       return {
         title: 'Edit',
+        headerTintColor: theme.setContrast(theme.colors.primary),
         headerStyle: {
-          backgroundColor: '#5d1049',
+          backgroundColor: theme.colors.primary,
           elevation: 0,
         },
         headerTitleStyle: {
-          color: '#FFFFFF',
+          color: theme.setContrast(theme.colors.primary),
         },
       };
     },
     cardStyle: {
-      backgroundColor: '#5d1049',
+      backgroundColor: theme.colors.primary,
     },
     initialRouteName: 'Edit',
   },
@@ -280,14 +284,10 @@ const bottomTabNavigator = createMaterialBottomTabNavigator(
 
         return <Icon name={iconName} color={tintColor} size={iconSize} />;
       },
-      backgroundColor: '#5d1049',
+      backgroundColor: theme.colors.primary,
     }),
     navigationOptions: ({navigation}) => {
-      return {
-        params: {
-          tit: 'abc',
-        },
-      };
+      return {};
     },
 
     tabBarOptions: {
