@@ -13,9 +13,9 @@ import {
   Card,
   Title,
   RadioButton,
-  TextInput,
   Snackbar,
 } from 'react-native-paper';
+import TextInput from '../dumb/TextInput';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import auth from '@react-native-firebase/auth';
 import theme from '../../styles/main.theme';
@@ -64,6 +64,9 @@ export default class UserLogin extends Component<State> {
     }
   };
 
+  setUsername = text => this.setState({username: text});
+  setPassword = text => this.setState({password: text});
+
   render() {
     return (
       <View style={styles.rootContainer}>
@@ -78,21 +81,16 @@ export default class UserLogin extends Component<State> {
           <View style={styles.loginCard}>
             <Text style={styles.loginTitleText}>{'Login'}</Text>
             <TextInput
+              text={this.state.username}
               label={'Username'}
-              value={this.state.username}
-              placeholder={'Username'}
-              underlineColor={theme.colors.primary}
-              onChangeText={text => this.setState({username: text})}
-              style={{backgroundColor: '#FFF', margin: 10}}
+              onTextChange={this.setUsername}
+              secure={false}
             />
             <TextInput
+              text={this.state.password}
               label={'Password'}
-              value={this.state.password}
-              placeholder={'Password'}
-              underlineColor={theme.colors.primary}
-              secureTextEntry={true}
-              onChangeText={text => this.setState({password: text})}
-              style={{backgroundColor: '#FFF', margin: 10}}
+              onTextChange={this.setPassword}
+              secure={false}
             />
           </View>
           <View style={styles.buttonContainer}>

@@ -6,11 +6,12 @@
  * @flow
  */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
+import {View} from 'react-native';
 import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EditListItem from './EditListItem';
 import theme from '../../styles/main.theme.js';
+import StandardList from '../dumb/StandardList';
 
 const axios = require('axios').default;
 
@@ -21,6 +22,7 @@ type State = {
   isLoading: boolean,
   id: string,
   dataChanged: boolean,
+  showSnackbar: boolean,
 };
 
 export default class EditArticleList extends Component<Props, State> {
@@ -35,6 +37,7 @@ export default class EditArticleList extends Component<Props, State> {
       showSnackbar: false,
     };
   }
+  updateSnackbar = () => this.setState({showSnackbar: false});
 
   navigateToEdit = id => {
     this.props.navigation.navigate('EditArticle', {
@@ -87,11 +90,33 @@ export default class EditArticleList extends Component<Props, State> {
     );
   }
 
+  renderListItem = item => (
+    <EditListItem
+      title={item.title}
+      content={item.content}
+      id={item._id}
+      navigateToEdit={this.navigateToEdit}
+    />
+  );
+
   render() {
     if (this.state.isLoading) {
       return <View></View>;
     } else {
       return (
+        <StandardList
+          data={this.state.data}
+          reloadList={this.reloadList}
+          renderItem={this.renderListItem}
+          updateSnackbar={this.updateSnackbar}
+          showSnackbar={this.state.showSnackbar}
+        />
+      );
+    }
+  }
+}
+
+/*
         <View style={styles.rootContainer}>
           <FlatList
             contentContainerStyle={styles.rootContainer}
@@ -108,28 +133,4 @@ export default class EditArticleList extends Component<Props, State> {
             keyExtractor={({_id}, index) => _id}
           />
         </View>
-      );
-    }
-  }
-}
-
-const styles = StyleSheet.create({
-  rootContainer: {
-    margin: 5,
-    flex: 1,
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emptyListText: {
-    color: 'white',
-    fontSize: 20,
-  },
-  reloadText: {
-    color: theme.colors.accent,
-    fontSize: 20,
-    textDecorationLine: 'underline',
-  },
-});
+*/

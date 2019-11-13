@@ -18,10 +18,17 @@ import {
 import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
 import PaymentItem from './PaymentItem';
 import theme from '../styles/main.theme.js';
+import SectionedList from './dumb/SectionedList';
 
 const axios = require('axios').default;
 
-type State = {data: any, isLoading: boolean, id: number, title: string};
+type State = {
+  data: any,
+  isLoading: boolean,
+  id: number,
+  title: string,
+  showSnackbar: boolean,
+};
 type Props = {data: any, isLoading: boolean, id: number, title: string};
 
 export default class PaymentList extends Component<State, Props> {
@@ -39,10 +46,12 @@ export default class PaymentList extends Component<State, Props> {
       isLoading: true,
       id: this.props.screenProps.issueTitle,
       title: this.props.screenProps.issueTitle,
+      showSnackbar: false,
     };
     console.log(this.props.screenProps);
   }
 
+  updateSnackbar = () => this.setState({showSnackbar: false});
   navigateToDetail = data => {
     //this.props.navigation.setParams('data', inp);
 
@@ -63,11 +72,7 @@ export default class PaymentList extends Component<State, Props> {
     });
   };
 
-  setDataState(data) {
-    this.setState({data: data, isLoading: false});
-  }
-
-  getPaymentList() {
+  getPaymentList = () => {
     this.setState({id: this.props.screenProps.id}, function() {
       var pId = this.props.screenProps.id;
       (async () => {
@@ -75,7 +80,7 @@ export default class PaymentList extends Component<State, Props> {
           const response = await axios.get(
             'http://10.0.2.2:3000/payment/' + this.state.id,
           );
-          this.setDataState(response.data);
+          this.setState({data: response.data, isLoading: false});
         } catch (error) {
           this.setState({
             data: {ads: [], articles: [], photos: []},
@@ -84,7 +89,7 @@ export default class PaymentList extends Component<State, Props> {
         }
       })();
     });
-  }
+  };
 
   _listEmptyComponent() {
     return (
@@ -111,6 +116,17 @@ export default class PaymentList extends Component<State, Props> {
     this.focusListener.remove();
   }
 
+  renderListItem = item => (
+    <PaymentItem
+      title={item.title}
+      data={item}
+      money={item.payment}
+      name={item.owner.name}
+      job={item.owner.job}
+      navigateToDetail={this.navigateToDetail}
+    />
+  );
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -120,7 +136,20 @@ export default class PaymentList extends Component<State, Props> {
       );
     } else {
       return (
-        <View style={styles.rootContainer}>
+        <SectionedList
+          data={this.state.data}
+          reloadList={this.getPaymentList}
+          renderItem={this.renderListItem}
+          updateSnackbar={this.updateSnackbar}
+          showSnackbar={this.state.showSnackbar}
+        />
+      );
+    }
+  }
+}
+
+/*
+<View style={styles.rootContainer}>
           <SectionList
             //ItemSeparatorComponent={this.FlatListItemSeparator}
             ListEmptyComponent={this._listEmptyComponent()}
@@ -148,32 +177,4 @@ export default class PaymentList extends Component<State, Props> {
             //keyExtractor={(item, index) => index}
           />
         </View>
-      );
-    }
-  }
-}
-
-const styles = StyleSheet.create({
-  rootContainer: {
-    padding: 5,
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emptyListText: {
-    color: theme.colors.text,
-    fontSize: 20,
-  },
-  reloadText: {
-    color: theme.colors.accent,
-    fontSize: 20,
-    textDecorationLine: 'underline',
-  },
-  sectionText: {
-    color: theme.colors.text,
-    fontSize: 18,
-    marginLeft: 10,
-  },
-});
+*/

@@ -24,6 +24,11 @@ import EditPhotoList from './edit/EditPhotoList';
 import EditArticle from './edit/EditArticle';
 import EditPhoto from './edit/EditPhoto';
 import theme from '../styles/main.theme.js';
+import {PaymentConfig} from './config/routes.config';
+import {IssueConfig} from './config/routes.config';
+import {EditConfig} from './config/routes.config';
+import {EditTopNavConfig} from './config/routes.config';
+import {BottomTabConfig} from './config/routes.config';
 
 type Props = {
   issueTitle: string,
@@ -40,6 +45,8 @@ type State = {
 class Home extends Component<State, Props> {
   constructor(props) {
     super(props);
+
+    console.log('conifg: ' + PaymentConfig);
 
     //console.log(this.props.navigation);
     this.state = {
@@ -94,25 +101,7 @@ const PaymentStack = createStackNavigator(
       params: {data: 'dest'},
     },
   },
-  {
-    defaultNavigationOptions: ({navigation}) => {
-      return {
-        title: 'Second',
-        headerStyle: {
-          backgroundColor: theme.colors.primary,
-        },
-        headerTintColor: theme.setContrast(theme.colors.primary),
-        headerTitleStyle: {
-          color: theme.setContrast(theme.colors.primary),
-        },
-        tabBarVisible: false,
-      };
-    },
-    cardStyle: {
-      backgroundColor: theme.colors.primary,
-      //opacity: 1,
-    },
-  },
+  PaymentConfig,
 );
 
 PaymentStack.navigationOptions = ({navigation}) => {
@@ -148,19 +137,7 @@ const IssueStack = createStackNavigator(
       }),
     },
   },
-  {
-    defaultNavigationOptions: ({navigation}) => {
-      return {
-        title: 'Issues',
-        headerTitleStyle: {
-          color: theme.setContrast(theme.colors.primary),
-        },
-      };
-    },
-    cardStyle: {
-      backgroundColor: theme.colors.primary,
-    },
-  },
+  IssueConfig,
 );
 
 const EditTopNavigatior = createMaterialTopTabNavigator(
@@ -175,27 +152,7 @@ const EditTopNavigatior = createMaterialTopTabNavigator(
       screen: EditPhotoList,
     },
   },
-  {
-    defaultNavigationOptions: ({navigation}) => ({
-      swipeEnabled: true,
-    }),
-    tabBarOptions: {
-      swipeEnabled: true,
-      style: {
-        backgroundColor: theme.colors.primary,
-        elevation: 5,
-      },
-      labelStyle: {
-        color: theme.setContrast(theme.colors.primary),
-      },
-      indicatorStyle: {
-        backgroundColor: theme.colors.accent,
-      },
-    },
-    navigationOptions: {
-      swipeEnabled: true,
-    },
-  },
+  EditTopNavConfig,
 );
 
 const EditStack = createStackNavigator(
@@ -228,25 +185,7 @@ const EditStack = createStackNavigator(
       screen: EditPhoto,
     },
   },
-  {
-    defaultNavigationOptions: ({navigation}) => {
-      return {
-        title: 'Edit',
-        headerTintColor: theme.setContrast(theme.colors.primary),
-        headerStyle: {
-          backgroundColor: theme.colors.primary,
-          elevation: 0,
-        },
-        headerTitleStyle: {
-          color: theme.setContrast(theme.colors.primary),
-        },
-      };
-    },
-    cardStyle: {
-      backgroundColor: theme.colors.primary,
-    },
-    initialRouteName: 'Edit',
-  },
+  EditConfig,
 );
 
 const bottomTabNavigator = createMaterialBottomTabNavigator(
@@ -266,35 +205,7 @@ const bottomTabNavigator = createMaterialBottomTabNavigator(
       screen: PaymentStack,
     },
   },
-  //BottomTabNavigatorConfig
-  {
-    defaultNavigationOptions: ({navigation}) => ({
-      tabBarIcon: ({focused, horizontal, tintColor}) => {
-        const {routeName} = navigation.state;
-        let iconName = '';
-        let iconSize = 25;
-        if (routeName === 'Home') {
-          iconName = `home`;
-        } else if (routeName === 'Edit') {
-          iconName = `edit`;
-        } else if (routeName === 'Payments') {
-          iconName = `credit-card`;
-          iconSize = 22;
-        }
-
-        return <Icon name={iconName} color={tintColor} size={iconSize} />;
-      },
-      backgroundColor: theme.colors.primary,
-    }),
-    navigationOptions: ({navigation}) => {
-      return {};
-    },
-
-    tabBarOptions: {
-      activeTintColor: 'tomato',
-      inactiveTintColor: 'grey',
-    },
-  },
+  BottomTabConfig,
 );
 
 const AppNavigator = createAppContainer(bottomTabNavigator);

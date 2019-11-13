@@ -18,6 +18,7 @@ import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
 import {Snackbar, withTheme} from 'react-native-paper';
 import IssueItem from './IssueItem';
 import theme from '../styles/main.theme.js';
+import StandardList from './dumb/StandardList';
 
 const axios = require('axios').default;
 
@@ -34,24 +35,23 @@ class IssueList extends Component<State, Props> {
     };
   }
 
-  setDataState(data) {
-    this.setState({data: data, isLoading: false});
-  }
+  updateSnackbar = () => this.setState({showSnackbar: false});
 
   componentDidMount() {
     this.getIssueList();
   }
 
-  getIssueList() {
+  getIssueList = () => {
     (async () => {
       try {
         const response = await axios.get('http://10.0.2.2:3000/issue');
-        this.setDataState(response.data);
-      } catch (erorr) {
+        this.setState({isLoading: false, data: response.data});
+      } catch (error) {
+        console.log(error);
         this.setState({isLoading: false, data: [], showSnackbar: true});
       }
     })();
-  }
+  };
 
   setTitle = title => {
     this.props.navigation.setParams({title: title});
@@ -68,6 +68,16 @@ class IssueList extends Component<State, Props> {
     );
   }
 
+  renderListItem = item => (
+    <IssueItem
+      title={item.title}
+      date={item.releaseDate}
+      id={item._id}
+      updateContext={this.props.screenProps.updateContext}
+      setTitle={this.setTitle}
+    />
+  );
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -77,6 +87,23 @@ class IssueList extends Component<State, Props> {
       );
     } else {
       return (
+        <StandardList
+          data={this.state.data}
+          setTitle={this.setTitle}
+          reloadList={this.getIssueList}
+          updateContext={this.props.screenProps.updateContext}
+          renderItem={this.renderListItem}
+          updateSnackbar={this.updateSnackbar}
+          showSnackbar={this.state.showSnackbar}
+        />
+      );
+    }
+  }
+}
+
+export default withTheme(IssueList);
+
+/*
         <View style={styles.rootContainer}>
           <FlatList
             contentContainerStyle={styles.rootContainer}
@@ -107,36 +134,4 @@ class IssueList extends Component<State, Props> {
             Network Error
           </Snackbar>
         </View>
-      );
-    }
-  }
-}
-
-export default withTheme(IssueList);
-
-const styles = StyleSheet.create({
-  rootContainer: {
-    flex: 1,
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emptyListText: {
-    color: theme.colors.text,
-    fontSize: 20,
-  },
-  reloadText: {
-    color: theme.colors.accent,
-    fontSize: 20,
-    textDecorationLine: 'underline',
-  },
-  issueList: {
-    padding: 5,
-  },
-  snackbar: {
-    backgroundColor: theme.colors.accent,
-    color: theme.colors.text,
-  },
-});
+*/

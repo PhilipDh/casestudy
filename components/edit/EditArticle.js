@@ -7,9 +7,10 @@
  */
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {Avatar, Button, Card, Title, TextInput} from 'react-native-paper';
+import {Avatar, Button, Card, Title} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../styles/main.theme.js';
+import TextInput from '../dumb/TextInput';
 const axios = require('axios').default;
 
 type Props = {
@@ -44,6 +45,10 @@ export default class EditArticle extends Component<State, Props> {
       reloadList: this.props.navigation.getParam('reloadList'),
     };
   }
+
+  setTitle = text => this.setState({title: text});
+
+  setContent = text => this.setState({content: text});
 
   updateArticle(title, content) {
     this.setState({loading: true});
@@ -103,24 +108,21 @@ export default class EditArticle extends Component<State, Props> {
         <View style={styles.container}>
           <View style={styles.titleContainer}>
             <TextInput
+              text={this.state.title}
               label={'Title'}
-              value={this.state.title}
-              placeholder={'Title of the Article'}
-              underlineColor={theme.colors.primary}
-              onChangeText={text => this.setState({title: text})}
-              style={{backgroundColor: '#ECECEC', margin: 10}}
+              onTextChange={this.setTitle}
+              secure={false}
+              multiline={false}
             />
           </View>
 
           <View style={styles.contentContainer}>
             <TextInput
+              text={this.state.content}
               label={'Content'}
-              value={this.state.content}
-              placeholder={'Article content'}
-              underlineColor={theme.colors.primary}
+              onTextChange={this.setContent}
+              secure={false}
               multiline={true}
-              onChangeText={text => this.setState({content: text})}
-              style={{backgroundColor: '#ECECEC', margin: 10}}
             />
           </View>
 

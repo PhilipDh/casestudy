@@ -17,6 +17,7 @@ import PaymentDetails from './components/PaymentDetails';
 import UserLogin from './components/login/UserLogin';
 import {withNavigation} from 'react-navigation';
 import theme from './styles/main.theme.js';
+//import Routes from './components/routes/app.js';
 
 type State = {
   title: string,

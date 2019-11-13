@@ -7,11 +7,11 @@
  */
 
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
-import {Button} from 'react-native-paper';
 import EditListItem from './EditListItem';
 import DraggableFlatList from 'react-native-draggable-flatlist';
+import StandardList from '../dumb/StandardList';
 const axios = require('axios').default;
 
 type Props = {
@@ -38,6 +38,8 @@ export default class EditList extends Component<Props, State> {
       showSnackbar: false,
     };
   }
+
+  updateSnackbar = () => this.setState({showSnackbar: false});
 
   getAdList() {
     var url = 'http://10.0.2.2:3000/ad/' + this.props.screenProps.id + '/ad';
@@ -71,7 +73,7 @@ export default class EditList extends Component<Props, State> {
     this.focusListener.remove();
   }
 
-  navigateToDetail = id => {
+  navigateToEdit = id => {
     console.log('navved');
     this.props.navigation.navigate('EditAd', {
       id: id,
@@ -90,6 +92,15 @@ export default class EditList extends Component<Props, State> {
     );
   }
 
+  renderListItem = item => (
+    <EditListItem
+      title={item.title}
+      content={item.content}
+      id={item._id}
+      navigateToEdit={this.navigateToEdit}
+    />
+  );
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -99,6 +110,25 @@ export default class EditList extends Component<Props, State> {
       );
     } else {
       return (
+        <StandardList
+          data={this.state.data}
+          reloadList={this.reloadList}
+          renderItem={this.renderListItem}
+          updateSnackbar={this.updateSnackbar}
+          showSnackbar={this.state.showSnackbar}
+        />
+      );
+    }
+  }
+}
+
+const styles = StyleSheet.create({
+  rootContainer: {
+    padding: 5,
+  },
+});
+
+/*
         <View style={styles.rootContainer}>
           <FlatList
             contentContainerStyle={styles.rootContainer}
@@ -115,25 +145,5 @@ export default class EditList extends Component<Props, State> {
             keyExtractor={({_id}, index) => _id}
           />
         </View>
-      );
-    }
-  }
-}
 
-const styles = StyleSheet.create({
-  rootContainer: {flex: 1, margin: 5},
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emptyListText: {
-    color: 'white',
-    fontSize: 20,
-  },
-  reloadText: {
-    color: '#fa3336',
-    fontSize: 20,
-    textDecorationLine: 'underline',
-  },
-});
+        */
