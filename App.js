@@ -9,7 +9,6 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
-import {Appbar} from 'react-native-paper';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import Home from './components/Home';
@@ -17,6 +16,7 @@ import PaymentDetails from './components/PaymentDetails';
 import UserLogin from './components/login/UserLogin';
 import {withNavigation} from 'react-navigation';
 import theme from './styles/main.theme.js';
+import RouteNames from './components/routes/RouteNames';
 //import Routes from './components/routes/app.js';
 
 type State = {
@@ -62,7 +62,7 @@ const themes = {
 
 const AuthStack = createStackNavigator(
   {
-    Login: {
+    [RouteNames.Login]: {
       screen: UserLogin,
     },
   },
@@ -76,21 +76,9 @@ const AuthStack = createStackNavigator(
 
 const HomeStack = createStackNavigator(
   {
-    // For each screen that you can navigate to, create a new entry like this:
-    List: {
-      // `ProfileScreen` is a React component that will be the main content of the screen.
+    [RouteNames.Home]: {
       screen: Home,
       params: {issueTitle: 'No'},
-      // When `ProfileScreen` is loaded by the StackNavigator, it will be given a `navigation` prop.
-
-      // Optional: When deep linking or using react-navigation in a web app, this path is used:
-      //path: 'people/:name',
-      // The action and route params are extracted from the path.
-
-      // Optional: Override the `navigationOptions` for the screen
-      //    navigationOptions: ({navigation}) => ({
-      //      title: `${navigation.state.params.name}'s Profile'`,
-      //    }),
     },
   },
   {
@@ -103,16 +91,7 @@ const HomeStack = createStackNavigator(
 
 const SwitchNav = createAppContainer(
   createSwitchNavigator({
-    Auth: AuthStack,
-    Home: HomeStack,
+    [RouteNames.AuthStack]: AuthStack,
+    [RouteNames.HomeStack]: HomeStack,
   }),
 );
-
-/*
-
-        <Appbar.Header style={{backgroundColor: '#5d1049', elevation: 5}}>
-          <Appbar.BackAction onPress={console.log('no idea')} />
-          <Appbar.Content title={this.state.title} />
-        </Appbar.Header>
-
-        */

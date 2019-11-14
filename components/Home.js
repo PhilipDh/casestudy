@@ -29,6 +29,8 @@ import {IssueConfig} from './config/routes.config';
 import {EditConfig} from './config/routes.config';
 import {EditTopNavConfig} from './config/routes.config';
 import {BottomTabConfig} from './config/routes.config';
+import {BottomTabRoutes} from './routes/home.routes';
+import RouteNames from './routes/RouteNames';
 
 type Props = {
   issueTitle: string,
@@ -46,9 +48,6 @@ class Home extends Component<State, Props> {
   constructor(props) {
     super(props);
 
-    console.log('conifg: ' + PaymentConfig);
-
-    //console.log(this.props.navigation);
     this.state = {
       issueTitle: '',
       setTitle: '',
@@ -58,8 +57,7 @@ class Home extends Component<State, Props> {
 
   updateContext = (title, id) => {
     this.setState({issueTitle: title});
-    //this.props.setTitle(title, id);
-    //this.props.navigation.push({id: {id}});
+
     this.setState({id: id});
     this.props.navigation.setParams('issueTitle', title);
   };
@@ -82,21 +80,11 @@ export default withTheme(Home);
 
 const PaymentStack = createStackNavigator(
   {
-    // For each screen that you can navigate to, create a new entry like this:
-    List: {
-      // `ProfileScreen` is a React component that will be the main content of the screen.
+    [RouteNames.PaymentList]: {
       screen: PaymentList,
       params: {issueTitle: 'Payments'},
-      // When `ProfileScreen` is loaded by the StackNavigator, it will be given a `navigation` prop.
-
-      // Optional: When deep linking or using react-navigation in a web app, this path is used:
-      //path: 'people/:name',
-      // The action and route params are extracted from the path.
-
-      // Optional: Override the `navigationOptions` for the screen
-      // Optional: Override the `navigationOptions` for the screen
     },
-    Details: {
+    [RouteNames.PaymentDetails]: {
       screen: PaymentDetails,
       params: {data: 'dest'},
     },
@@ -116,19 +104,10 @@ PaymentStack.navigationOptions = ({navigation}) => {
 
 const IssueStack = createStackNavigator(
   {
-    // For each screen that you can navigate to, create a new entry like this:
-    List: {
-      // `ProfileScreen` is a React component that will be the main content of the screen.
+    [RouteNames.IssueList]: {
       screen: IssueList,
       params: {title: 'Issues'},
 
-      // When `ProfileScreen` is loaded by the StackNavigator, it will be given a `navigation` prop.
-
-      // Optional: When deep linking or using react-navigation in a web app, this path is used:
-      //path: 'people/:name',
-      // The action and route params are extracted from the path.
-
-      // Optional: Override the `navigationOptions` for the screen
       navigationOptions: ({navigation}) => ({
         title: `${navigation.state.params.title}`,
         headerStyle: {
@@ -142,14 +121,17 @@ const IssueStack = createStackNavigator(
 
 const EditTopNavigatior = createMaterialTopTabNavigator(
   {
-    Ads: {
+    [RouteNames.EditAdList]: {
       screen: EditList,
+      navigationOptions: {tabBarLabel: 'Ads'},
     },
-    Articles: {
+    [RouteNames.EditArticlesList]: {
       screen: EditArticleList,
+      navigationOptions: {tabBarLabel: 'Articles'},
     },
-    Photos: {
+    [RouteNames.EditPhotoList]: {
       screen: EditPhotoList,
+      navigationOptions: {tabBarLabel: 'Photos'},
     },
   },
   EditTopNavConfig,
@@ -157,7 +139,7 @@ const EditTopNavigatior = createMaterialTopTabNavigator(
 
 const EditStack = createStackNavigator(
   {
-    Edit: {
+    [RouteNames.EditTabs]: {
       screen: EditTopNavigatior,
       title: 'Edit',
 
@@ -169,19 +151,13 @@ const EditStack = createStackNavigator(
         },
       },
     },
-    EditAd: {
+    [RouteNames.EditAd]: {
       screen: EditAd,
     },
-    EditArticle: {
+    [RouteNames.EditArticle]: {
       screen: EditArticle,
     },
-    EditArticleList: {
-      screen: EditArticleList,
-    },
-    EditPhotoList: {
-      screen: EditPhotoList,
-    },
-    EditPhoto: {
+    [RouteNames.EditPhoto]: {
       screen: EditPhoto,
     },
   },
@@ -189,20 +165,20 @@ const EditStack = createStackNavigator(
 );
 
 const bottomTabNavigator = createMaterialBottomTabNavigator(
-  //RouteConfigs
   {
-    Home: {
+    [RouteNames.IssueStack]: {
       screen: IssueStack,
-      //navigationOptions: {barStyle: {backgroundColor: '#5d1049'}},
+      navigationOptions: {tabBarLabel: 'Home'},
     },
 
-    Edit: {
+    [RouteNames.EditStack]: {
       screen: EditStack,
-      //params: {id: 321},
-      //navigationOptions: {barStyle: {backgroundColor: '#5d1049'}},
+      params: {id: 321},
+      navigationOptions: {tabBarLabel: 'Edit'},
     },
-    Payments: {
+    [RouteNames.PaymentStack]: {
       screen: PaymentStack,
+      navigationOptions: {tabBarLabel: 'Payments'},
     },
   },
   BottomTabConfig,

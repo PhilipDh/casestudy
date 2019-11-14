@@ -4,6 +4,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../styles/main.theme.js';
+import RouteNames from '../routes/RouteNames';
 
 export const PaymentConfig = {
   defaultNavigationOptions: ({navigation}) => {
@@ -58,7 +59,6 @@ export const EditConfig = {
   cardStyle: {
     backgroundColor: theme.colors.primary,
   },
-  initialRouteName: 'Edit',
 };
 
 export const EditTopNavConfig = {
@@ -66,7 +66,7 @@ export const EditTopNavConfig = {
   tabBarOptions: {
     style: {
       backgroundColor: theme.colors.primary,
-      elevation: 5,
+      elevation: 0,
     },
     labelStyle: {
       color: theme.setContrast(theme.colors.primary),
@@ -84,11 +84,11 @@ export const BottomTabConfig = {
       const {routeName} = navigation.state;
       let iconName = '';
       let iconSize = 25;
-      if (routeName === 'Home') {
+      if (routeName === RouteNames.IssueStack) {
         iconName = `home`;
-      } else if (routeName === 'Edit') {
+      } else if (routeName === RouteNames.EditStack) {
         iconName = `edit`;
-      } else if (routeName === 'Payments') {
+      } else if (routeName === RouteNames.PaymentStack) {
         iconName = `credit-card`;
         iconSize = 22;
       }

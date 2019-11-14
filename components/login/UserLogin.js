@@ -15,10 +15,11 @@ import {
   RadioButton,
   Snackbar,
 } from 'react-native-paper';
-import TextInput from '../dumb/TextInput';
+import TextInput from '../dumb/common/TextInput';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import auth from '@react-native-firebase/auth';
 import theme from '../../styles/main.theme';
+import RouteNames from '../routes/RouteNames';
 const axios = require('axios').default;
 
 type State = {
@@ -54,7 +55,7 @@ export default class UserLogin extends Component<State> {
       this.setState({visible: false});
       auth()
         .signInWithEmailAndPassword(username, password)
-        .then(() => this.props.navigation.navigate('Home'))
+        .then(() => this.props.navigation.navigate(RouteNames.Home))
         .catch(error => {
           this.setState({errorMessage: error.message, visible: true});
           console.log(error.message);

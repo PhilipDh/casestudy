@@ -20,6 +20,7 @@ export default {
     text: '#FFFFFF',
     textAlt: '#000000',
   },
+  containerPadding: 5,
   //Calculates whether to display a white or black label based on the color(hex string) input
   setContrast(color) {
     // http://www.w3.org/TR/AERT#color-contrast

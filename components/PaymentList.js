@@ -18,7 +18,8 @@ import {
 import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
 import PaymentItem from './PaymentItem';
 import theme from '../styles/main.theme.js';
-import SectionedList from './dumb/SectionedList';
+import SectionedList from './dumb/common/SectionedList';
+import RouteNames from './routes/RouteNames';
 
 const axios = require('axios').default;
 
@@ -40,7 +41,6 @@ export default class PaymentList extends Component<State, Props> {
 
   constructor(props) {
     super(props);
-    //console.info(this.props.navigation.getParam('issueTitle'), 'abc');
     this.state = {
       data: {},
       isLoading: true,
@@ -53,8 +53,6 @@ export default class PaymentList extends Component<State, Props> {
 
   updateSnackbar = () => this.setState({showSnackbar: false});
   navigateToDetail = data => {
-    //this.props.navigation.setParams('data', inp);
-
     var job = data.owner.job;
     var type = '';
 
@@ -66,7 +64,7 @@ export default class PaymentList extends Component<State, Props> {
       type = 'Photograph';
     }
 
-    this.props.navigation.navigate('Details', {
+    this.props.navigation.navigate(RouteNames.PaymentDetails, {
       id: data._id,
       type: type,
     });
@@ -147,34 +145,3 @@ export default class PaymentList extends Component<State, Props> {
     }
   }
 }
-
-/*
-<View style={styles.rootContainer}>
-          <SectionList
-            //ItemSeparatorComponent={this.FlatListItemSeparator}
-            ListEmptyComponent={this._listEmptyComponent()}
-            sections={[
-              {title: 'Ads', data: this.state.data.ads},
-              {title: 'Articles', data: this.state.data.articles},
-              {title: 'Photos', data: this.state.data.photos},
-            ]}
-            renderSectionHeader={({section}) => (
-              <View style={{}}>
-                <Text style={styles.sectionText}>{section.title}</Text>
-              </View>
-            )}
-            renderItem={({item}) => (
-              <PaymentItem
-                title={item.title}
-                data={item}
-                money={item.payment}
-                name={item.owner.name}
-                job={item.owner.job}
-                navigateToDetail={this.navigateToDetail}
-              />
-            )}
-            keyExtractor={({_id}, index) => _id}
-            //keyExtractor={(item, index) => index}
-          />
-        </View>
-*/

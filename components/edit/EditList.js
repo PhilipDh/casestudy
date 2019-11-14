@@ -11,7 +11,9 @@ import {View, Text, StyleSheet} from 'react-native';
 import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
 import EditListItem from './EditListItem';
 import DraggableFlatList from 'react-native-draggable-flatlist';
-import StandardList from '../dumb/StandardList';
+import StandardList from '../dumb/common/StandardList';
+import RouteNames from '../routes/RouteNames';
+import {getAdsByIssueUrl} from '../config/api';
 const axios = require('axios').default;
 
 type Props = {
@@ -32,7 +34,7 @@ export default class EditList extends Component<Props, State> {
     super(props);
 
     this.state = {
-      id: '-1',
+      id: props.screenProps.id,
       data: {},
       isLoading: true,
       showSnackbar: false,
@@ -42,14 +44,12 @@ export default class EditList extends Component<Props, State> {
   updateSnackbar = () => this.setState({showSnackbar: false});
 
   getAdList() {
-    var url = 'http://10.0.2.2:3000/ad/' + this.props.screenProps.id + '/ad';
+    var url = getAdsByIssueUrl(this.state.id);
     console.log(url);
     axios
       .get(url)
       .then(data => {
-        this.setState({data: data.data, isLoading: false}, function() {
-          console.log(this.state.data);
-        });
+        this.setState({data: data.data, isLoading: false}, function() {});
       })
       .catch(err => {
         this.setState({data: [], isLoading: false, showSnackbar: true});
@@ -74,8 +74,7 @@ export default class EditList extends Component<Props, State> {
   }
 
   navigateToEdit = id => {
-    console.log('navved');
-    this.props.navigation.navigate('EditAd', {
+    this.props.navigation.navigate(RouteNames.EditAd, {
       id: id,
       reloadList: this.reloadList,
     });
@@ -127,23 +126,3 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 });
-
-/*
-        <View style={styles.rootContainer}>
-          <FlatList
-            contentContainerStyle={styles.rootContainer}
-            ListEmptyComponent={this._listEmptyComponent()}
-            data={this.state.data}
-            renderItem={({item}) => (
-              <EditListItem
-                title={item.title}
-                content={item.content}
-                id={item._id}
-                navigateToEdit={this.navigateToDetail}
-              />
-            )}
-            keyExtractor={({_id}, index) => _id}
-          />
-        </View>
-
-        */

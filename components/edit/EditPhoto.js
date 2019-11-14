@@ -18,6 +18,9 @@ import {Avatar, Button, Card, Title, TextInput} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
 import theme from '../../styles/main.theme.js';
+import {getPhotoUrl} from '../config/api';
+import {getUploadUrl} from '../config/api';
+import {getPhotoLocationUrl} from '../config/api';
 
 const axios = require('axios').default;
 
@@ -104,7 +107,7 @@ export default class EditPhoto extends Component<Props, State> {
   };
 
   handleUploadPhoto = () => {
-    fetch('http://10.0.2.2:3000/upload', {
+    fetch(getUploadUrl(), {
       method: 'POST',
       body: this.createFormData(this.state.uploadPhoto, {
         id: this.state.id,
@@ -128,7 +131,7 @@ export default class EditPhoto extends Component<Props, State> {
       console.log('photo changed');
       this.handleUploadPhoto();
     }
-    var url = 'http://10.0.2.2:3000/photograph/' + this.state.id;
+    var url = getPhotoUrl(this.state.id);
 
     var content = {
       size: this.state.size,
@@ -158,7 +161,7 @@ export default class EditPhoto extends Component<Props, State> {
           {photoLocation && (
             <Image
               source={{
-                uri: 'http://10.0.2.2:3000/' + photoLocation,
+                uri: getPhotoLocationUrl(photoLocation),
                 cache: 'reload',
               }}
               style={{width: 300, height: 300}}

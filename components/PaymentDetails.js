@@ -45,8 +45,6 @@ export default class PaymentDetails extends Component<Props, State> {
   constructor(props) {
     super(props);
 
-    //this.props.navigation.getParam('data')
-    //
     this.state = {
       isLoading: true,
       data: {},
@@ -200,7 +198,7 @@ const styles = StyleSheet.create({
     height: 250,
     margin: 15,
     borderRadius: 8,
-    padding: 5,
+    padding: theme.containerPadding,
   },
 
   titleContainer: {

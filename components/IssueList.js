@@ -18,7 +18,7 @@ import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
 import {Snackbar, withTheme} from 'react-native-paper';
 import IssueItem from './IssueItem';
 import theme from '../styles/main.theme.js';
-import StandardList from './dumb/StandardList';
+import StandardList from './dumb/common/StandardList';
 
 const axios = require('axios').default;
 
@@ -102,36 +102,3 @@ class IssueList extends Component<State, Props> {
 }
 
 export default withTheme(IssueList);
-
-/*
-        <View style={styles.rootContainer}>
-          <FlatList
-            contentContainerStyle={styles.rootContainer}
-            style={styles.issueList}
-            data={this.state.data}
-            ListEmptyComponent={this._listEmptyComponent()}
-            renderItem={({item}) => (
-              <IssueItem
-                title={item.title}
-                date={item.releaseDate}
-                id={item._id}
-                updateContext={this.props.screenProps.updateContext}
-                setTitle={this.setTitle}
-              />
-            )}
-            keyExtractor={({_id}, index) => _id}
-          />
-          <Snackbar
-            style={styles.snackbar}
-            visible={this.state.showSnackbar}
-            onDismiss={() => this.setState({showSnackbar: false})}
-            action={{
-              label: 'Undo',
-              onPress: () => {
-                // Do something
-              },
-            }}>
-            Network Error
-          </Snackbar>
-        </View>
-*/

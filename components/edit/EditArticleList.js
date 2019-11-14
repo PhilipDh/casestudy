@@ -11,7 +11,9 @@ import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EditListItem from './EditListItem';
 import theme from '../../styles/main.theme.js';
-import StandardList from '../dumb/StandardList';
+import StandardList from '../dumb/common/StandardList';
+import RouteNames from '../routes/RouteNames';
+import {getArticlesByIssueUrl} from '../config/api';
 
 const axios = require('axios').default;
 
@@ -40,14 +42,14 @@ export default class EditArticleList extends Component<Props, State> {
   updateSnackbar = () => this.setState({showSnackbar: false});
 
   navigateToEdit = id => {
-    this.props.navigation.navigate('EditArticle', {
+    this.props.navigation.navigate(RouteNames.EditArticle, {
       id: id,
       reloadList: this.reloadList,
     });
   };
 
   getArticleList() {
-    var url = 'http://10.0.2.2:3000/article/' + this.state.id + '/article';
+    var url = getArticlesByIssueUrl(this.state.id);
     console.log(url);
     axios
       .get(url)
@@ -115,22 +117,3 @@ export default class EditArticleList extends Component<Props, State> {
     }
   }
 }
-
-/*
-        <View style={styles.rootContainer}>
-          <FlatList
-            contentContainerStyle={styles.rootContainer}
-            ListEmptyComponent={this._listEmptyComponent()}
-            data={this.state.data}
-            renderItem={({item}) => (
-              <EditListItem
-                title={item.title}
-                content={item.content}
-                id={item._id}
-                navigateToEdit={this.navigateToEdit}
-              />
-            )}
-            keyExtractor={({_id}, index) => _id}
-          />
-        </View>
-*/

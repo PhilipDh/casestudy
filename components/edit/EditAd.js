@@ -11,7 +11,13 @@ import {Avatar, Button, Card, Title, RadioButton} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AdRadioButton from '../custom/AdRadioButton';
 import theme from '../../styles/main.theme.js';
+import {getAdUrl} from '../config/api';
+
 const axios = require('axios').default;
+
+const topBannerAd = require('../../assets/topBanner.png');
+const inlineAd = require('../../assets/inline.png');
+const bottomBannerAd = require('../../assets/bottomBanner.png');
 
 type Props = {
   placement: any,
@@ -46,7 +52,7 @@ export default class EditAd extends Component<State, Props> {
   updateAd() {
     this.setState({loading: true});
 
-    var url = 'http://10.0.2.2:3000/ad/' + this.state.id;
+    var url = getAdUrl(this.state.id);
     var body = {
       placement: this.state.placement,
       payed: this.state.payed,
@@ -70,7 +76,7 @@ export default class EditAd extends Component<State, Props> {
   }
 
   getAd() {
-    var url = 'http://10.0.2.2:3000/ad/' + this.state.id;
+    var url = getAdUrl(this.state.id);
     axios
       .get(url)
       .then(data => {
@@ -106,10 +112,7 @@ export default class EditAd extends Component<State, Props> {
             <View style={styles.contentContainer}>
               <Text style={styles.typeText}>Top Banner Ad</Text>
               <View style={styles.imageContainer}>
-                <Image
-                  source={require('../../assets/topBanner.png')}
-                  style={styles.bannerImage}
-                />
+                <Image source={topBannerAd} style={styles.bannerImage} />
               </View>
             </View>
             <View style={styles.radioItemContainer}>
@@ -120,10 +123,7 @@ export default class EditAd extends Component<State, Props> {
             <View style={styles.contentContainer}>
               <Text style={styles.typeText}>Inline Ad</Text>
               <View style={styles.imageContainer}>
-                <Image
-                  source={require('../../assets/inline.png')}
-                  style={styles.bannerImage}
-                />
+                <Image source={inlineAd} style={styles.bannerImage} />
               </View>
             </View>
             <View style={styles.radioItemContainer}>
@@ -134,10 +134,7 @@ export default class EditAd extends Component<State, Props> {
             <View style={styles.contentContainer}>
               <Text style={styles.typeText}>Bottom Banner Ad</Text>
               <View style={styles.imageContainer}>
-                <Image
-                  source={require('../../assets/bottomBanner.png')}
-                  style={styles.bannerImage}
-                />
+                <Image source={bottomBannerAd} style={styles.bannerImage} />
               </View>
             </View>
             <View style={styles.radioItemContainer}>

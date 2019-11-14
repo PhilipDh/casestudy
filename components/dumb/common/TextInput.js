@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import theme from '../../styles/main.theme';
+import theme from '../../../styles/main.theme';
 import {TextInput, Snackbar, DefaultTheme} from 'react-native-paper';
 
 class TextArea extends Component {

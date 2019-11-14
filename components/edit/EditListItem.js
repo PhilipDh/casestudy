@@ -9,7 +9,8 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import theme from '../../styles/main.theme.js';
+import theme from '../../styles/main.theme';
+import common from '../../styles/common.style';
 type Props = {
   id: string,
   title: string,
@@ -50,15 +51,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   container: {
-    backgroundColor: theme.colors.text,
-    flexDirection: 'row',
-
-    margin: 5,
-    height: 66,
+    ...common.card,
     borderColor: 'red',
     borderWidth: 0,
-    borderRadius: 4,
-    elevation: 5,
   },
   contentContainer: {
     paddingLeft: 36,

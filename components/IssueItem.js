@@ -17,6 +17,8 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {TouchableRipple} from 'react-native-paper';
 import theme from '../styles/main.theme.js';
+import common from '../styles/common.style.js';
+import {formatDate} from '../utils/formatting';
 
 type Props = {
   title: string,
@@ -27,21 +29,11 @@ type Props = {
 };
 
 export default class IssueItem extends Component<Props> {
-  constructor() {
-    super();
-  }
-
-  formatDate(date) {
-    var nDate = new Date(date);
-    return nDate.getDate() + '/' + nDate.getMonth() + '/' + nDate.getFullYear();
-  }
-
   render() {
     //console.log(this.props.title);
     return (
       <TouchableRipple
         rippleColor={'white'}
-        style={{elevation: 10}}
         onPress={() => {
           this.props.updateContext(this.props.title, this.props.id);
           this.props.setTitle(this.props.title);
@@ -69,9 +61,7 @@ export default class IssueItem extends Component<Props> {
                 size={12}
                 style={{padding: 2}}
               />
-              <Text style={styles.dateText}>
-                {this.formatDate(this.props.date)}
-              </Text>
+              <Text style={styles.dateText}>{formatDate(this.props.date)}</Text>
             </View>
           </View>
         </View>
@@ -87,14 +77,7 @@ const styles = StyleSheet.create({
   },
   issueText: {color: '#000000', fontSize: 16, fontWeight: 'bold'},
   container: {
-    backgroundColor: theme.colors.surface,
-    flexDirection: 'row',
-    marginLeft: 10,
-    marginRight: 10,
-    margin: 5,
-    height: 66,
-    elevation: 5,
-    borderRadius: 4,
+    ...common.card,
   },
   textContainer: {
     marginRight: 10,

@@ -7,14 +7,25 @@
  */
 
 import React, {Component} from 'react';
-import {View, FlatList, StyleSheet, Text} from 'react-native';
-import theme from '../../styles/main.theme';
-import {TextInput, Snackbar, DefaultTheme} from 'react-native-paper';
-import IssueItem from '../IssueItem';
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  StyleSheet,
+  SectionList,
+} from 'react-native';
+import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
+import theme from '../../../styles/main.theme.js';
 
-class StandardList extends Component {
+class SectionedList extends Component {
+  renderSectionHeader = section => (
+    <View style={{}}>
+      <Text style={styles.sectionText}>{section.title}</Text>
+    </View>
+  );
+
   _listEmptyComponent() {
-    console.log(this.props.reloadList);
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyListText}>There seems to be nothing here</Text>
@@ -33,40 +44,32 @@ class StandardList extends Component {
       data,
       ...extraProps
     } = this.props;
+
     return (
       <View style={styles.rootContainer}>
-        <FlatList
-          contentContainerStyle={styles.rootContainer}
-          style={styles.list}
-          data={data}
+        <SectionList
+          //ItemSeparatorComponent={this.FlatListItemSeparator}
           ListEmptyComponent={this._listEmptyComponent()}
+          sections={[
+            {title: 'Ads', data: data.ads},
+            {title: 'Articles', data: data.articles},
+            {title: 'Photos', data: data.photos},
+          ]}
+          renderSectionHeader={({section}) => this.renderSectionHeader(section)}
           renderItem={({item}) => renderItem(item)}
           keyExtractor={({_id}, index) => _id}
+          //keyExtractor={(item, index) => index}
         />
-        <Snackbar
-          style={styles.snackbar}
-          visible={showSnackbar}
-          onDismiss={() => {
-            updateSnackbar();
-          }}
-          action={{
-            label: 'Undo',
-            onPress: () => {
-              // Do something
-            },
-          }}>
-          Network Error
-        </Snackbar>
       </View>
     );
   }
 }
 
-export default StandardList;
+export default SectionedList;
 
 const styles = StyleSheet.create({
   rootContainer: {
-    flex: 1,
+    padding: theme.containerPadding,
   },
   emptyContainer: {
     flex: 1,
@@ -82,11 +85,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textDecorationLine: 'underline',
   },
-  list: {
-    padding: 5,
-  },
-  snackbar: {
-    backgroundColor: theme.colors.accent,
+  sectionText: {
     color: theme.colors.text,
+    fontSize: 18,
+    marginLeft: 10,
   },
 });

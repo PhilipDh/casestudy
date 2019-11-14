@@ -10,7 +10,9 @@ import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EditListItem from './EditListItem';
 import theme from '../../styles/main.theme.js';
-import StandardList from '../dumb/StandardList';
+import StandardList from '../dumb/common/StandardList';
+import RouteNames from '../routes/RouteNames';
+import {getPhotosByIssueUrl} from '../config/api';
 
 const axios = require('axios').default;
 
@@ -38,7 +40,7 @@ export default class EditPhotoList extends Component<Props, State> {
   updateSnackbar = () => this.setState({showSnackbar: false});
 
   navigateToEdit = id => {
-    this.props.navigation.navigate('EditPhoto', {
+    this.props.navigation.navigate(RouteNames.EditPhoto, {
       id: id,
       reloadList: this.reloadList,
     });
@@ -49,8 +51,7 @@ export default class EditPhotoList extends Component<Props, State> {
   };
 
   getPhotoList() {
-    var url =
-      'http://10.0.2.2:3000/photograph/' + this.state.id + '/photograph';
+    var url = getPhotosByIssueUrl(this.state.id);
     console.log(url);
     axios
       .get(url)
@@ -111,23 +112,3 @@ export default class EditPhotoList extends Component<Props, State> {
     }
   }
 }
-
-/*
-
-        <View style={styles.rootContainer}>
-          <FlatList
-            contentContainerStyle={styles.rootContainer}
-            ListEmptyComponent={this._listEmptyComponent()}
-            data={this.state.data}
-            renderItem={({item}) => (
-              <EditListItem
-                title={item.title}
-                content={item.size}
-                id={item._id}
-                navigateToEdit={this.navigateToEdit}
-              />
-            )}
-            keyExtractor={({_id}, index) => _id}
-          />
-        </View>
-*/

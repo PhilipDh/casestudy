@@ -9,6 +9,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
 import theme from '../styles/main.theme.js';
+import common from '../styles/common.style.js';
 
 type Props = {
   title: string,
@@ -69,16 +70,9 @@ const styles = StyleSheet.create({
   nameText: {color: theme.colors.textAlt, fontSize: 16, fontWeight: 'bold'},
   jobText: {color: '#4B4B4B', fontSize: 12, marginTop: -2},
   container: {
-    backgroundColor: theme.colors.surface,
-    flexDirection: 'row',
-    marginLeft: 10,
-    marginRight: 10,
-    margin: 5,
-    height: 66,
+    ...common.card,
     borderColor: 'red',
     borderWidth: 0,
-    borderRadius: 4,
-    elevation: 5,
   },
   nameContainer: {
     paddingLeft: 24,
@@ -93,18 +87,3 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
 });
-
-/*
-      <TouchableWithoutFeedback onPress={() => console.log('log')}>
-        <View style={styles.container}>
-          <View style={styles.nameContainer}>
-            <Text style={styles.nameText}>{this.props.name}</Text>
-            <Text style={styles.jobText}>{this.props.job}</Text>
-          </View>
-          <View style={styles.moneyContainer}>
-            <Text style={styles.dateText}>{this.props.date}</Text>
-            <Text style={styles.moneyText}>{this.props.money}€</Text>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-*/
