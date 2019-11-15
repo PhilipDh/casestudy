@@ -20,6 +20,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import auth from '@react-native-firebase/auth';
 import theme from '../../styles/main.theme';
 import RouteNames from '../routes/RouteNames';
+
+const logo = require('../../assets/itInTheValley.png');
 const axios = require('axios').default;
 
 type State = {
@@ -72,10 +74,7 @@ export default class UserLogin extends Component<State> {
     return (
       <View style={styles.rootContainer}>
         <View style={styles.logoContainer}>
-          <Image
-            source={require('../../assets/itInTheValley.png')}
-            style={{width: 150, height: 90}}
-          />
+          <Image source={logo} style={{width: 150, height: 90}} />
         </View>
 
         <View style={styles.loginContainer}>

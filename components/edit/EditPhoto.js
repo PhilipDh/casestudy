@@ -21,6 +21,7 @@ import theme from '../../styles/main.theme.js';
 import {getPhotoUrl} from '../config/api';
 import {getUploadUrl} from '../config/api';
 import {getPhotoLocationUrl} from '../config/api';
+import ImageView from '../dumb/common/ImageView';
 
 const axios = require('axios').default;
 
@@ -159,11 +160,8 @@ export default class EditPhoto extends Component<Props, State> {
       <View style={styles.container}>
         <View style={styles.imageContainer}>
           {photoLocation && (
-            <Image
-              source={{
-                uri: getPhotoLocationUrl(photoLocation),
-                cache: 'reload',
-              }}
+            <ImageView
+              src={getPhotoLocationUrl(photoLocation)}
               style={{width: 300, height: 300}}
             />
           )}
@@ -220,3 +218,14 @@ const styles = StyleSheet.create({
   },
   saveButton: {margin: 10},
 });
+
+/*
+
+            <Image
+              source={{
+                uri: getPhotoLocationUrl(photoLocation),
+                cache: 'reload',
+              }}
+              style={{width: 300, height: 300}}
+            />
+*/
