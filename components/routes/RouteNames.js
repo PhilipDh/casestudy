@@ -1,3 +1,7 @@
+/*
+  List of all the Route names
+*/
+
 export default {
   AuthStack: 'AuthStack',
   HomeStack: 'HomeStack',

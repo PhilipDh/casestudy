@@ -18,9 +18,14 @@ export default {
     surface: '#FFFFFF',
     background: '#5d1049',
     text: '#FFFFFF',
-    textAlt: '#000000',
+    textAlt: '#565656',
   },
   containerPadding: 5,
+  FONT_SIZE_SMALL: 12,
+  FONT_SIZE_MEDIUM: 14,
+  FONT_SIZE_LARGE: 16,
+  LIST_ITEM_PADDING: 24,
+
   //Calculates whether to display a white or black label based on the color(hex string) input
   setContrast(color) {
     // http://www.w3.org/TR/AERT#color-contrast
@@ -35,6 +40,3 @@ export default {
     return fore;
   },
 };
-
-//#5d1049
-//#fa3336

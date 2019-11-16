@@ -6,6 +6,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../styles/main.theme.js';
 import RouteNames from '../routes/RouteNames';
 
+/*
+  Configs for the navigation types
+*/
+
 export const PaymentConfig = {
   defaultNavigationOptions: ({navigation}) => {
     return {

@@ -55,9 +55,9 @@ class Home extends Component<State, Props> {
     };
   }
 
+  //Function to set the current Issue ID and set the Issues screens title
   updateContext = (title, id) => {
     this.setState({issueTitle: title});
-
     this.setState({id: id});
     this.props.navigation.setParams('issueTitle', title);
   };
@@ -78,6 +78,11 @@ class Home extends Component<State, Props> {
 
 export default withTheme(Home);
 
+/*
+Navigators for the different screens in the Apps:
+Payment, Issues and Editing
+**/
+
 const PaymentStack = createStackNavigator(
   {
     [RouteNames.PaymentList]: {
@@ -92,6 +97,7 @@ const PaymentStack = createStackNavigator(
   PaymentConfig,
 );
 
+//Navigation options to hide the bottom bar on certain screens
 PaymentStack.navigationOptions = ({navigation}) => {
   let tabBarVisible = true;
   if (navigation.state.index > 0) {
@@ -119,6 +125,7 @@ const IssueStack = createStackNavigator(
   IssueConfig,
 );
 
+//Top tab navigator to navigate to the different Edit screens
 const EditTopNavigatior = createMaterialTopTabNavigator(
   {
     [RouteNames.EditAdList]: {
@@ -164,6 +171,7 @@ const EditStack = createStackNavigator(
   EditConfig,
 );
 
+//Bottom tab navigator to navigate between Edit,Issue and Payment
 const bottomTabNavigator = createMaterialBottomTabNavigator(
   {
     [RouteNames.IssueStack]: {

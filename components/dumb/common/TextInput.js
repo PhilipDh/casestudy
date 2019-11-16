@@ -23,9 +23,16 @@ class TextArea extends Component {
         multiline={multiline ? multiline : false}
         secureTextEntry={secure}
         theme={{...DefaultTheme, colors: {text: 'black'}}}
-        style={{backgroundColor: '#FFF', margin: 10}}
+        style={styles.textInput}
       />
     );
   }
 }
 export default TextArea;
+
+const styles = StyleSheet.create({
+  textInput: {
+    backgroundColor: '#FFF',
+    margin: 10,
+  },
+});

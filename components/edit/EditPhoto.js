@@ -161,8 +161,11 @@ export default class EditPhoto extends Component<Props, State> {
         <View style={styles.imageContainer}>
           {photoLocation && (
             <ImageView
-              src={getPhotoLocationUrl(photoLocation)}
-              style={{width: 300, height: 300}}
+              getPhotoLocationUrl={getPhotoLocationUrl}
+              photoLocation={photoLocation}
+              cacheType={'reload'}
+              width={300}
+              height={300}
             />
           )}
           <Button
@@ -178,7 +181,7 @@ export default class EditPhoto extends Component<Props, State> {
         <View style={styles.textContainer}>
           <Picker
             selectedValue={this.state.size}
-            style={{width: 300, height: 50}}
+            style={{width: 300, height: 50, color: 'white'}}
             onValueChange={(itemValue, itemIndex) =>
               this.setState({size: itemValue})
             }>

@@ -6,22 +6,21 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
-import com.casestudy.SensorPackage;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class CustomImageViewPackage implements ReactPackage {
+public class SensorPackage implements ReactPackage {
     @NonNull
     @Override
     public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactContext) {
-        return Collections.emptyList();
+        return Arrays.<NativeModule>asList(new Accelerometer(reactContext));
     }
 
     @NonNull
     @Override
     public List<ViewManager> createViewManagers(@NonNull ReactApplicationContext reactContext) {
-        return Arrays.<ViewManager>asList(new ReactImageManager());
+        return Collections.emptyList();
     }
 }

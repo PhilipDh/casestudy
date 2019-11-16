@@ -1,22 +1,36 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React, {Component} from 'react';
+import {Platform, View, StyleSheet, Image} from 'react-native';
+import theme from '../../../styles/main.theme';
+import AndroidImage from './AndroidImage';
 
-import PropTypes from 'prop-types';
-import {requireNativeComponent, ViewPropTypes} from 'react-native';
+class ImageView extends Component {
+  render() {
+    const {
+      getPhotoLocationUrl,
+      photoLocation,
+      cacheType,
+      width,
+      height,
+    } = this.props;
+    if (Platform.OS === 'ios') {
+      return (
+        <Image
+          source={{
+            uri: getPhotoLocationUrl(photoLocation),
+            cache: cacheType,
+          }}
+          style={{width: width, height: height}}
+        />
+      );
+    } else {
+      return (
+        <AndroidImage
+          src={getPhotoLocationUrl(photoLocation)}
+          style={{width: width, height: height}}
+        />
+      );
+    }
+  }
+}
 
-const iface = {
-  name: 'ImageView',
-  propTypes: {
-    src: PropTypes.string,
-    borderRadius: PropTypes.number,
-    resizeMode: PropTypes.oneOf(['cover', 'contain', 'stretch']),
-    ...ViewPropTypes, // include the default view properties
-  },
-};
-
-module.exports = requireNativeComponent('RCTImageView1', iface);
+export default ImageView;

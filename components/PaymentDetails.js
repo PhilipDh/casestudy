@@ -55,6 +55,7 @@ export default class PaymentDetails extends Component<Props, State> {
     };
   }
 
+  //Determine the screens properties based on the current item type
   getButtonText() {
     var result = '';
 
@@ -234,11 +235,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   subtitleText: {
-    fontSize: 14,
-    color: '#787878',
+    fontSize: theme.FONT_SIZE_MEDIUM,
+    color: theme.colors.textAlt,
   },
   contentText: {
-    fontSize: 16,
+    fontSize: theme.FONT_SIZE_LARGE,
     paddingTop: 5,
   },
 });

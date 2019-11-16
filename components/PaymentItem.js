@@ -52,30 +52,32 @@ export default class PaymentItem extends Component<Props> {
 }
 
 const styles = StyleSheet.create({
-  dateText: {
-    color: '#565656',
-    fontSize: 10,
-    flex: 1,
-  },
   moneyTextPerson: {
     color: '#B70000',
-    fontSize: 16,
+    fontSize: theme.FONT_SIZE_LARGE,
     fontWeight: 'bold',
   },
   moneyTextCompany: {
     color: '#119200',
-    fontSize: 16,
+    fontSize: theme.FONT_SIZE_LARGE,
     fontWeight: 'bold',
   },
-  nameText: {color: theme.colors.textAlt, fontSize: 16, fontWeight: 'bold'},
-  jobText: {color: '#4B4B4B', fontSize: 12, marginTop: -2},
+  nameText: {
+    color: theme.setContrast(theme.colors.surface),
+    fontSize: theme.FONT_SIZE_LARGE,
+    fontWeight: 'bold',
+  },
+  jobText: {
+    color: theme.colors.textAlt,
+    fontSize: theme.FONT_SIZE_SMALL,
+    marginTop: -2,
+  },
   container: {
     ...common.card,
-    borderColor: 'red',
-    borderWidth: 0,
+    paddingLeft: theme.LIST_ITEM_PADDING,
+    paddingRight: theme.LIST_ITEM_PADDING,
   },
   nameContainer: {
-    paddingLeft: 24,
     flexDirection: 'column',
     flex: 2,
     justifyContent: 'center',
@@ -83,7 +85,6 @@ const styles = StyleSheet.create({
   moneyContainer: {
     alignItems: 'flex-end',
     justifyContent: 'center',
-    paddingRight: 14,
     flexDirection: 'column',
   },
 });

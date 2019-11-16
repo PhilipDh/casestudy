@@ -38,6 +38,7 @@ class IssueList extends Component<State, Props> {
   updateSnackbar = () => this.setState({showSnackbar: false});
 
   componentDidMount() {
+    //Upon mounting the component load all issues from the API
     this.getIssueList();
   }
 
@@ -57,6 +58,7 @@ class IssueList extends Component<State, Props> {
     this.props.navigation.setParams({title: title});
   };
 
+  //Component to be displayed when the List is empty
   _listEmptyComponent() {
     return (
       <View style={styles.emptyContainer}>

@@ -7,7 +7,14 @@
  */
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import {Avatar, Button, Card, Title, RadioButton} from 'react-native-paper';
+import {
+  Avatar,
+  Button,
+  Card,
+  Title,
+  RadioButton,
+  DefaultTheme,
+} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AdRadioButton from '../custom/AdRadioButton';
 import theme from '../../styles/main.theme.js';
@@ -116,7 +123,10 @@ export default class EditAd extends Component<State, Props> {
               </View>
             </View>
             <View style={styles.radioItemContainer}>
-              <RadioButton value="topBanner" />
+              <RadioButton
+                theme={{...DefaultTheme, colors: {text: 'black'}}}
+                value="topBanner"
+              />
             </View>
           </View>
           <View style={styles.cardContainer}>
@@ -127,7 +137,10 @@ export default class EditAd extends Component<State, Props> {
               </View>
             </View>
             <View style={styles.radioItemContainer}>
-              <RadioButton value="inlineBanner" />
+              <RadioButton
+                theme={{...DefaultTheme, colors: {text: 'black'}}}
+                value="inlineBanner"
+              />
             </View>
           </View>
           <View style={styles.cardContainer}>
@@ -138,7 +151,10 @@ export default class EditAd extends Component<State, Props> {
               </View>
             </View>
             <View style={styles.radioItemContainer}>
-              <RadioButton value="bottomBanner" />
+              <RadioButton
+                theme={{...DefaultTheme, colors: {text: 'black'}}}
+                value="bottomBanner"
+              />
             </View>
           </View>
         </RadioButton.Group>

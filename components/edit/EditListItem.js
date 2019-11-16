@@ -42,39 +42,22 @@ export default class EditListItem extends Component<State, Props> {
 
 const styles = StyleSheet.create({
   titleText: {
-    color: theme.colors.textAlt,
-    fontSize: 16,
+    color: theme.setContrast(theme.colors.surface),
+    fontSize: theme.FONT_SIZE_LARGE,
     fontWeight: 'bold',
   },
   subtitleText: {
-    color: '#4B4B4B',
-    fontSize: 12,
+    color: theme.colors.textAlt,
+    fontSize: theme.FONT_SIZE_SMALL,
   },
   container: {
     ...common.card,
-    borderColor: 'red',
-    borderWidth: 0,
   },
   contentContainer: {
-    paddingLeft: 36,
-    paddingRight: 36,
+    paddingLeft: theme.LIST_ITEM_PADDING,
+    paddingRight: theme.LIST_ITEM_PADDING,
     flexDirection: 'column',
     flex: 1,
     justifyContent: 'center',
   },
 });
-
-/*
-      <TouchableWithoutFeedback onPress={() => console.log('log')}>
-        <View style={styles.container}>
-          <View style={styles.nameContainer}>
-            <Text style={styles.nameText}>{this.props.name}</Text>
-            <Text style={styles.jobText}>{this.props.job}</Text>
-          </View>
-          <View style={styles.moneyContainer}>
-            <Text style={styles.dateText}>{this.props.date}</Text>
-            <Text style={styles.moneyText}>{this.props.money}€</Text>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-*/

@@ -30,7 +30,6 @@ type Props = {
 
 export default class IssueItem extends Component<Props> {
   render() {
-    //console.log(this.props.title);
     return (
       <TouchableRipple
         rippleColor={'white'}
@@ -42,12 +41,7 @@ export default class IssueItem extends Component<Props> {
           <View style={styles.imageContainer}>
             <Image
               source={require('../assets/hbr.png')}
-              style={{
-                width: 40,
-                height: 50,
-                borderWidth: 1,
-                borderColor: 'red',
-              }}
+              style={styles.itemImage}
             />
           </View>
           <View style={styles.textContainer}>
@@ -72,10 +66,20 @@ export default class IssueItem extends Component<Props> {
 
 const styles = StyleSheet.create({
   dateText: {
-    color: '#565656',
-    fontSize: 12,
+    color: theme.colors.textAlt,
+    fontSize: theme.FONT_SIZE_SMALL,
   },
-  issueText: {color: '#000000', fontSize: 16, fontWeight: 'bold'},
+  itemImage: {
+    width: 40,
+    height: 50,
+    borderWidth: 1,
+    borderColor: 'red',
+  },
+  issueText: {
+    color: theme.setContrast(theme.colors.surface),
+    fontSize: theme.FONT_SIZE_LARGE,
+    fontWeight: 'bold',
+  },
   container: {
     ...common.card,
   },

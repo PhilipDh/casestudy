@@ -52,6 +52,9 @@ export default class PaymentList extends Component<State, Props> {
   }
 
   updateSnackbar = () => this.setState({showSnackbar: false});
+
+  //Navigate to the detail screen of the clicked item
+  //Will be passed onto the List items and called when clicked
   navigateToDetail = data => {
     var job = data.owner.job;
     var type = '';
@@ -101,8 +104,9 @@ export default class PaymentList extends Component<State, Props> {
   }
 
   componentDidMount() {
-    //TODO only update when the issue changes
     this.getPaymentList();
+    //Listener that will be called whenver the Payment list is in focus
+    //It will load the payment list in case the issue has changed
     this.focusListener = this.props.navigation.addListener('didFocus', () => {
       console.log('Payment list now in focus');
       this.getPaymentList();

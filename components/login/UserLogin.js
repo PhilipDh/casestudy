@@ -17,7 +17,7 @@ import {
 } from 'react-native-paper';
 import TextInput from '../dumb/common/TextInput';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import auth from '@react-native-firebase/auth';
+//import auth from '@react-native-firebase/auth';
 import theme from '../../styles/main.theme';
 import RouteNames from '../routes/RouteNames';
 
@@ -55,6 +55,7 @@ export default class UserLogin extends Component<State> {
     const {username, password} = this.state;
     if (username && password) {
       this.setState({visible: false});
+      /*
       auth()
         .signInWithEmailAndPassword(username, password)
         .then(() => this.props.navigation.navigate(RouteNames.Home))
@@ -62,6 +63,7 @@ export default class UserLogin extends Component<State> {
           this.setState({errorMessage: error.message, visible: true});
           console.log(error.message);
         });
+        */
     } else {
       this.setState({visible: true, errorMessage: "Login can't be empty"});
     }
@@ -74,7 +76,7 @@ export default class UserLogin extends Component<State> {
     return (
       <View style={styles.rootContainer}>
         <View style={styles.logoContainer}>
-          <Image source={logo} style={{width: 150, height: 90}} />
+          <Image source={logo} style={styles.logoStyle} />
         </View>
 
         <View style={styles.loginContainer}>
@@ -136,6 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.primary,
     flexDirection: 'column',
     flex: 1,
+    padding: 15,
   },
   logoContainer: {
     flex: 1,
@@ -148,10 +151,16 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
 
+  logoStyle: {
+    width: 150,
+    height: 90,
+  },
+
   loginCard: {
     backgroundColor: theme.colors.surface,
     elevation: 5,
-    margin: 10,
+    padding: theme.containerPadding,
+    // margin: 10,
     borderRadius: 4,
     height: 250,
   },
