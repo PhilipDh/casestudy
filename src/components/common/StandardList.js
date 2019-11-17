@@ -10,7 +10,6 @@ import React, {Component} from 'react';
 import {View, FlatList, StyleSheet, Text} from 'react-native';
 import theme from '../../../styles/main.theme';
 import {TextInput, Snackbar, DefaultTheme} from 'react-native-paper';
-import IssueItem from '../../IssueItem';
 
 class StandardList extends Component {
   _listEmptyComponent() {

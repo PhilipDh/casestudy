@@ -9,9 +9,9 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {Avatar, Button, Card, Title} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import theme from '../../styles/main.theme.js';
-import TextInput from '../dumb/common/TextInput';
-import {getArticleUrl} from '../config/api';
+import theme from '../../../styles/main.theme.js';
+import TextInput from '../../components/common/TextInput';
+import {getArticleUrl} from '../../config/api';
 const axios = require('axios').default;
 
 type Props = {

@@ -15,13 +15,12 @@ import {
 } from 'react-native-paper';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
-import Home from './components/Home';
-import PaymentDetails from './components/PaymentDetails';
-import UserLogin from './components/login/UserLogin';
+import Home from './src/Home';
+import UserLogin from './src/screens/Login/UserLogin';
 import {withNavigation} from 'react-navigation';
 import theme from './styles/main.theme.js';
-import RouteNames from './components/routes/RouteNames';
-import {accelerometer} from './components/custom/Accelerometer';
+import RouteNames from './src/RouteNames';
+import {accelerometer} from './src/custom/Accelerometer';
 import {map, filter} from 'rxjs/operators';
 import {NativeEventEmitter, NativeModules} from 'react-native';
 

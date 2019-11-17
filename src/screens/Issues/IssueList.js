@@ -17,8 +17,8 @@ import {
 import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
 import {Snackbar, withTheme} from 'react-native-paper';
 import IssueItem from './IssueItem';
-import theme from '../styles/main.theme.js';
-import StandardList from './dumb/common/StandardList';
+import theme from '../../../styles/main.theme.js';
+import StandardList from '../../components/common/StandardList';
 
 const axios = require('axios').default;
 

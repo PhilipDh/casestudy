@@ -8,8 +8,8 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
-import theme from '../styles/main.theme.js';
-import common from '../styles/common.style.js';
+import theme from '../../../styles/main.theme.js';
+import common from '../../../styles/common.style.js';
 
 type Props = {
   title: string,

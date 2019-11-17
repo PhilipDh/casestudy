@@ -17,11 +17,9 @@ import {
 import {Avatar, Button, Card, Title, TextInput} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
-import theme from '../../styles/main.theme.js';
-import {getPhotoUrl} from '../config/api';
-import {getUploadUrl} from '../config/api';
-import {getPhotoLocationUrl} from '../config/api';
-import ImageView from '../dumb/common/ImageView';
+import theme from '../../../styles/main.theme.js';
+import {getPhotoUrl, getUploadUrl, getPhotoLocationUrl} from '../../config/api';
+import ImageView from '../../components/common/ImageView';
 
 const axios = require('axios').default;
 

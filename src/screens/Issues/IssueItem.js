@@ -11,14 +11,13 @@ import {
   Text,
   StyleSheet,
   TouchableWithoutFeedback,
-  TouchableOpacity,
   Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {TouchableRipple} from 'react-native-paper';
-import theme from '../styles/main.theme.js';
-import common from '../styles/common.style.js';
-import {formatDate} from '../utils/formatting';
+import theme from '../../../styles/main.theme';
+import common from '../../../styles/common.style';
+import {formatDate} from '../../../utils/formatting';
 
 type Props = {
   title: string,
@@ -40,7 +39,7 @@ export default class IssueItem extends Component<Props> {
         <View style={styles.container}>
           <View style={styles.imageContainer}>
             <Image
-              source={require('../assets/hbr.png')}
+              source={require('../../../assets/images/hbr.png')}
               style={styles.itemImage}
             />
           </View>

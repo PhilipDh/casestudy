@@ -15,13 +15,13 @@ import {
   RadioButton,
   Snackbar,
 } from 'react-native-paper';
-import TextInput from '../dumb/common/TextInput';
+import TextInput from '../../components/common/TextInput';
 import Icon from 'react-native-vector-icons/FontAwesome';
 //import auth from '@react-native-firebase/auth';
-import theme from '../../styles/main.theme';
-import RouteNames from '../routes/RouteNames';
+import theme from '../../../styles/main.theme';
+import RouteNames from '../../RouteNames';
 
-const logo = require('../../assets/itInTheValley.png');
+const logo = require('../../../assets/images/itInTheValley.png');
 const axios = require('axios').default;
 
 type State = {

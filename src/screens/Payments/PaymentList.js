@@ -17,9 +17,9 @@ import {
 } from 'react-native';
 import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
 import PaymentItem from './PaymentItem';
-import theme from '../styles/main.theme.js';
-import SectionedList from './dumb/common/SectionedList';
-import RouteNames from './routes/RouteNames';
+import theme from '../../../styles/main.theme.js';
+import SectionedList from '../../components/common/SectionedList';
+import RouteNames from '../../RouteNames';
 
 const axios = require('axios').default;
 

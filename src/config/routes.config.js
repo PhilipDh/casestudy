@@ -4,7 +4,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../styles/main.theme.js';
-import RouteNames from '../routes/RouteNames';
+import RouteNames from '../RouteNames';
 
 /*
   Configs for the navigation types

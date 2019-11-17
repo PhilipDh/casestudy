@@ -1,88 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {BottomNavigation, Appbar, withTheme} from 'react-native-paper';
-import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
-import {createStackNavigator} from 'react-navigation-stack';
-import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {createAppContainer} from 'react-navigation';
-import IssueList from './IssueList';
-import PaymentList from './PaymentList';
-import PaymentDetails from './PaymentDetails';
-import EditList from './edit/EditList';
-import EditAd from './edit/EditAd';
-import EditArticleList from './edit/EditArticleList';
-import EditPhotoList from './edit/EditPhotoList';
-import EditArticle from './edit/EditArticle';
-import EditPhoto from './edit/EditPhoto';
-import theme from '../styles/main.theme.js';
-import {PaymentConfig} from './config/routes.config';
-import {IssueConfig} from './config/routes.config';
-import {EditConfig} from './config/routes.config';
-import {EditTopNavConfig} from './config/routes.config';
-import {BottomTabConfig} from './config/routes.config';
-import {BottomTabRoutes} from './routes/home.routes';
-import RouteNames from './routes/RouteNames';
-
-type Props = {
-  issueTitle: string,
-  setTitle: any,
-  id: string,
-};
-
-type State = {
-  issueTitle: string,
-  setTitle: any,
-  id: string,
-};
-
-class Home extends Component<State, Props> {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      issueTitle: '',
-      setTitle: '',
-      id: '-1',
-    };
-  }
-
-  //Function to set the current Issue ID and set the Issues screens title
-  updateContext = (title, id) => {
-    this.setState({issueTitle: title});
-    this.setState({id: id});
-    this.props.navigation.setParams('issueTitle', title);
-  };
-
-  render() {
-    return (
-      <AppNavigator
-        params={{id: 1230, issueTitle: this.state.issueTitle}}
-        screenProps={{
-          updateContext: this.updateContext,
-          issueTitle: this.state.issueTitle,
-          id: this.state.id,
-        }}
-      />
-    );
-  }
-}
-
-export default withTheme(Home);
-
-/*
-Navigators for the different screens in the Apps:
-Payment, Issues and Editing
-**/
-
 const PaymentStack = createStackNavigator(
   {
     [RouteNames.PaymentList]: {
@@ -197,3 +112,42 @@ const AppNavigator = createAppContainer(bottomTabNavigator);
 const styles = StyleSheet.create({
   issueList: {},
 });
+
+//Navigation stack for the Login page
+const AuthStack = createStackNavigator(
+  {
+    [RouteNames.Login]: {
+      screen: UserLogin,
+    },
+  },
+  {
+    headerMode: 'none',
+    navigationOptions: {
+      headerVisible: false,
+    },
+  },
+);
+
+//Navigation stack for the rest of the app
+const HomeStack = createStackNavigator(
+  {
+    [RouteNames.Home]: {
+      screen: Home,
+      params: {issueTitle: 'No'},
+    },
+  },
+  {
+    headerMode: 'none',
+    navigationOptions: {
+      headerVisible: false,
+    },
+  },
+);
+
+//Switch navigator that will not allow a back navigation unlike the Stack
+const SwitchNav = createAppContainer(
+  createSwitchNavigator({
+    [RouteNames.AuthStack]: AuthStack,
+    [RouteNames.HomeStack]: HomeStack,
+  }),
+);

@@ -10,10 +10,10 @@ import {View} from 'react-native';
 import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EditListItem from './EditListItem';
-import theme from '../../styles/main.theme.js';
-import StandardList from '../dumb/common/StandardList';
-import RouteNames from '../routes/RouteNames';
-import {getArticlesByIssueUrl} from '../config/api';
+import theme from '../../../styles/main.theme.js';
+import StandardList from '../../components/common/StandardList';
+import RouteNames from '../../RouteNames';
+import {getArticlesByIssueUrl} from '../../config/api';
 
 const axios = require('axios').default;
 

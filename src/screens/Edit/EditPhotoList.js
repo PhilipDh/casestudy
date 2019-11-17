@@ -9,10 +9,10 @@ import React, {Component} from 'react';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EditListItem from './EditListItem';
-import theme from '../../styles/main.theme.js';
-import StandardList from '../dumb/common/StandardList';
-import RouteNames from '../routes/RouteNames';
-import {getPhotosByIssueUrl} from '../config/api';
+import theme from '../../../styles/main.theme.js';
+import StandardList from '../../components/common/StandardList';
+import RouteNames from '../../RouteNames';
+import {getPhotosByIssueUrl} from '../../config/api';
 
 const axios = require('axios').default;
 

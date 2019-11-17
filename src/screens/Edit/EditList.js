@@ -10,10 +10,9 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
 import EditListItem from './EditListItem';
-import DraggableFlatList from 'react-native-draggable-flatlist';
-import StandardList from '../dumb/common/StandardList';
-import RouteNames from '../routes/RouteNames';
-import {getAdsByIssueUrl} from '../config/api';
+import StandardList from '../../components/common/StandardList';
+import RouteNames from '../../RouteNames';
+import {getAdsByIssueUrl} from '../../config/api';
 const axios = require('axios').default;
 
 type Props = {

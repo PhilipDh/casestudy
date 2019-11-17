@@ -16,15 +16,15 @@ import {
   DefaultTheme,
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import AdRadioButton from '../custom/AdRadioButton';
-import theme from '../../styles/main.theme.js';
-import {getAdUrl} from '../config/api';
+import AdRadioButton from '../../components/AdRadioButton';
+import theme from '../../../styles/main.theme.js';
+import {getAdUrl} from '../../config/api';
 
 const axios = require('axios').default;
 
-const topBannerAd = require('../../assets/topBanner.png');
-const inlineAd = require('../../assets/inline.png');
-const bottomBannerAd = require('../../assets/bottomBanner.png');
+const topBannerAd = require('../../../assets/images/topBanner.png');
+const inlineAd = require('../../../assets/images/inline.png');
+const bottomBannerAd = require('../../../assets/images/bottomBanner.png');
 
 type Props = {
   placement: any,
