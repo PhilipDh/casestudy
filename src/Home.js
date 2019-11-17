@@ -7,8 +7,6 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {BottomNavigation, Appbar, withTheme} from 'react-native-paper';
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
@@ -77,7 +75,7 @@ class Home extends Component<State, Props> {
   }
 }
 
-export default withTheme(Home);
+export default Home;
 
 /*
 Navigators for the different screens in the Apps:
@@ -116,6 +114,7 @@ const IssueStack = createStackNavigator(
       params: {title: 'Issues'},
 
       navigationOptions: ({navigation}) => ({
+        //Set the title for the Navigation header based on the navigation param "title"
         title: `${navigation.state.params.title}`,
         headerStyle: {
           backgroundColor: theme.colors.priamry,
@@ -194,7 +193,3 @@ const bottomTabNavigator = createMaterialBottomTabNavigator(
 );
 
 const AppNavigator = createAppContainer(bottomTabNavigator);
-
-const styles = StyleSheet.create({
-  issueList: {},
-});

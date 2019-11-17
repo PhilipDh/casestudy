@@ -7,12 +7,10 @@
  */
 
 import React, {Component} from 'react';
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
 import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Feather';
-import {StackActions} from 'react-navigation';
-import RBSheet from 'react-native-raw-bottom-sheet';
 import theme from '../../../styles/main.theme.js';
 
 const axios = require('axios').default;
@@ -30,10 +28,6 @@ type State = {
   disabled: boolean,
   isLoading: boolean,
 };
-
-const popAction = StackActions.pop({
-  n: 1,
-});
 
 export default class PaymentDetails extends Component<Props, State> {
   static navigationOptions = ({navigation}) => {

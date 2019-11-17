@@ -8,8 +8,7 @@
 
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
-import EditListItem from './EditListItem';
+import EditListItem from '../../components/EditListItem';
 import StandardList from '../../components/common/StandardList';
 import RouteNames from '../../RouteNames';
 import {getAdsByIssueUrl} from '../../config/api';
@@ -78,17 +77,6 @@ export default class EditList extends Component<Props, State> {
       reloadList: this.reloadList,
     });
   };
-
-  _listEmptyComponent() {
-    return (
-      <View style={styles.emptyContainer}>
-        <Text style={styles.emptyListText}>There seems to be nothing here</Text>
-        <Text style={styles.reloadText} onPress={() => this.getAdList()}>
-          Reload
-        </Text>
-      </View>
-    );
-  }
 
   renderListItem = item => (
     <EditListItem

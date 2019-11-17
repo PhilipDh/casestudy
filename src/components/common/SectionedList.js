@@ -10,13 +10,13 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
-  FlatList,
   ActivityIndicator,
   StyleSheet,
   SectionList,
 } from 'react-native';
 import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
 import theme from '../../../styles/main.theme.js';
+import EmptyListComponent from './EmptyListComponent';
 
 class SectionedList extends Component {
   renderSectionHeader = section => (
@@ -24,17 +24,6 @@ class SectionedList extends Component {
       <Text style={styles.sectionText}>{section.title}</Text>
     </View>
   );
-
-  _listEmptyComponent() {
-    return (
-      <View style={styles.emptyContainer}>
-        <Text style={styles.emptyListText}>There seems to be nothing here</Text>
-        <Text style={styles.reloadText} onPress={() => this.props.reloadList()}>
-          Reload
-        </Text>
-      </View>
-    );
-  }
 
   render() {
     const {
@@ -49,7 +38,9 @@ class SectionedList extends Component {
       <View style={styles.rootContainer}>
         <SectionList
           //ItemSeparatorComponent={this.FlatListItemSeparator}
-          ListEmptyComponent={this._listEmptyComponent()}
+          ListEmptyComponent={
+            <EmptyListComponent reloadList={this.props.reloadList} />
+          }
           sections={[
             {title: 'Ads', data: data.ads},
             {title: 'Articles', data: data.articles},

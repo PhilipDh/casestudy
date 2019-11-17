@@ -7,16 +7,9 @@
  */
 
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  ActivityIndicator,
-  StyleSheet,
-} from 'react-native';
-import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
-import {Snackbar, withTheme} from 'react-native-paper';
-import IssueItem from './IssueItem';
+import {View, ActivityIndicator, StyleSheet} from 'react-native';
+import {withTheme} from 'react-native-paper';
+import IssueItem from '../../components/IssueItem';
 import theme from '../../../styles/main.theme.js';
 import StandardList from '../../components/common/StandardList';
 
@@ -57,18 +50,6 @@ class IssueList extends Component<State, Props> {
   setTitle = title => {
     this.props.navigation.setParams({title: title});
   };
-
-  //Component to be displayed when the List is empty
-  _listEmptyComponent() {
-    return (
-      <View style={styles.emptyContainer}>
-        <Text style={styles.emptyListText}>There seems to be nothing here</Text>
-        <Text style={styles.reloadText} onPress={() => this.getIssueList()}>
-          Reload
-        </Text>
-      </View>
-    );
-  }
 
   renderListItem = item => (
     <IssueItem

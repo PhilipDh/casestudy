@@ -6,15 +6,8 @@
  * @flow
  */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import {
-  Avatar,
-  Button,
-  Card,
-  Title,
-  RadioButton,
-  Snackbar,
-} from 'react-native-paper';
+import {View, Text, StyleSheet, Image} from 'react-native';
+import {Button, Snackbar} from 'react-native-paper';
 import TextInput from '../../components/common/TextInput';
 import Icon from 'react-native-vector-icons/FontAwesome';
 //import auth from '@react-native-firebase/auth';

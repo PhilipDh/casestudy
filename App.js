@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, FlatList} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {
   Snackbar,
   DefaultTheme,
@@ -17,12 +17,10 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import Home from './src/Home';
 import UserLogin from './src/screens/Login/UserLogin';
-import {withNavigation} from 'react-navigation';
 import theme from './styles/main.theme.js';
 import RouteNames from './src/RouteNames';
 import {accelerometer} from './src/custom/Accelerometer';
 import {map, filter} from 'rxjs/operators';
-import {NativeEventEmitter, NativeModules} from 'react-native';
 
 type State = {
   title: string,

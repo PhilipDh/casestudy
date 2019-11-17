@@ -28,8 +28,8 @@ const IssueStack = createStackNavigator(
     [RouteNames.IssueList]: {
       screen: IssueList,
       params: {title: 'Issues'},
-
       navigationOptions: ({navigation}) => ({
+        //Set the title for the Navigation header based on the navigation param "title"
         title: `${navigation.state.params.title}`,
         headerStyle: {
           backgroundColor: theme.colors.priamry,
@@ -145,7 +145,7 @@ const HomeStack = createStackNavigator(
 );
 
 //Switch navigator that will not allow a back navigation unlike the Stack
-const SwitchNav = createAppContainer(
+export const SwitchNav = createAppContainer(
   createSwitchNavigator({
     [RouteNames.AuthStack]: AuthStack,
     [RouteNames.HomeStack]: HomeStack,

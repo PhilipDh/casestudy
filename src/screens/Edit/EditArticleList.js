@@ -7,9 +7,9 @@
  */
 import React, {Component} from 'react';
 import {View} from 'react-native';
-import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
+import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import EditListItem from './EditListItem';
+import EditListItem from '../../components/EditListItem';
 import theme from '../../../styles/main.theme.js';
 import StandardList from '../../components/common/StandardList';
 import RouteNames from '../../RouteNames';
@@ -79,17 +79,6 @@ export default class EditArticleList extends Component<Props, State> {
   componentWillUnmount() {
     // Remove the event listener
     this.focusListener.remove();
-  }
-
-  _listEmptyComponent() {
-    return (
-      <View style={styles.emptyContainer}>
-        <Text style={styles.emptyListText}>There seems to be nothing here</Text>
-        <Text style={styles.reloadText} onPress={() => this.getArticleList()}>
-          Reload
-        </Text>
-      </View>
-    );
   }
 
   renderListItem = item => (

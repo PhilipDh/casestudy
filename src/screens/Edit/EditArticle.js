@@ -6,8 +6,8 @@
  * @flow
  */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {Avatar, Button, Card, Title} from 'react-native-paper';
+import {View, Text, StyleSheet} from 'react-native';
+import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../../styles/main.theme.js';
 import TextInput from '../../components/common/TextInput';
@@ -129,7 +129,6 @@ export default class EditArticle extends Component<State, Props> {
 
           <View style={styles.buttonContainer}>
             <Button
-              //icon={this.getIcon()}
               style={styles.saveButton}
               loading={this.state.loading}
               color={theme.colors.accent}

@@ -6,15 +6,8 @@
  * @flow
  */
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Picker,
-} from 'react-native';
-import {Avatar, Button, Card, Title, TextInput} from 'react-native-paper';
+import {View, StyleSheet, Picker} from 'react-native';
+import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
 import theme from '../../../styles/main.theme.js';

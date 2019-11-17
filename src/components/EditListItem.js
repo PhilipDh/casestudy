@@ -9,8 +9,8 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import theme from '../../../styles/main.theme';
-import common from '../../../styles/common.style';
+import theme from '../../styles/main.theme';
+import common from '../../styles/common.style';
 type Props = {
   id: string,
   title: string,

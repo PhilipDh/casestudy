@@ -6,15 +6,8 @@
  * @flow
  */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import {
-  Avatar,
-  Button,
-  Card,
-  Title,
-  RadioButton,
-  DefaultTheme,
-} from 'react-native-paper';
+import {View, Text, StyleSheet, Image} from 'react-native';
+import {RadioButton, DefaultTheme} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AdRadioButton from '../../components/AdRadioButton';
 import theme from '../../../styles/main.theme.js';
