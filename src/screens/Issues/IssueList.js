@@ -12,6 +12,7 @@ import {withTheme} from 'react-native-paper';
 import IssueItem from '../../components/IssueItem';
 import theme from '../../../styles/main.theme.js';
 import StandardList from '../../components/common/StandardList';
+import {getIssueUrl} from '../../config/api';
 
 const axios = require('axios').default;
 
@@ -38,7 +39,7 @@ class IssueList extends Component<State, Props> {
   getIssueList = () => {
     (async () => {
       try {
-        const response = await axios.get('http://10.0.2.2:3000/issue');
+        const response = await axios.get(getIssueUrl());
         this.setState({isLoading: false, data: response.data});
       } catch (error) {
         console.log(error);

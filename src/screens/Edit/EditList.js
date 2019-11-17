@@ -11,7 +11,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import EditListItem from '../../components/EditListItem';
 import StandardList from '../../components/common/StandardList';
 import RouteNames from '../../RouteNames';
-import {getAdsByIssueUrl} from '../../config/api';
+import {getEditByTypeUrl} from '../../config/api';
 const axios = require('axios').default;
 
 type Props = {
@@ -42,8 +42,7 @@ export default class EditList extends Component<Props, State> {
   updateSnackbar = () => this.setState({showSnackbar: false});
 
   getAdList() {
-    var url = getAdsByIssueUrl(this.state.id);
-    console.log(url);
+    var url = getEditByTypeUrl(this.state.id, 'ad');
     axios
       .get(url)
       .then(data => {

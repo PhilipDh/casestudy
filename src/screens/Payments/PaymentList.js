@@ -12,6 +12,7 @@ import PaymentItem from '../../components/PaymentItem';
 import theme from '../../../styles/main.theme.js';
 import RouteNames from '../../RouteNames';
 import SectionedList from '../../components/common/SectionedList';
+import {getPaymentsUrl} from '../../config/api';
 
 const axios = require('axios').default;
 
@@ -70,9 +71,7 @@ export default class PaymentList extends Component<State, Props> {
       var pId = this.props.screenProps.id;
       (async () => {
         try {
-          const response = await axios.get(
-            'http://10.0.2.2:3000/payment/' + this.state.id,
-          );
+          const response = await axios.get(getPaymentsUrl(this.state.id));
           this.setState({data: response.data, isLoading: false});
         } catch (error) {
           this.setState({

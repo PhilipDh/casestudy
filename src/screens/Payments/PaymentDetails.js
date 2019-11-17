@@ -12,6 +12,7 @@ import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
 import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Feather';
 import theme from '../../../styles/main.theme.js';
+import {API_URL, getUpdatePaymentUrl} from '../../config/api';
 
 const axios = require('axios').default;
 
@@ -86,15 +87,15 @@ export default class PaymentDetails extends Component<Props, State> {
   updatePayment() {
     this.setState({loading: true});
 
-    var url = 'http://10.0.2.2:3000/ad/' + this.state.data._id;
+    var url = '';
     var content = {};
     switch (this.state.type) {
       case 'Ad':
-        url = 'http://10.0.2.2:3000/ad/' + this.state.data._id;
-        content = {placement: this.state.data.placement, payed: 'true'};
+        url = getUpdatePaymentUrl(this.state.data._id, 'ad');
+        content = {payed: 'true'};
         break;
       case 'Article':
-        url = 'http://10.0.2.2:3000/article/' + this.state.data._id;
+        url = getUpdatePaymentUrl(this.state.data._id, 'article');
         content = {
           title: this.state.data.title,
           content: this.state.data.content,
@@ -102,7 +103,7 @@ export default class PaymentDetails extends Component<Props, State> {
         };
         break;
       case 'Photograph':
-        url = 'http://10.0.2.2:3000/photograph/' + this.state.data._id;
+        url = getUpdatePaymentUrl(this.state.data._id, 'photo');
         content = {size: this.state.data.size, payed: 'true'};
         break;
       default:
@@ -126,12 +127,9 @@ export default class PaymentDetails extends Component<Props, State> {
   }
 
   componentDidMount() {
-    console.log(this.state.id);
+    console.log(API_URL);
     var url =
-      'http://10.0.2.2:3000/' +
-      this.state.type.toLowerCase() +
-      '/' +
-      this.state.id;
+      API_URL + '/' + this.state.type.toLowerCase() + '/' + this.state.id;
 
     axios
       .get(url)

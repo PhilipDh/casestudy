@@ -13,7 +13,7 @@ import EditListItem from '../../components/EditListItem';
 import theme from '../../../styles/main.theme.js';
 import StandardList from '../../components/common/StandardList';
 import RouteNames from '../../RouteNames';
-import {getArticlesByIssueUrl} from '../../config/api';
+import {getEditByTypeUrl} from '../../config/api';
 
 const axios = require('axios').default;
 
@@ -49,8 +49,7 @@ export default class EditArticleList extends Component<Props, State> {
   };
 
   getArticleList() {
-    var url = getArticlesByIssueUrl(this.state.id);
-    console.log(url);
+    var url = getEditByTypeUrl(this.state.id, 'article');
     axios
       .get(url)
       .then(data => {

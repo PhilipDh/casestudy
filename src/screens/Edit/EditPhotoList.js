@@ -12,7 +12,7 @@ import EditListItem from '../../components/EditListItem';
 import theme from '../../../styles/main.theme.js';
 import StandardList from '../../components/common/StandardList';
 import RouteNames from '../../RouteNames';
-import {getPhotosByIssueUrl} from '../../config/api';
+import {getEditByTypeUrl} from '../../config/api';
 
 const axios = require('axios').default;
 
@@ -51,8 +51,7 @@ export default class EditPhotoList extends Component<Props, State> {
   };
 
   getPhotoList() {
-    var url = getPhotosByIssueUrl(this.state.id);
-    console.log(url);
+    var url = getEditByTypeUrl(this.state.id, 'photo');
     axios
       .get(url)
       .then(data => {
