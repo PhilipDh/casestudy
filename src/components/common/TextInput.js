@@ -11,10 +11,14 @@ class TextArea extends Component {
       onTextChange,
       text,
       label,
+      keyboardType,
       ...extraProps
     } = this.props;
+
+    const style = [styles.textInput, this.props.inputStyle];
     return (
       <TextInput
+        keyboardType={keyboardType ? keyboardType : 'default'}
         label={label}
         value={text}
         placeholder={label}
@@ -23,7 +27,7 @@ class TextArea extends Component {
         multiline={multiline ? multiline : false}
         secureTextEntry={secure}
         theme={{...DefaultTheme, colors: {text: 'black'}}}
-        style={styles.textInput}
+        style={style}
       />
     );
   }

@@ -24,6 +24,10 @@ export default {
   EditArticle: 'EditArticle',
   EditPhoto: 'EditPhoto',
 
+  AddAd: 'AddAd',
+  AddArticle: 'AddArticle',
+  AddPhoto: 'AddPhoto',
+
   EditAdList: 'EditAdList',
   EditPhotoList: 'EditPhotoList',
   EditArticleList: 'EditArticleList',

@@ -33,7 +33,11 @@ export default class IssueItem extends Component<Props> {
       <TouchableRipple
         rippleColor={'white'}
         onPress={() => {
-          this.props.updateContext(this.props.title, this.props.id);
+          this.props.updateContext(
+            this.props.title,
+            this.props.id,
+            this.props.date,
+          );
           this.props.setTitle(this.props.title);
         }}>
         <View style={styles.container}>

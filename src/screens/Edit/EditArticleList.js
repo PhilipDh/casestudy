@@ -6,8 +6,8 @@
  * @flow
  */
 import React, {Component} from 'react';
-import {View} from 'react-native';
-import {Button} from 'react-native-paper';
+import {View, StyleSheet} from 'react-native';
+import {Button, FAB} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EditListItem from '../../components/EditListItem';
 import theme from '../../../styles/main.theme.js';
@@ -44,6 +44,13 @@ export default class EditArticleList extends Component<Props, State> {
   navigateToEdit = id => {
     this.props.navigation.navigate(RouteNames.EditArticle, {
       id: id,
+      reloadList: this.reloadList,
+    });
+  };
+
+  navigateToAdd = () => {
+    this.props.navigation.navigate(RouteNames.AddArticle, {
+      id: this.state.id,
       reloadList: this.reloadList,
     });
   };
@@ -94,14 +101,33 @@ export default class EditArticleList extends Component<Props, State> {
       return <View></View>;
     } else {
       return (
-        <StandardList
-          data={this.state.data}
-          reloadList={this.reloadList}
-          renderItem={this.renderListItem}
-          updateSnackbar={this.updateSnackbar}
-          showSnackbar={this.state.showSnackbar}
-        />
+        <View style={styles.rootContainer}>
+          <StandardList
+            data={this.state.data}
+            reloadList={this.reloadList}
+            renderItem={this.renderListItem}
+            updateSnackbar={this.updateSnackbar}
+            showSnackbar={this.state.showSnackbar}
+          />
+          <FAB
+            style={styles.fab}
+            icon="plus"
+            onPress={() => this.navigateToAdd()}
+          />
+        </View>
       );
     }
   }
 }
+
+const styles = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
+});

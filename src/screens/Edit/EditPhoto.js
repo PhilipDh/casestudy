@@ -7,12 +7,13 @@
  */
 import React, {Component} from 'react';
 import {View, StyleSheet, Picker} from 'react-native';
-import {Button} from 'react-native-paper';
+//import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
 import theme from '../../../styles/main.theme.js';
 import {getPhotoUrl, getUploadUrl, getPhotoLocationUrl} from '../../config/api';
 import ImageView from '../../components/common/ImageView';
+import Button from '../../components/common/Button';
 
 const axios = require('axios').default;
 
@@ -118,7 +119,7 @@ export default class EditPhoto extends Component<Props, State> {
       });
   };
 
-  updatePhoto() {
+  updatePhoto = () => {
     if (this.state.uploadPhoto != null) {
       console.log('photo changed');
       this.handleUploadPhoto();
@@ -143,7 +144,7 @@ export default class EditPhoto extends Component<Props, State> {
         console.log(err);
         return null;
       });
-  }
+  };
 
   render() {
     const {photoLocation} = this.state;
@@ -152,22 +153,23 @@ export default class EditPhoto extends Component<Props, State> {
         <View style={styles.imageContainer}>
           {photoLocation && (
             <ImageView
-              getPhotoLocationUrl={getPhotoLocationUrl}
-              photoLocation={photoLocation}
+              photoLocation={getPhotoLocationUrl(photoLocation)}
               cacheType={'reload'}
               width={300}
               height={300}
             />
           )}
           <Button
-            //icon={this.getIcon()}
-            style={styles.saveButton}
-            loading={this.state.loading}
-            color={theme.colors.accent}
-            mode={'contained'}
-            onPress={() => this.handleChoosePhoto()}>
-            Choose Photo
-          </Button>
+            buttonStyle={{
+              padding: 8,
+              margin: 10,
+              //width: 120,
+              borderRadius: 4,
+              backgroundColor: theme.colors.accent,
+            }}
+            text={'Change Photo'}
+            onPress={this.handleChoosePhoto}
+          />
         </View>
         <View style={styles.textContainer}>
           <Picker
@@ -180,15 +182,19 @@ export default class EditPhoto extends Component<Props, State> {
             <Picker.Item label="400x400" value="400x400" />
           </Picker>
         </View>
-        <Button
-          //icon={this.getIcon()}
-          style={styles.saveButton}
-          loading={this.state.loading}
-          color={theme.colors.accent}
-          mode={'contained'}
-          onPress={() => this.updatePhoto()}>
-          Upload
-        </Button>
+        <View style={styles.buttonContainer}>
+          <Button
+            buttonStyle={{
+              padding: 8,
+              //width: 120,
+              //flex: 1,
+              borderRadius: 4,
+              backgroundColor: theme.colors.accent,
+            }}
+            text={'Upload'}
+            onPress={this.updatePhoto}
+          />
+        </View>
       </View>
     );
   }
@@ -208,7 +214,8 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     flex: 1,
-    alignItems: 'center',
+    //alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   saveButton: {margin: 10},
 });

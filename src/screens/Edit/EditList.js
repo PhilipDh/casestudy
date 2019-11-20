@@ -8,6 +8,8 @@
 
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {FAB, Provider, Portal} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/Feather';
 import EditListItem from '../../components/EditListItem';
 import StandardList from '../../components/common/StandardList';
 import RouteNames from '../../RouteNames';
@@ -25,6 +27,7 @@ type State = {
   id: string,
   isLoading: boolean,
   showSnackbar: boolean,
+  open: false,
 };
 
 export default class EditList extends Component<Props, State> {
@@ -77,6 +80,13 @@ export default class EditList extends Component<Props, State> {
     });
   };
 
+  navigateToAdd = () => {
+    this.props.navigation.navigate(RouteNames.AddAd, {
+      id: this.state.id,
+      reloadList: this.reloadList,
+    });
+  };
+
   renderListItem = item => (
     <EditListItem
       title={item.title}
@@ -95,13 +105,20 @@ export default class EditList extends Component<Props, State> {
       );
     } else {
       return (
-        <StandardList
-          data={this.state.data}
-          reloadList={this.reloadList}
-          renderItem={this.renderListItem}
-          updateSnackbar={this.updateSnackbar}
-          showSnackbar={this.state.showSnackbar}
-        />
+        <View style={{flex: 1}}>
+          <StandardList
+            data={this.state.data}
+            reloadList={this.reloadList}
+            renderItem={this.renderListItem}
+            updateSnackbar={this.updateSnackbar}
+            showSnackbar={this.state.showSnackbar}
+          />
+          <FAB
+            style={styles.fab}
+            icon="plus"
+            onPress={() => this.navigateToAdd()}
+          />
+        </View>
       );
     }
   }
@@ -110,5 +127,11 @@ export default class EditList extends Component<Props, State> {
 const styles = StyleSheet.create({
   rootContainer: {
     padding: 5,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
 });

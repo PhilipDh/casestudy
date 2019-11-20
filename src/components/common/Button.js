@@ -1,0 +1,72 @@
+import React, {Component} from 'react';
+import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
+import theme from '../../../styles/main.theme';
+
+class Button extends Component {
+  renderIcon = icon => {
+    if (!icon) return;
+    return (
+      <Icon name={icon} color={'grey'} size={18} style={{paddingRight: 5}} />
+    );
+  };
+
+  render() {
+    const {text, disabled} = this.props;
+
+    const buttonProps = {};
+
+    const style = [
+      styles.buttonStyle,
+      this.props.buttonStyle,
+      disabled ? styles.disabledButtonStyle : null,
+    ];
+
+    const textStyle = [
+      styles.textStyle,
+      this.props.textStyle,
+      disabled ? styles.disabledTextStyle : null,
+    ];
+
+    if (!disabled) {
+      (buttonProps.onPress = this.props.onPress),
+        (buttonProps.onLongPress = this.props.onLongPress);
+    }
+
+    return (
+      <TouchableOpacity {...buttonProps} style={style}>
+        {this.renderIcon(this.props.icon)}
+        <Text style={textStyle}>{text.toUpperCase()}</Text>
+      </TouchableOpacity>
+    );
+  }
+}
+
+export default Button;
+
+const styles = StyleSheet.create({
+  buttonStyle: {
+    backgroundColor: theme.colors.accent,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  textStyle: {
+    color: theme.setContrast(theme.colors.primary),
+    fontSize: 16,
+    fontWeight: '500',
+    textAlign: 'center',
+    letterSpacing: 1,
+  },
+
+  disabledButtonStyle: {
+    borderWidth: 1,
+    borderColor: '#565656',
+    backgroundColor: 'transparent',
+  },
+
+  disabledTextStyle: {
+    color: '#565656',
+  },
+});

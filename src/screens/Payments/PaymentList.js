@@ -63,6 +63,7 @@ export default class PaymentList extends Component<State, Props> {
     this.props.navigation.navigate(RouteNames.PaymentDetails, {
       id: data._id,
       type: type,
+      date: this.props.screenProps.releaseDate,
     });
   };
 
@@ -95,6 +96,7 @@ export default class PaymentList extends Component<State, Props> {
   }
 
   componentDidMount() {
+    console.log(this.props.screenProps.releaseDate);
     this.getPaymentList();
     //Listener that will be called whenver the Payment list is in focus
     //It will load the payment list in case the issue has changed

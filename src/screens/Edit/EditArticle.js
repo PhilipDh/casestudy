@@ -7,11 +7,12 @@
  */
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {Button} from 'react-native-paper';
+//import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../../styles/main.theme.js';
 import TextInput from '../../components/common/TextInput';
 import {getArticleUrl} from '../../config/api';
+import Button from '../../components/common/Button';
 const axios = require('axios').default;
 
 type Props = {
@@ -51,14 +52,15 @@ export default class EditArticle extends Component<State, Props> {
 
   setContent = text => this.setState({content: text});
 
-  updateArticle(title, content) {
+  updateArticle = (title, content) => {
     this.setState({loading: true});
 
     var url = getArticleUrl(this.state.id);
     var body = {
-      title: title,
-      content: content,
-      payed: this.state.data.payed,
+      title: this.state.title,
+      content: this.state.content,
+      //Has to be called to string because of request constraints
+      payed: this.state.data.payed.toString(),
     };
 
     //TODO SHow toast if content is empty -> error
@@ -76,7 +78,7 @@ export default class EditArticle extends Component<State, Props> {
         console.log(err);
         return null;
       });
-  }
+  };
 
   componentDidMount() {
     var url = getArticleUrl(this.state.id);
@@ -129,15 +131,15 @@ export default class EditArticle extends Component<State, Props> {
 
           <View style={styles.buttonContainer}>
             <Button
-              style={styles.saveButton}
-              loading={this.state.loading}
-              color={theme.colors.accent}
-              mode={'contained'}
-              onPress={() =>
-                this.updateArticle(this.state.title, this.state.content)
-              }>
-              Save
-            </Button>
+              buttonStyle={{
+                padding: 8,
+                width: 120,
+                borderRadius: 4,
+                backgroundColor: theme.colors.accent,
+              }}
+              text={'Save'}
+              onPress={this.updateArticle}
+            />
           </View>
         </View>
       );
@@ -153,6 +155,7 @@ const styles = StyleSheet.create({
   titleContainer: {},
   contentContainer: {},
   buttonContainer: {
-    justifyContent: 'flex-end',
+    //justifyContent: 'flex-end',
+    alignItems: 'center',
   },
 });

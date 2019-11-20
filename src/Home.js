@@ -21,6 +21,9 @@ import EditArticleList from './screens/Edit/EditArticleList';
 import EditPhotoList from './screens/Edit/EditPhotoList';
 import EditArticle from './screens/Edit/EditArticle';
 import EditPhoto from './screens/Edit/EditPhoto';
+import AddAd from './screens/Add/AddAd';
+import AddArticle from './screens/Add/AddArticle';
+import AddPhoto from './screens/Add/AddPhoto';
 import theme from '../styles/main.theme.js';
 import {
   PaymentConfig,
@@ -41,6 +44,7 @@ type State = {
   issueTitle: string,
   setTitle: any,
   id: string,
+  releaseDate: string,
 };
 
 class Home extends Component<State, Props> {
@@ -51,13 +55,14 @@ class Home extends Component<State, Props> {
       issueTitle: '',
       setTitle: '',
       id: '-1',
+      releaseDate: '',
     };
   }
 
   //Function to set the current Issue ID and set the Issues screens title
-  updateContext = (title, id) => {
-    this.setState({issueTitle: title});
-    this.setState({id: id});
+  updateContext = (title, id, date) => {
+    this.setState({issueTitle: title, id: id, releaseDate: date});
+
     this.props.navigation.setParams('issueTitle', title);
   };
 
@@ -69,6 +74,7 @@ class Home extends Component<State, Props> {
           updateContext: this.updateContext,
           issueTitle: this.state.issueTitle,
           id: this.state.id,
+          releaseDate: this.state.releaseDate,
         }}
       />
     );
@@ -166,6 +172,19 @@ const EditStack = createStackNavigator(
     },
     [RouteNames.EditPhoto]: {
       screen: EditPhoto,
+    },
+    [RouteNames.AddAd]: {
+      screen: AddAd,
+      navigationOptions: ({navigation}) => ({
+        //Set the title for the Navigation header based on the navigation param "title"
+        title: 'Add an Ad',
+      }),
+    },
+    [RouteNames.AddArticle]: {
+      screen: AddArticle,
+    },
+    [RouteNames.AddPhoto]: {
+      screen: AddPhoto,
     },
   },
   EditConfig,

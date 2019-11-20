@@ -9,6 +9,16 @@ export const getArticleUrl = id => `${API_URL}/article/${id}`;
 export const getPhotoUrl = id => `${API_URL}/photograph/${id}`;
 export const getUploadUrl = () => `${API_URL}/upload`;
 
+export const getCompaniesUrl = () => `${API_URL}/company`;
+export const addAdUrl = id => `${API_URL}/add/ad/${id}`;
+
+export const getPeopleUrl = () => `${API_URL}/person`;
+export const getArticleByIssueUrl = () => `${API_URL}/person`;
+
+export const addArticleUrl = id => `${API_URL}/add/article/${id}`;
+
+export const addPhotoUrl = id => `${API_URL}/add/photo/${id}`;
+
 export const getPhotoLocationUrl = location => `${API_URL}/${location}`;
 
 export const getEditByTypeUrl = (id, type) =>

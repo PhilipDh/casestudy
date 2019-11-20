@@ -5,18 +5,13 @@ import AndroidImage from './AndroidImage';
 
 class ImageView extends Component {
   render() {
-    const {
-      getPhotoLocationUrl,
-      photoLocation,
-      cacheType,
-      width,
-      height,
-    } = this.props;
+    const {photoLocation, cacheType, width, height} = this.props;
+
     if (Platform.OS === 'ios') {
       return (
         <Image
           source={{
-            uri: getPhotoLocationUrl(photoLocation),
+            uri: photoLocation,
             cache: cacheType,
           }}
           style={{width: width, height: height}}
@@ -25,7 +20,7 @@ class ImageView extends Component {
     } else {
       return (
         <AndroidImage
-          src={getPhotoLocationUrl(photoLocation)}
+          src={photoLocation}
           style={{width: width, height: height}}
         />
       );

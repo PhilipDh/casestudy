@@ -7,12 +7,13 @@
  */
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
-import {Button, Snackbar} from 'react-native-paper';
+import {Snackbar} from 'react-native-paper';
 import TextInput from '../../components/common/TextInput';
 import Icon from 'react-native-vector-icons/FontAwesome';
 //import auth from '@react-native-firebase/auth';
 import theme from '../../../styles/main.theme';
 import RouteNames from '../../RouteNames';
+import Button from '../../components/common/Button';
 
 const logo = require('../../../assets/images/itInTheValley.png');
 const axios = require('axios').default;
@@ -40,9 +41,9 @@ export default class UserLogin extends Component<State> {
     };
   }
 
-  navigateToHome() {
+  navigateToHome = () => {
     this.props.navigation.navigate('Home');
-  }
+  };
 
   handleLogin = () => {
     const {username, password} = this.state;
@@ -90,23 +91,29 @@ export default class UserLogin extends Component<State> {
           </View>
           <View style={styles.buttonContainer}>
             <Button
-              //icon={this.getIcon()}
-              style={styles.saveButton}
-              loading={this.state.loading}
-              color={theme.colors.accent}
-              mode={'contained'}
-              onPress={() => this.navigateToHome()}>
-              Home
-            </Button>
+              onPress={this.navigateToHome}
+              text={'Home'}
+              buttonStyle={{
+                padding: 8,
+                //width: 120,
+                borderRadius: 4,
+                backgroundColor: theme.colors.accent,
+                margin: 10,
+                flex: 1,
+              }}
+            />
             <Button
-              //icon={this.getIcon()}
-              style={styles.saveButton}
-              loading={this.state.loading}
-              color={theme.colors.accent}
-              mode={'contained'}
-              onPress={() => this.handleLogin()}>
-              Login
-            </Button>
+              onPress={this.handleLogin}
+              text={'Login'}
+              buttonStyle={{
+                padding: 8,
+                //width: 120,
+                borderRadius: 4,
+                backgroundColor: theme.colors.accent,
+                margin: 10,
+                flex: 1,
+              }}
+            />
           </View>
         </View>
         <Snackbar
@@ -176,3 +183,15 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.accent,
   },
 });
+
+/*
+<Button
+              //icon={this.getIcon()}
+              style={styles.saveButton}
+              loading={this.state.loading}
+              color={theme.colors.accent}
+              mode={'contained'}
+              onPress={() => this.handleLogin()}>
+              Login
+            </Button>
+*/

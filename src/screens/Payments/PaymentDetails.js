@@ -9,10 +9,12 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
-import {Button} from 'react-native-paper';
+//import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Feather';
 import theme from '../../../styles/main.theme.js';
 import {API_URL, getUpdatePaymentUrl} from '../../config/api';
+import {formatDate} from '../../../utils/formatting';
+import Button from '../../components/common/Button';
 
 const axios = require('axios').default;
 
@@ -28,6 +30,7 @@ type State = {
   loading: boolean,
   disabled: boolean,
   isLoading: boolean,
+  date: string,
 };
 
 export default class PaymentDetails extends Component<Props, State> {
@@ -47,19 +50,8 @@ export default class PaymentDetails extends Component<Props, State> {
       loading: false,
       disabled: false,
       id: this.props.navigation.getParam('id'),
+      date: this.props.navigation.getParam('date'),
     };
-  }
-
-  //Determine the screens properties based on the current item type
-  getButtonText() {
-    var result = '';
-
-    if (this.state.type == 'Ad') {
-      result = this.state.data.payed ? 'Payed' : 'Pending';
-    } else {
-      result = this.state.data.payed ? 'Payed' : 'Pay';
-    }
-    return result;
   }
 
   getButtonColor() {
@@ -84,7 +76,31 @@ export default class PaymentDetails extends Component<Props, State> {
     return result;
   }
 
-  updatePayment() {
+  getDate() {
+    if (this.state.type == 'Ad') {
+      return formatDate(this.state.date, true);
+    }
+    return formatDate(this.state.date);
+  }
+
+  //Determine the screens properties based on the current item type
+  getButtonText() {
+    var result = '';
+
+    if (this.state.type == 'Ad') {
+      result = this.state.data.payed ? 'Payed' : 'Pending';
+      //this.setState({disabled: true});
+      if (this.getDate() < new Date(this.state.date).getMonth()) {
+        result = 'Escalate';
+        //this.setState({disabled: false});
+      }
+    } else {
+      result = this.state.data.payed ? 'Payed' : 'Pay';
+    }
+    return result;
+  }
+
+  updatePayment = () => {
     this.setState({loading: true});
 
     var url = '';
@@ -97,14 +113,12 @@ export default class PaymentDetails extends Component<Props, State> {
       case 'Article':
         url = getUpdatePaymentUrl(this.state.data._id, 'article');
         content = {
-          title: this.state.data.title,
-          content: this.state.data.content,
           payed: 'true',
         };
         break;
       case 'Photograph':
         url = getUpdatePaymentUrl(this.state.data._id, 'photo');
-        content = {size: this.state.data.size, payed: 'true'};
+        content = {payed: 'true'};
         break;
       default:
     }
@@ -124,10 +138,11 @@ export default class PaymentDetails extends Component<Props, State> {
         console.log(err);
         return null;
       });
-  }
+  };
 
   componentDidMount() {
     console.log(API_URL);
+
     var url =
       API_URL + '/' + this.state.type.toLowerCase() + '/' + this.state.id;
 
@@ -136,7 +151,14 @@ export default class PaymentDetails extends Component<Props, State> {
       .then(data => {
         this.setState(
           {data: data.data, isLoading: false, disabled: data.data.payed},
-          function() {},
+          function() {
+            //If the details page is an ad change the button based on the status of the payment
+            if (this.state.type == 'Ad') {
+              if (this.getDate() < new Date(this.state.date).getMonth())
+                this.setState({disabled: false});
+              else this.setState({disabled: true});
+            }
+          },
         );
       })
       .catch(err => {
@@ -160,24 +182,24 @@ export default class PaymentDetails extends Component<Props, State> {
             <Text style={styles.contentText}>
               Payment: {this.state.data.payment}
             </Text>
-            <Text style={styles.contentText}>Due: 31/10/19</Text>
+            <Text style={styles.contentText}>Due: {this.getDate()}</Text>
             <Text style={styles.contentText}>
               Owner: {this.state.data.owner.name}
             </Text>
           </View>
           <View style={styles.buttonContainer}>
             <Button
+              onPress={this.updatePayment}
               icon={this.getIcon()}
-              style={
-                this.state.type == 'Ad' ? styles.adButton : styles.generalButton
-              }
-              loading={this.state.loading}
               disabled={this.state.disabled}
-              color={this.getButtonColor()}
-              mode={this.state.type == 'Ad' ? 'outlined' : 'contained'}
-              onPress={() => this.updatePayment()}>
-              {this.getButtonText()}
-            </Button>
+              text={this.getButtonText()}
+              buttonStyle={{
+                padding: 8,
+                width: 120,
+                borderRadius: 15,
+                backgroundColor: theme.colors.primary,
+              }}
+            />
           </View>
         </View>
       );
@@ -235,3 +257,19 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
 });
+
+/*
+
+            <Button
+              icon={this.getIcon()}
+              style={
+                this.state.type == 'Ad' ? styles.adButton : styles.generalButton
+              }
+              loading={this.state.loading}
+              disabled={this.state.disabled}
+              color={this.getButtonColor()}
+              mode={this.state.type == 'Ad' ? 'outlined' : 'contained'}
+              onPress={() => this.updatePayment()}>
+              {this.getButtonText()}
+            </Button>
+*/
