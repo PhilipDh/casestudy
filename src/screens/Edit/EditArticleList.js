@@ -13,6 +13,7 @@ import EditListItem from '../../components/EditListItem';
 import theme from '../../../styles/main.theme.js';
 import StandardList from '../../components/common/StandardList';
 import RouteNames from '../../RouteNames';
+import {dateDiff} from '../../../utils/formatting';
 import {getEditByTypeUrl} from '../../config/api';
 
 const axios = require('axios').default;
@@ -25,6 +26,7 @@ type State = {
   id: string,
   dataChanged: boolean,
   showSnackbar: boolean,
+  editable: boolean,
 };
 
 export default class EditArticleList extends Component<Props, State> {
@@ -37,6 +39,8 @@ export default class EditArticleList extends Component<Props, State> {
       id: props.screenProps.id,
       dataChanged: true,
       showSnackbar: false,
+      editable: dateDiff(props.screenProps.releaseDate, 1),
+      issueDate: props.screenProps.releaseDate,
     };
   }
   updateSnackbar = () => this.setState({showSnackbar: false});

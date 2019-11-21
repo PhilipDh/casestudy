@@ -13,6 +13,7 @@ import theme from '../../../styles/main.theme.js';
 import TextInput from '../../components/common/TextInput';
 import {getArticleUrl, getCompaniesUrl, addAdUrl} from '../../config/api';
 import Button from '../../components/common/Button';
+import RouteNames from '../../RouteNames';
 
 const axios = require('axios').default;
 
@@ -65,6 +66,10 @@ export default class AddAd extends Component<State, Props> {
         .then(data => {
           this.state.reloadList();
           this.props.navigation.goBack();
+          this.props.navigation.navigate(RouteNames.EditAd, {
+            id: data.data._id,
+            reloadList: this.state.reloadList,
+          });
         })
         .catch(err => {
           //this.setState({data: [], isLoading: false, showSnackbar: true});

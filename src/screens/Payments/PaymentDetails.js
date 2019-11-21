@@ -13,7 +13,7 @@ import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Feather';
 import theme from '../../../styles/main.theme.js';
 import {API_URL, getUpdatePaymentUrl} from '../../config/api';
-import {formatDate} from '../../../utils/formatting';
+import {formatDate, dateDiff} from '../../../utils/formatting';
 import Button from '../../components/common/Button';
 
 const axios = require('axios').default;
@@ -90,7 +90,8 @@ export default class PaymentDetails extends Component<Props, State> {
     if (this.state.type == 'Ad') {
       result = this.state.data.payed ? 'Payed' : 'Pending';
       //this.setState({disabled: true});
-      if (this.getDate() < new Date(this.state.date).getMonth()) {
+      console.log(dateDiff(this.state.date));
+      if (dateDiff(this.state.date)) {
         result = 'Escalate';
         //this.setState({disabled: false});
       }
@@ -154,8 +155,7 @@ export default class PaymentDetails extends Component<Props, State> {
           function() {
             //If the details page is an ad change the button based on the status of the payment
             if (this.state.type == 'Ad') {
-              if (this.getDate() < new Date(this.state.date).getMonth())
-                this.setState({disabled: false});
+              if (dateDiff(this.state.date)) this.setState({disabled: false});
               else this.setState({disabled: true});
             }
           },

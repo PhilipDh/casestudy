@@ -40,12 +40,22 @@ class IssueList extends Component<State, Props> {
     (async () => {
       try {
         const response = await axios.get(getIssueUrl());
-        this.setState({isLoading: false, data: response.data});
+        this.setState({
+          isLoading: false,
+          data: response.data,
+        });
       } catch (error) {
         console.log(error);
         this.setState({isLoading: false, data: [], showSnackbar: true});
       }
     })();
+  };
+
+  updateProperties = (title, id, date) => {
+    this.setTitle(title);
+    this.props.screenProps.id = id;
+    this.props.screenProps.issueTitle = title;
+    this.props.screenProps.releaseDate = date;
   };
 
   setTitle = title => {
@@ -57,7 +67,8 @@ class IssueList extends Component<State, Props> {
       title={item.title}
       date={item.releaseDate}
       id={item._id}
-      updateContext={this.props.screenProps.updateContext}
+      //updateContext={this.props.screenProps.updateContext}
+      updateContext={this.updateProperties}
       setTitle={this.setTitle}
     />
   );

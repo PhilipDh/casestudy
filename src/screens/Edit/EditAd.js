@@ -55,7 +55,7 @@ export default class EditAd extends Component<State, Props> {
     var url = getAdUrl(this.state.id);
     var body = {
       placement: this.state.placement,
-      payed: this.state.payed,
+      payed: this.state.payed.toString(),
     };
 
     //TODO SHow toast if content is empty -> error

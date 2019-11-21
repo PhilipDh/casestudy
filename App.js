@@ -19,6 +19,7 @@ import Home from './src/Home';
 import UserLogin from './src/screens/Login/UserLogin';
 import theme from './styles/main.theme.js';
 import RouteNames from './src/RouteNames';
+import {AppNavigator} from './src/Routes';
 import {accelerometer} from './src/custom/Accelerometer';
 import {map, filter} from 'rxjs/operators';
 
@@ -38,7 +39,11 @@ export default class App extends Component<Props, State> {
       title: 'IT in the Valley',
       id: -1,
       showSnackbar: false,
+      issueTitle: '',
+      releaseDate: '',
     };
+
+    console.disableYellowBox = true;
   }
 
   componentDidMount() {
@@ -50,12 +55,26 @@ export default class App extends Component<Props, State> {
 
   updateSnackbar = () => this.setState({showSnackbar: false});
 
-  setTitle = (title, id) => this.setState({title: title, id: id});
+  //setTitle = (title, id) => this.setState({title: title, id: id});
+  /*
+  updateContext = (title, id, date) => {
+    this.setState({issueTitle: title, id: id, releaseDate: date});
+  };
+*/
+  //<SwitchNav />
 
   render() {
     return (
       <PaperProvider theme={themes}>
-        <SwitchNav />
+        <AppNavigator
+          params={{id: 1230, issueTitle: this.state.issueTitle}}
+          screenProps={{
+            //updateContext: this.updateContext,
+            issueTitle: this.state.issueTitle,
+            id: this.state.id,
+            releaseDate: this.state.releaseDate,
+          }}
+        />
         <Snackbar
           theme={{...DefaultTheme, colors: {accent: 'white'}}}
           style={styles.snackbar}
@@ -87,45 +106,6 @@ const themes = {
     text: theme.setContrast(theme.colors.primary),
   },
 };
-
-//Navigation stack for the Login page
-const AuthStack = createStackNavigator(
-  {
-    [RouteNames.Login]: {
-      screen: UserLogin,
-    },
-  },
-  {
-    headerMode: 'none',
-    navigationOptions: {
-      headerVisible: false,
-    },
-  },
-);
-
-//Navigation stack for the rest of the app
-const HomeStack = createStackNavigator(
-  {
-    [RouteNames.Home]: {
-      screen: Home,
-      params: {issueTitle: 'No'},
-    },
-  },
-  {
-    headerMode: 'none',
-    navigationOptions: {
-      headerVisible: false,
-    },
-  },
-);
-
-//Switch navigator that will not allow a back navigation unlike the Stack
-const SwitchNav = createAppContainer(
-  createSwitchNavigator({
-    [RouteNames.AuthStack]: AuthStack,
-    [RouteNames.HomeStack]: HomeStack,
-  }),
-);
 
 const styles = StyleSheet.create({
   snackbar: {

@@ -13,6 +13,7 @@ import theme from '../../../styles/main.theme.js';
 import TextInput from '../../components/common/TextInput';
 import {getArticleUrl, getPeopleUrl, addArticleUrl} from '../../config/api';
 import Button from '../../components/common/Button';
+import RouteNames from '../../RouteNames';
 
 const axios = require('axios').default;
 

@@ -46,6 +46,7 @@ export default class EditArticle extends Component<State, Props> {
       content: '',
       reloadList: this.props.navigation.getParam('reloadList'),
     };
+    console.log(this.props.navigation);
   }
 
   setTitle = text => this.setState({title: text});

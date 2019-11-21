@@ -6,7 +6,13 @@
  * @flow
  */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../styles/main.theme';

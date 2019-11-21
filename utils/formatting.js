@@ -18,11 +18,9 @@ export const formatDate = (date, ad = false) => {
   }
 };
 
-export const dateDiff = date => {
-  var now = new Date.now();
+export const dateDiff = (date, difference = 60) => {
+  var now = Date.now();
   var due = new Date(date);
 
-  return (
-    now.getMonth() + 12 * now.getFullYear() - (due.getMonth() + 12 * due.get)
-  );
+  return Math.floor((now - due) / (1000 * 60 * 60 * 24)) > difference;
 };
