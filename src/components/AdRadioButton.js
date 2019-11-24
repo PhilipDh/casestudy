@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
-import {Image, View} from 'react-native';
+import {Image, View, StyleSheet} from 'react-native';
 import {RadioButton, Text} from 'react-native-paper';
 
+/*
+
+  Radio Button group that will be displayed in
+*/
 type State = {
   value: any,
 };
@@ -20,7 +24,7 @@ export default class AdRadioButton extends Component {
       <RadioButton.Group
         onValueChange={value => this.setState({value})}
         value={this.state.value}>
-        <View style={{flexDirection: 'column'}}>
+        <View style={styles.radioButtonGroup}>
           <Text>First</Text>
           <RadioButton value="first" />
         </View>
@@ -32,3 +36,9 @@ export default class AdRadioButton extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  radioButtonGroup: {
+    flexDirection: 'column',
+  },
+});

@@ -15,7 +15,6 @@ import {
 } from 'react-native-paper';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
-import Home from './src/Home';
 import UserLogin from './src/screens/Login/UserLogin';
 import theme from './styles/main.theme.js';
 import RouteNames from './src/RouteNames';
@@ -47,34 +46,22 @@ export default class App extends Component<Props, State> {
   }
 
   componentDidMount() {
+    //Variable that will subscribe to the Accelerometer obersavle. Whenver the phone is shaken it will pop up a window that asks if the user wants to submit a bug
+    //Try it in the emulator by rotating it into landscape
     const subscription = accelerometer.subscribe(speed => {
-      console.log(`You moved your phone with ${speed}`);
       this.setState({showSnackbar: true});
     });
   }
 
   updateSnackbar = () => this.setState({showSnackbar: false});
 
-  //setTitle = (title, id) => this.setState({title: title, id: id});
-  /*
-  updateContext = (title, id, date) => {
-    this.setState({issueTitle: title, id: id, releaseDate: date});
-  };
-*/
-  //<SwitchNav />
-
   render() {
     return (
+      //Paper Provider: has to wrapped in the PaperProvider to pass its theme to the React Native Paper components
+      //AppNavigator: Root navigator from the Routes.js file, screenProps has to be a parameter to pass props between bottom tab screens
+      //Snackbar: Shows up when the phone is shaken
       <PaperProvider theme={themes}>
-        <AppNavigator
-          params={{id: 1230, issueTitle: this.state.issueTitle}}
-          screenProps={{
-            //updateContext: this.updateContext,
-            issueTitle: this.state.issueTitle,
-            id: this.state.id,
-            releaseDate: this.state.releaseDate,
-          }}
-        />
+        <AppNavigator screenProps={{}} />
         <Snackbar
           theme={{...DefaultTheme, colors: {accent: 'white'}}}
           style={styles.snackbar}

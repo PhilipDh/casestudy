@@ -55,7 +55,6 @@ public class ReactImageManager extends SimpleViewManager<ReactImageView> {
             @Override
             public void startLoading(final String imgUrl) {
                 loadWithGlide(imgUrl, reactImageView, reactContext);
-                //startDownloading(imgUrl, handler, reactImageView);
 
             }
         };
@@ -67,8 +66,8 @@ public class ReactImageManager extends SimpleViewManager<ReactImageView> {
         Glide
                 .with(context)
                 .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE) //Disable caching
+                .skipMemoryCache(true) //disable caching
                 .centerCrop()
                 .into(imageView);
     }

@@ -18,6 +18,9 @@ import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
 import theme from '../../../styles/main.theme.js';
 import EmptyListComponent from './EmptyListComponent';
 
+/*
+  Custom Section List that will be used as a component throughout the app
+*/
 class SectionedList extends Component {
   renderSectionHeader = section => (
     <View style={{}}>

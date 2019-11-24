@@ -21,6 +21,7 @@ function returnObservable() {
     };
 
     const eventEmitter = new NativeEventEmitter(Accelerometer);
+    //Event emitter that listens for the event Accelerometer (defined in the corresponding .java file in android directory) and the observer will push this to all its subscribers
     eventEmitter.addListener('Accelerometer', data => {
       observer.next(data);
     });

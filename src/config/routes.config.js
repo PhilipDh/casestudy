@@ -1,3 +1,7 @@
+/*
+  File that holds the configurations for the different navigation types
+*/
+
 import React, {Component} from 'react';
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
@@ -8,6 +12,7 @@ import RouteNames from '../RouteNames';
 
 /*
   Configs for the navigation types
+  Mostly used to change the color according the the theme defined in main.theme.js
 */
 
 export const PaymentConfig = {
@@ -25,7 +30,6 @@ export const PaymentConfig = {
   },
   cardStyle: {
     backgroundColor: theme.colors.primary,
-    //opacity: 1,
   },
 };
 

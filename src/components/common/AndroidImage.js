@@ -9,6 +9,8 @@
 import PropTypes from 'prop-types';
 import {requireNativeComponent, ViewPropTypes} from 'react-native';
 
+//Returns the Native Component defined in the Android directory
+//Accepts the properties src, borderRadius, resizeMode and the general properties of a View
 const iface = {
   name: 'ImageView',
   propTypes: {

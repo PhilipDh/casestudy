@@ -12,6 +12,9 @@ import theme from '../../../styles/main.theme';
 import {TextInput, Snackbar, DefaultTheme} from 'react-native-paper';
 import EmptyListComponent from './EmptyListComponent';
 
+/*
+  Custom FlatList that will be used throughout the app to keep a consistent look
+*/
 class StandardList extends Component {
   render() {
     const {

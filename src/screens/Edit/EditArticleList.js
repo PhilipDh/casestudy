@@ -80,9 +80,16 @@ export default class EditArticleList extends Component<Props, State> {
   };
 
   componentDidMount() {
-    this.focusListener = this.props.navigation.addListener('didFocus', () => {
-      this.setState({id: this.props.screenProps.id});
-    });
+    //Since the Article list itself is in a Top Navigator, directly adding a listener to it would only listen to the top navigation events
+    //To access the bottom tab navigation events I have to call dangerouslyGetParent() to add a listener
+    this.focusListener = this.props.navigation
+      .dangerouslyGetParent()
+      .addListener('didFocus', () => {
+        this.setState({id: this.props.screenProps.id}, () => {
+          this.reloadList();
+        });
+      });
+
     this.getArticleList();
   }
 

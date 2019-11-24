@@ -27,6 +27,10 @@ type Props = {
   setTitle: any,
 };
 
+/*
+  List Item that will be used in Issue Lists
+*/
+
 export default class IssueItem extends Component<Props> {
   render() {
     return (

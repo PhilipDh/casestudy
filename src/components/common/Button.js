@@ -3,6 +3,10 @@ import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import theme from '../../../styles/main.theme';
 
+/*
+  Custom Button component that has more customization options than the native Button from react-native
+  Uses TouchableOpacity to handle click events and a Text componentn with an optional Icon
+*/
 class Button extends Component {
   renderIcon = icon => {
     if (!icon) return;

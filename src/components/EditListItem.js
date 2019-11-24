@@ -17,6 +17,10 @@ import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../styles/main.theme';
 import common from '../../styles/common.style';
+
+/*
+  List item that will be used in Edit Lists
+*/
 type Props = {
   id: string,
   title: string,

@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import theme from '../../../styles/main.theme';
 
+/*
+  EmptyListComponent that will be displayed whenver a list is empty
+  Offers a reload option
+*/
 class EmptyListComponent extends Component {
   render() {
     const {reloadList} = this.props;

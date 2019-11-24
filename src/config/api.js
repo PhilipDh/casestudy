@@ -1,5 +1,6 @@
 /*
-  functions that will return the URL's for the requested data
+  Central file for all the configuration of the API endpoints
+  Functions that will return the URL's for the requested data
 */
 
 export const API_URL = 'http://10.0.2.2:3000';

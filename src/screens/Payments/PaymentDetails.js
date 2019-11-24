@@ -54,17 +54,7 @@ export default class PaymentDetails extends Component<Props, State> {
     };
   }
 
-  getButtonColor() {
-    var result = '';
-
-    if (this.state.type == 'Ad') {
-      result = this.state.data.payed ? 'green' : '#5D1049';
-    } else {
-      result = this.state.data.payed ? 'green' : '#5D1049';
-    }
-    return result;
-  }
-
+  //Determines which Icon should be displayed by the payment button
   getIcon() {
     var result = '';
 
@@ -76,7 +66,9 @@ export default class PaymentDetails extends Component<Props, State> {
     return result;
   }
 
+  //Returns the due date for the payment
   getDate() {
+    //Different format for an Ad payment
     if (this.state.type == 'Ad') {
       return formatDate(this.state.date, true);
     }
@@ -89,11 +81,8 @@ export default class PaymentDetails extends Component<Props, State> {
 
     if (this.state.type == 'Ad') {
       result = this.state.data.payed ? 'Payed' : 'Pending';
-      //this.setState({disabled: true});
-      console.log(dateDiff(this.state.date));
       if (dateDiff(this.state.date)) {
         result = 'Escalate';
-        //this.setState({disabled: false});
       }
     } else {
       result = this.state.data.payed ? 'Payed' : 'Pay';
@@ -103,28 +92,12 @@ export default class PaymentDetails extends Component<Props, State> {
 
   updatePayment = () => {
     this.setState({loading: true});
-
-    var url = '';
-    var content = {};
-    switch (this.state.type) {
-      case 'Ad':
-        url = getUpdatePaymentUrl(this.state.data._id, 'ad');
-        content = {payed: 'true'};
-        break;
-      case 'Article':
-        url = getUpdatePaymentUrl(this.state.data._id, 'article');
-        content = {
-          payed: 'true',
-        };
-        break;
-      case 'Photograph':
-        url = getUpdatePaymentUrl(this.state.data._id, 'photo');
-        content = {payed: 'true'};
-        break;
-      default:
-    }
-
-    //TODO SHow toast if content is empty -> error
+    //Build the request URL based on ID and type
+    var url = getUpdatePaymentUrl(
+      this.state.data._id,
+      this.state.type.toLowerCase(),
+    );
+    var content = {payed: 'true'};
 
     axios
       .put(url, content)
@@ -142,8 +115,6 @@ export default class PaymentDetails extends Component<Props, State> {
   };
 
   componentDidMount() {
-    console.log(API_URL);
-
     var url =
       API_URL + '/' + this.state.type.toLowerCase() + '/' + this.state.id;
 
@@ -257,19 +228,3 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
 });
-
-/*
-
-            <Button
-              icon={this.getIcon()}
-              style={
-                this.state.type == 'Ad' ? styles.adButton : styles.generalButton
-              }
-              loading={this.state.loading}
-              disabled={this.state.disabled}
-              color={this.getButtonColor()}
-              mode={this.state.type == 'Ad' ? 'outlined' : 'contained'}
-              onPress={() => this.updatePayment()}>
-              {this.getButtonText()}
-            </Button>
-*/

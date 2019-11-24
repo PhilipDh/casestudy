@@ -56,7 +56,7 @@ public class Accelerometer extends ReactContextBaseJavaModule implements SensorE
 
     @ReactMethod
     public void startUpdates() {
-        // Milisecond to Mikrosecond conversion
+        // Milisecond to Microsecond conversion
         sensorManager.registerListener(this, sensor, this.interval * 1000);
     }
 
@@ -104,19 +104,12 @@ public class Accelerometer extends ReactContextBaseJavaModule implements SensorE
 
                 if (speed > SHAKE_THRESHOLD) {
                     Log.d("sensor", "shake detected w/ speed: " + speed);
-                   // Toast.makeText(this, "shake detected w/ speed: " + speed, Toast.LENGTH_SHORT).show();
                     map.putDouble("speed", speed);
                     sendEvent("Accelerometer", map);
                 }
                 last_x = x;
                 last_y = y;
                 last_z = z;
-                /*
-                map.putDouble("x", sensorEvent.values[0]);
-                map.putDouble("y", sensorEvent.values[1]);
-                map.putDouble("z", sensorEvent.values[2]);
-                map.putDouble("timestamp", tempMs);
-                */
 
             }
         }

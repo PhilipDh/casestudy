@@ -29,13 +29,11 @@ class IssueList extends Component<State, Props> {
     };
   }
 
+  setTitle = title => this.props.navigation.setParams({title: title});
+
   updateSnackbar = () => this.setState({showSnackbar: false});
 
-  componentDidMount() {
-    //Upon mounting the component load all issues from the API
-    this.getIssueList();
-  }
-
+  //Returns the list of Issues from the backend
   getIssueList = () => {
     (async () => {
       try {
@@ -51,27 +49,30 @@ class IssueList extends Component<State, Props> {
     })();
   };
 
+  //Sets the id, title and release date properties that will be used by the other screens to know which issue is currently active
   updateProperties = (title, id, date) => {
     this.setTitle(title);
+    //Screen props are a navigation property supplied by the bottom tab navigator
     this.props.screenProps.id = id;
     this.props.screenProps.issueTitle = title;
     this.props.screenProps.releaseDate = date;
   };
 
-  setTitle = title => {
-    this.props.navigation.setParams({title: title});
-  };
-
+  //Defines which type of list item should be rendered
   renderListItem = item => (
     <IssueItem
       title={item.title}
       date={item.releaseDate}
       id={item._id}
-      //updateContext={this.props.screenProps.updateContext}
       updateContext={this.updateProperties}
       setTitle={this.setTitle}
     />
   );
+
+  componentDidMount() {
+    //Upon mounting the component load all issues from the API
+    this.getIssueList();
+  }
 
   render() {
     if (this.state.isLoading) {

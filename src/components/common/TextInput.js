@@ -3,6 +3,9 @@ import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import theme from '../../../styles/main.theme';
 import {TextInput, Snackbar, DefaultTheme} from 'react-native-paper';
 
+/*
+  Custom Text Input that builds ontop of the react native TextInput to keep a consistent look
+*/
 class TextArea extends Component {
   render() {
     const {

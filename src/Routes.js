@@ -16,14 +16,14 @@ import IssueList from './screens/Issues/IssueList';
 import PaymentList from './screens/Payments/PaymentList';
 import PaymentDetails from './screens/Payments/PaymentDetails';
 import EditList from './screens/Edit/EditList';
-import EditAd from './screens/Edit/EditAd';
+import EditAd from './screens/Edit/EditAdScreen';
 import EditArticleList from './screens/Edit/EditArticleList';
 import EditPhotoList from './screens/Edit/EditPhotoList';
-import EditArticle from './screens/Edit/EditArticle';
-import EditPhoto from './screens/Edit/EditPhoto';
-import AddAd from './screens/Add/AddAd';
-import AddArticle from './screens/Add/AddArticle';
-import AddPhoto from './screens/Add/AddPhoto';
+import EditArticle from './screens/Edit/EditArticleScreen';
+import EditPhoto from './screens/Edit/EditPhotoScreen';
+import AddAd from './screens/Add/AddAdScreen';
+import AddArticle from './screens/Add/AddArticleScreen';
+import AddPhoto from './screens/Add/AddPhotoScreen';
 import UserLogin from './screens/Login/UserLogin';
 import theme from '../styles/main.theme.js';
 import {
@@ -69,9 +69,6 @@ const IssueStack = createStackNavigator(
       navigationOptions: ({navigation}) => ({
         //Set the title for the Navigation header based on the navigation param "title"
         title: `${navigation.state.params.title}`,
-        headerStyle: {
-          backgroundColor: theme.colors.priamry,
-        },
       }),
     },
   },
@@ -102,23 +99,27 @@ const EditStack = createStackNavigator(
     [RouteNames.EditTabs]: {
       screen: EditTopNavigatior,
       title: 'Edit',
-
-      navigationOptions: {
-        swipeEnabled: true,
-
-        tabBarOptions: {
-          backgroundColor: theme.colors.primary,
-        },
-      },
     },
     [RouteNames.EditAd]: {
       screen: EditAd,
+      navigationOptions: ({navigation}) => ({
+        //Set the title for the Navigation header based on the navigation param "title"
+        title: 'Edit Ad',
+      }),
     },
     [RouteNames.EditArticle]: {
       screen: EditArticle,
+      navigationOptions: ({navigation}) => ({
+        //Set the title for the Navigation header based on the navigation param "title"
+        title: 'Edit Article',
+      }),
     },
     [RouteNames.EditPhoto]: {
       screen: EditPhoto,
+      navigationOptions: ({navigation}) => ({
+        //Set the title for the Navigation header based on the navigation param "title"
+        title: 'Add Photograph',
+      }),
     },
     [RouteNames.AddAd]: {
       screen: AddAd,
@@ -129,9 +130,17 @@ const EditStack = createStackNavigator(
     },
     [RouteNames.AddArticle]: {
       screen: AddArticle,
+      navigationOptions: ({navigation}) => ({
+        //Set the title for the Navigation header based on the navigation param "title"
+        title: 'Add an Article',
+      }),
     },
     [RouteNames.AddPhoto]: {
       screen: AddPhoto,
+      navigationOptions: ({navigation}) => ({
+        //Set the title for the Navigation header based on the navigation param "title"
+        title: 'Add a Photograph',
+      }),
     },
   },
   EditConfig,
@@ -166,6 +175,7 @@ const AuthStack = createStackNavigator(
     },
   },
   {
+    //Hide the header for the User login
     headerMode: 'none',
     navigationOptions: {
       headerVisible: false,
@@ -182,6 +192,7 @@ const HomeStack = createStackNavigator(
     },
   },
   {
+    //Hide header
     headerMode: 'none',
     navigationOptions: {
       headerVisible: false,
@@ -195,4 +206,5 @@ const SwitchNav = createSwitchNavigator({
   [RouteNames.HomeStack]: HomeStack,
 });
 
+//Export the Switch Nav as the App Container
 export const AppNavigator = createAppContainer(SwitchNav);

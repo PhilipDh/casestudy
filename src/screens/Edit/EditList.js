@@ -8,7 +8,7 @@
 
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {FAB, Provider, Portal} from 'react-native-paper';
+import {FAB} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Feather';
 import EditListItem from '../../components/EditListItem';
 import StandardList from '../../components/common/StandardList';
@@ -62,9 +62,15 @@ export default class EditList extends Component<Props, State> {
   };
 
   componentDidMount() {
-    this.focusListener = this.props.navigation.addListener('didFocus', () => {
-      this.setState({id: this.props.screenProps.id});
-    });
+    //Since the Ad list itself is in a Top Navigator, directly adding a listener to it would only listen to the top navigation events
+    //To access the bottom tab navigation events I have to call dangerouslyGetParent() to add a listener
+    this.focusListener = this.props.navigation
+      .dangerouslyGetParent()
+      .addListener('didFocus', () => {
+        this.setState({id: this.props.screenProps.id}, () => {
+          this.reloadList();
+        });
+      });
     this.getAdList();
   }
 
@@ -87,6 +93,7 @@ export default class EditList extends Component<Props, State> {
     });
   };
 
+  //Item that should be rendered with the StandardList
   renderListItem = item => (
     <EditListItem
       title={item.title}
@@ -105,7 +112,7 @@ export default class EditList extends Component<Props, State> {
       );
     } else {
       return (
-        <View style={{flex: 1}}>
+        <View style={styles.rootView}>
           <StandardList
             data={this.state.data}
             reloadList={this.reloadList}
@@ -127,6 +134,9 @@ export default class EditList extends Component<Props, State> {
 const styles = StyleSheet.create({
   rootContainer: {
     padding: 5,
+  },
+  rootView: {
+    flex: 1,
   },
   fab: {
     position: 'absolute',

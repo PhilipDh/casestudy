@@ -11,103 +11,32 @@ import {RadioButton, DefaultTheme} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AdRadioButton from '../../components/AdRadioButton';
 import theme from '../../../styles/main.theme.js';
-import {getAdUrl} from '../../config/api';
-
-const axios = require('axios').default;
 
 const topBannerAd = require('../../../assets/images/topBanner.png');
 const inlineAd = require('../../../assets/images/inline.png');
 const bottomBannerAd = require('../../../assets/images/bottomBanner.png');
 
 type Props = {
-  placement: any,
-  isLoading: boolean,
-  loading: boolean,
+  setPlacement: any,
   placement: string,
-  id: string,
-  reloadList: any,
-};
-type State = {
-  placement: any,
   isLoading: boolean,
-  loading: boolean,
-  placement: string,
-  id: string,
-  reloadList: any,
-  payed: any,
 };
-export default class EditAd extends Component<State, Props> {
+
+export default class EditAd extends Component<Props> {
   constructor(props) {
     super(props);
-    this.state = {
-      isLoading: true,
-      loading: false,
-      id: this.props.navigation.getParam('id'),
-      placement: '',
-      reloadList: this.props.navigation.getParam('reloadList'),
-      payed: null,
-    };
-  }
-
-  updateAd() {
-    this.setState({loading: true});
-
-    var url = getAdUrl(this.state.id);
-    var body = {
-      placement: this.state.placement,
-      payed: this.state.payed.toString(),
-    };
-
-    //TODO SHow toast if content is empty -> error
-    axios
-      .put(url, body)
-      .then(data => {
-        this.setState({
-          isLoading: false,
-          loading: false,
-          placement: data.data.placement,
-        });
-        this.state.reloadList();
-      })
-      .catch(err => {
-        console.log(err);
-        return null;
-      });
-  }
-
-  getAd() {
-    var url = getAdUrl(this.state.id);
-    axios
-      .get(url)
-      .then(data => {
-        this.setState({
-          isLoading: false,
-          loading: false,
-          placement: data.data.placement,
-          payed: data.data.payed,
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        return null;
-      });
-  }
-
-  componentDidMount() {
-    this.getAd();
   }
 
   render() {
+    const {setPlacement, placement, isLoading} = this.props;
     return (
       <View style={styles.rootContainer}>
         <RadioButton.Group
-          style={{width: '100%', borderWidth: 1, borderColor: 'black'}}
+          style={styles.radioButtonGroup}
           onValueChange={placement => {
-            this.setState({placement: placement}, function() {
-              this.updateAd();
-            });
+            setPlacement(placement);
           }}
-          value={this.state.placement}>
+          value={placement}>
           <View style={styles.cardContainer}>
             <View style={styles.contentContainer}>
               <Text style={styles.typeText}>Top Banner Ad</Text>
@@ -193,5 +122,10 @@ const styles = StyleSheet.create({
   bannerImage: {
     width: 120,
     height: 78,
+  },
+  radioButtonGroup: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: 'black',
   },
 });

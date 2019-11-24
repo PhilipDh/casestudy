@@ -1,3 +1,4 @@
+//Function that converts hex values into rgb
 function convertHex(hex) {
   hex = hex.replace('#', '');
   var rgb = [];
@@ -11,6 +12,7 @@ function convertHex(hex) {
   return rgb;
 }
 
+//Default color, font size and container padding values
 export default {
   colors: {
     primary: '#5d1049',
@@ -28,7 +30,6 @@ export default {
 
   //Calculates whether to display a white or black label based on the color(hex string) input
   setContrast(color) {
-    // http://www.w3.org/TR/AERT#color-contrast
     var rgb = convertHex(color);
     var o = Math.round(
       (parseInt(rgb[0]) * 299 +

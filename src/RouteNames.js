@@ -1,5 +1,5 @@
 /*
-  List of all the Route names
+  Central list of all the Route names
 */
 
 export default {
@@ -20,13 +20,13 @@ export default {
   PaymentDetails: 'PaymentDetails',
 
   EditTabs: 'EditTabs',
-  EditAd: 'EditAd',
-  EditArticle: 'EditArticle',
-  EditPhoto: 'EditPhoto',
+  EditAd: 'EditAdScreen',
+  EditArticle: 'EditArticleScreen',
+  EditPhoto: 'EditPhotoScreen',
 
-  AddAd: 'AddAd',
-  AddArticle: 'AddArticle',
-  AddPhoto: 'AddPhoto',
+  AddAd: 'AddAdScreen',
+  AddArticle: 'AddArticleScreen',
+  AddPhoto: 'AddPhotoScreen',
 
   EditAdList: 'EditAdList',
   EditPhotoList: 'EditPhotoList',

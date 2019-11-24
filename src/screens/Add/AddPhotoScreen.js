@@ -6,7 +6,7 @@
  * @flow
  */
 import React, {Component} from 'react';
-import {View, StyleSheet, Picker, ScrollView} from 'react-native';
+import {View} from 'react-native';
 //import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
@@ -18,9 +18,7 @@ import {
   getEditByTypeUrl,
   getPeopleUrl,
 } from '../../config/api';
-import ImageView from '../../components/common/ImageView';
-import Button from '../../components/common/Button';
-import TextInput from '../../components/common/TextInput';
+import AddPhotoComponent from '../../components/Add/AddPhoto';
 
 const axios = require('axios').default;
 
@@ -43,7 +41,7 @@ type State = {
   owner: string,
 };
 
-export default class AddPhoto extends Component<Props, State> {
+export default class AddPhotoScreen extends Component<Props, State> {
   constructor(props) {
     super(props);
 
@@ -78,6 +76,9 @@ export default class AddPhoto extends Component<Props, State> {
 
   setTitle = text => this.setState({title: text});
   setPayment = text => this.setState({payment: text});
+  setSize = text => this.setState({size: text});
+  setOwner = text => this.setState({owner: text});
+  setArticle = text => this.setState({articleId: text});
 
   createFormData = (photo, body) => {
     const data = new FormData();
@@ -196,140 +197,25 @@ export default class AddPhoto extends Component<Props, State> {
 
   render() {
     const {photoLocation} = this.state;
-    if (this.state.isLoading) {
-      return <View></View>;
-    } else {
-      return (
-        <ScrollView>
-          <View style={styles.container}>
-            <View style={styles.textContainer}>
-              <TextInput
-                inputStyle={styles.textInputStyle}
-                text={this.state.title}
-                label={'Title'}
-                onTextChange={this.setTitle}
-                secure={false}
-                multiline={true}
-              />
-              <TextInput
-                inputStyle={styles.textInputStyle}
-                keyboardType="numeric"
-                text={this.state.payment}
-                label={'Payment'}
-                onTextChange={this.setPayment}
-                secure={false}
-                multiline={true}
-              />
-            </View>
-            <View style={styles.imageContainer}>
-              {photoLocation && (
-                <ImageView
-                  photoLocation={photoLocation.uri}
-                  cacheType={'reload'}
-                  width={200}
-                  height={200}
-                />
-              )}
-              <Button
-                buttonStyle={{
-                  padding: 8,
-                  margin: 10,
-                  //width: 120,
-                  borderRadius: 4,
-                  backgroundColor: theme.colors.accent,
-                }}
-                text={'Change Photo'}
-                onPress={this.handleChoosePhoto}
-              />
-            </View>
-            <View style={styles.pickerContainer}>
-              <Picker
-                selectedValue={this.state.size}
-                style={{width: 300, height: 50, color: 'white'}}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setState({size: itemValue})
-                }>
-                <Picker.Item label="200x200" value="200x200" />
-                <Picker.Item label="400x400" value="400x400" />
-              </Picker>
-              <Picker
-                selectedValue={this.state.owner}
-                style={{width: 300, height: 50, color: 'white'}}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setState({owner: itemValue})
-                }>
-                {this.state.availablePeople.map(item =>
-                  this._renderPeoplePickerItem(item),
-                )}
-              </Picker>
-              <Picker
-                selectedValue={this.state.articleId}
-                style={{width: 300, height: 50, color: 'white'}}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setState({
-                    articleId: itemValue,
-                  })
-                }>
-                {this.state.availableArticles.map(item =>
-                  this._renderArticlePickerItem(item),
-                )}
-              </Picker>
-            </View>
-            <View style={styles.buttonContainer}>
-              <Button
-                buttonStyle={{
-                  padding: 8,
-                  //width: 120,
-                  //flex: 1,
-                  borderRadius: 4,
-                  backgroundColor: theme.colors.accent,
-                }}
-                text={'Save'}
-                onPress={this.addPhoto}
-              />
-            </View>
-          </View>
-        </ScrollView>
-      );
-    }
+    return (
+      <AddPhotoComponent
+        setSize={this.setSize}
+        setPayment={this.setPayment}
+        setTitle={this.setTitle}
+        setOwner={this.setOwner}
+        setArticle={this.setArticle}
+        size={this.state.size}
+        payment={this.state.payment}
+        title={this.state.title}
+        owner={this.state.owner}
+        articleId={this.state.articleId}
+        isLoading={this.state.isLoading}
+        addPhoto={this.addPhoto}
+        availablePeople={this.state.availablePeople}
+        availableArticles={this.state.availableArticles}
+        handleChoosePhoto={this.handleChoosePhoto}
+        photoLocation={this.state.photoLocation}
+      />
+    );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {height: '100%'},
-  textContainer: {},
-  textInputStyle: {
-    width: '100%',
-  },
-
-  pickerContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  imageContainer: {
-    height: 300,
-    alignItems: 'center',
-
-    justifyContent: 'flex-end',
-  },
-
-  buttonContainer: {
-    //alignItems: 'center',
-    margin: 10,
-    justifyContent: 'flex-end',
-  },
-  saveButton: {margin: 10},
-});
-
-/*
-
-            <Image
-              source={{
-                uri: getPhotoLocationUrl(photoLocation),
-                cache: 'reload',
-              }}
-              style={{width: 300, height: 300}}
-            />
-*/

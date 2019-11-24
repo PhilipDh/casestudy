@@ -6,23 +6,14 @@
  * @flow
  */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 //import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import theme from '../../../styles/main.theme.js';
-import TextInput from '../../components/common/TextInput';
 import {getArticleUrl} from '../../config/api';
-import Button from '../../components/common/Button';
+import EditArticleComponent from '../../components/Edit/EditArticle';
 const axios = require('axios').default;
 
-type Props = {
-  id: string,
-  data: any,
-  isLoading: boolean,
-  loading: boolean,
-  title: string,
-  content: string,
-};
+type Props = {};
 
 type State = {
   data: any,
@@ -33,7 +24,7 @@ type State = {
   reloadList: any,
 };
 
-export default class EditArticle extends Component<State, Props> {
+export default class EditArticleScreen extends Component<State, Props> {
   constructor(props) {
     super(props);
 
@@ -46,14 +37,13 @@ export default class EditArticle extends Component<State, Props> {
       content: '',
       reloadList: this.props.navigation.getParam('reloadList'),
     };
-    console.log(this.props.navigation);
   }
 
   setTitle = text => this.setState({title: text});
 
   setContent = text => this.setState({content: text});
 
-  updateArticle = (title, content) => {
+  updateArticle = () => {
     this.setState({loading: true});
 
     var url = getArticleUrl(this.state.id);
@@ -73,7 +63,9 @@ export default class EditArticle extends Component<State, Props> {
           loading: false,
           data: data.data,
         });
+
         this.state.reloadList();
+        this.props.navigation.goBack();
       })
       .catch(err => {
         console.log(err);
@@ -101,62 +93,15 @@ export default class EditArticle extends Component<State, Props> {
   }
 
   render() {
-    if (this.state.isLoading) {
-      return (
-        <View>
-          <Text>ABC</Text>
-        </View>
-      );
-    } else {
-      return (
-        <View style={styles.container}>
-          <View style={styles.titleContainer}>
-            <TextInput
-              text={this.state.title}
-              label={'Title'}
-              onTextChange={this.setTitle}
-              secure={false}
-              multiline={false}
-            />
-          </View>
-
-          <View style={styles.contentContainer}>
-            <TextInput
-              text={this.state.content}
-              label={'Content'}
-              onTextChange={this.setContent}
-              secure={false}
-              multiline={true}
-            />
-          </View>
-
-          <View style={styles.buttonContainer}>
-            <Button
-              buttonStyle={{
-                padding: 8,
-                width: 120,
-                borderRadius: 4,
-                backgroundColor: theme.colors.accent,
-              }}
-              text={'Save'}
-              onPress={this.updateArticle}
-            />
-          </View>
-        </View>
-      );
-    }
+    return (
+      <EditArticleComponent
+        setTitle={this.setTitle}
+        setContent={this.setContent}
+        title={this.state.title}
+        content={this.state.content}
+        isLoading={this.state.isLoading}
+        updateArticle={this.updateArticle}
+      />
+    );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-  },
-  saveButton: {},
-  titleContainer: {},
-  contentContainer: {},
-  buttonContainer: {
-    //justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-});

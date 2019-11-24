@@ -49,6 +49,7 @@ export default class PaymentList extends Component<State, Props> {
   //Navigate to the detail screen of the clicked item
   //Will be passed onto the List items and called when clicked
   navigateToDetail = data => {
+    //Determines the navigaton parameters for the details screen based on the type of payment that has been clicked
     var job = data.owner.job;
     var type = '';
 
@@ -67,7 +68,9 @@ export default class PaymentList extends Component<State, Props> {
     });
   };
 
+  //Returns the list of all Payments for the current issue, based on the screenProp ID from the Issue screen
   getPaymentList = () => {
+    //After the state has been set to the new ID get the payments
     this.setState({id: this.props.screenProps.id}, function() {
       var pId = this.props.screenProps.id;
       (async () => {
@@ -84,24 +87,11 @@ export default class PaymentList extends Component<State, Props> {
     });
   };
 
-  _listEmptyComponent() {
-    return (
-      <View style={styles.emptyContainer}>
-        <Text style={styles.emptyListText}>There seems to be nothing here</Text>
-        <Text style={styles.reloadText} onPress={() => this.getPaymentList()}>
-          Reload
-        </Text>
-      </View>
-    );
-  }
-
   componentDidMount() {
-    console.log(this.props.screenProps.releaseDate);
     this.getPaymentList();
     //Listener that will be called whenver the Payment list is in focus
     //It will load the payment list in case the issue has changed
     this.focusListener = this.props.navigation.addListener('didFocus', () => {
-      console.log('Payment list now in focus');
       this.getPaymentList();
     });
   }
@@ -111,6 +101,7 @@ export default class PaymentList extends Component<State, Props> {
     this.focusListener.remove();
   }
 
+  //List item that should be rendered with the SectionList
   renderListItem = item => (
     <PaymentItem
       title={item.title}

@@ -11,9 +11,10 @@ import {View, Text, StyleSheet, Picker} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../../styles/main.theme.js';
 import TextInput from '../../components/common/TextInput';
-import {getArticleUrl, getPeopleUrl, addArticleUrl} from '../../config/api';
+import {getArticleUrl, getCompaniesUrl, addAdUrl} from '../../config/api';
 import Button from '../../components/common/Button';
 import RouteNames from '../../RouteNames';
+import AddAdComponent from '../../components/Add/AddAd';
 
 const axios = require('axios').default;
 
@@ -22,8 +23,15 @@ const inlineAd = require('../../../assets/images/inline.png');
 const bottomBannerAd = require('../../../assets/images/bottomBanner.png');
 
 type Props = {};
-type State = {content: string, title: string, payment: number};
-export default class AddAd extends Component<State, Props> {
+type State = {
+  content: string,
+  title: string,
+  payment: number,
+  setTitle: any,
+  setContent: any,
+  setPayment: any,
+};
+export default class AddAdScreen extends Component<State, Props> {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,8 +40,8 @@ export default class AddAd extends Component<State, Props> {
       content: '',
       title: '',
       payment: '',
-      owner: '',
-      availablePeople: {},
+      company: '',
+      availableCompanies: {},
       reloadList: this.props.navigation.getParam('reloadList'),
     };
   }
@@ -44,27 +52,38 @@ export default class AddAd extends Component<State, Props> {
 
   setPayment = text => this.setState({payment: text});
 
+  setCompany = text => this.setState({company: text});
+
   //Add a new ad to the current issue
-  addArticle = () => {
+  addAd = () => {
     //If the title,content or payment field is empty throw an error
     //If the payment is Not a Number (NaN) it will throw an error
-    if (this.state.title && !isNaN(this.state.payment) && this.state.payment) {
-      let url = addArticleUrl(this.state.id);
+    if (
+      this.state.title &&
+      this.state.content &&
+      !isNaN(this.state.payment) &&
+      this.state.payment
+    ) {
+      let url = addAdUrl(this.state.id);
       let content = {
         title: this.state.title,
         content: this.state.content,
         payment: this.state.payment,
-        owner: this.state.owner,
+        owner: this.state.company,
       };
       axios
         .post(url, content)
         .then(data => {
           this.state.reloadList();
           this.props.navigation.goBack();
+          this.props.navigation.navigate(RouteNames.EditAd, {
+            id: data.data._id,
+            reloadList: this.state.reloadList,
+          });
         })
         .catch(err => {
           //this.setState({data: [], isLoading: false, showSnackbar: true});
-          console.log(err.message);
+          console.log(err);
           return null;
         });
     } else {
@@ -73,16 +92,17 @@ export default class AddAd extends Component<State, Props> {
   };
 
   //Get a list of all the companies that can request an ad
-  getPeople = () => {
-    let url = getPeopleUrl();
+  getCompanies = () => {
+    let url = getCompaniesUrl();
     axios
       .get(url)
       .then(data => {
-        let people = data.data.filter(person =>
-          person.job.includes('Journalist'),
-        );
         this.setState(
-          {availablePeople: people, isLoading: false, owner: people[0].name},
+          {
+            availableCompanies: data.data,
+            isLoading: false,
+            company: data.data[0].name,
+          },
           function() {
             console.log(this.state.availableCompanies);
           },
@@ -95,79 +115,31 @@ export default class AddAd extends Component<State, Props> {
   };
 
   //Render a Picker item for each item in the company list
-  _renderPeoplePickerItem = item => {
+  _renderCompanyPickerItem = item => {
     return <Picker.Item label={item.name} value={item.name} />;
   };
 
   componentDidMount() {
-    this.getPeople();
+    this.getCompanies();
   }
 
   render() {
-    if (this.state.isLoading) {
-      return <View></View>;
-    } else {
-      return (
-        <View style={styles.container}>
-          <View style={styles.titleContainer}>
-            <TextInput
-              text={this.state.title}
-              label={'Title'}
-              onTextChange={this.setTitle}
-              secure={false}
-              multiline={false}
-            />
-          </View>
-
-          <View style={styles.contentContainer}>
-            <TextInput
-              text={this.state.content}
-              label={'Content'}
-              onTextChange={this.setContent}
-              secure={false}
-              multiline={true}
-            />
-          </View>
-
-          <View style={styles.contentContainer}>
-            <TextInput
-              keyboardType="numeric"
-              text={this.state.payment}
-              label={'Payment'}
-              onTextChange={this.setPayment}
-              secure={false}
-              multiline={true}
-            />
-          </View>
-
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={this.state.owner}
-              style={{width: 300, height: 50, color: 'white'}}
-              onValueChange={(itemValue, itemIndex) =>
-                this.setState({owner: itemValue})
-              }>
-              {this.state.availablePeople.map(item =>
-                this._renderPeoplePickerItem(item),
-              )}
-            </Picker>
-          </View>
-
-          <View style={styles.buttonContainer}>
-            <Button
-              buttonStyle={{
-                padding: 8,
-                width: 120,
-                borderRadius: 4,
-                backgroundColor: theme.colors.accent,
-              }}
-              text={'Save'}
-              onPress={this.addArticle}
-            />
-          </View>
-        </View>
-      );
-    }
+    return (
+      <AddAdComponent
+        setTitle={this.setTitle}
+        setContent={this.setContent}
+        setPayment={this.setPayment}
+        setCompany={this.setCompany}
+        getCompanies={this.getCompanies}
+        addAd={this.addAd}
+        title={this.state.title}
+        content={this.state.content}
+        payment={this.state.payment}
+        company={this.state.company}
+        availableCompanies={this.state.availableCompanies}
+        isLoading={this.state.isLoading}
+      />
+    );
   }
 }
 
@@ -184,5 +156,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     alignItems: 'center',
+  },
+  textStyle: {
+    color: theme.setContrast(theme.colors.primary),
+    fontSize: theme.FONT_SIZE_LARGE,
   },
 });

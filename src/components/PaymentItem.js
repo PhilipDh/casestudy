@@ -20,6 +20,9 @@ type Props = {
   data: any,
 };
 
+/*
+  Payment List item that will be used in Payment Lists
+*/
 export default class PaymentItem extends Component<Props> {
   constructor() {
     super();
