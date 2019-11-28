@@ -19,7 +19,7 @@ import {getEditByTypeUrl} from '../../config/api';
 const axios = require('axios').default;
 
 type Props = {};
-
+//Type definition for states of this class. Helps with type safety
 type State = {
   data: any,
   isLoading: boolean,
@@ -43,8 +43,11 @@ export default class EditArticleList extends Component<Props, State> {
       issueDate: props.screenProps.releaseDate,
     };
   }
+
+  //setter for the showSnackbar state
   updateSnackbar = () => this.setState({showSnackbar: false});
 
+  //Navigates to the EditArticle screen with the params id and reloadlist
   navigateToEdit = id => {
     this.props.navigation.navigate(RouteNames.EditArticle, {
       id: id,
@@ -52,6 +55,7 @@ export default class EditArticleList extends Component<Props, State> {
     });
   };
 
+  //Navigates to the AddArticle screen witht he params id and reloadList
   navigateToAdd = () => {
     this.props.navigation.navigate(RouteNames.AddArticle, {
       id: this.state.id,
@@ -59,7 +63,8 @@ export default class EditArticleList extends Component<Props, State> {
     });
   };
 
-  getArticleList() {
+  //Gets a list of all articles from the server
+  getArticleList = () => {
     var url = getEditByTypeUrl(this.state.id, 'article');
     axios
       .get(url)
@@ -73,7 +78,7 @@ export default class EditArticleList extends Component<Props, State> {
         this.setState({data: [], isLoading: false, showSnackbar: true});
         return null;
       });
-  }
+  };
 
   reloadList = () => {
     this.getArticleList();
@@ -98,6 +103,7 @@ export default class EditArticleList extends Component<Props, State> {
     this.focusListener.remove();
   }
 
+  //Item that should be rendered with the StandardList
   renderListItem = item => (
     <EditListItem
       title={item.title}
@@ -108,6 +114,7 @@ export default class EditArticleList extends Component<Props, State> {
   );
 
   render() {
+    //While the list is loading dont display anything
     if (this.state.isLoading) {
       return <View></View>;
     } else {

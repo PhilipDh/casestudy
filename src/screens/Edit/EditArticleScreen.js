@@ -15,6 +15,7 @@ const axios = require('axios').default;
 
 type Props = {};
 
+//Type definition for states of this class. Helps with type safety
 type State = {
   data: any,
   isLoading: boolean,

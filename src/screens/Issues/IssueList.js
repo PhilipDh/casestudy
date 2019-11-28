@@ -16,8 +16,9 @@ import {getIssueUrl} from '../../config/api';
 
 const axios = require('axios').default;
 
+//Type definition for states of this class. Helps with type safety
 type State = {data: any, isLoading: boolean, showSnackbar: boolean};
-type Props = {data: any, isLoading: boolean};
+type Props = {};
 
 class IssueList extends Component<State, Props> {
   constructor(props) {
@@ -29,11 +30,13 @@ class IssueList extends Component<State, Props> {
     };
   }
 
+  //Set the title state
   setTitle = title => this.props.navigation.setParams({title: title});
 
+  //Set the showSnackbar state
   updateSnackbar = () => this.setState({showSnackbar: false});
 
-  //Returns the list of Issues from the backend
+  //Returns the list of Issues from the server
   getIssueList = () => {
     (async () => {
       try {
@@ -75,6 +78,7 @@ class IssueList extends Component<State, Props> {
   }
 
   render() {
+    //Show a loading indicator while the list is loading
     if (this.state.isLoading) {
       return (
         <View>

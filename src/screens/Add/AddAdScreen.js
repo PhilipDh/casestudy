@@ -7,7 +7,6 @@
  */
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, Picker} from 'react-native';
-//import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../../styles/main.theme.js';
 import TextInput from '../../components/common/TextInput';
@@ -23,6 +22,7 @@ const inlineAd = require('../../../assets/images/inline.png');
 const bottomBannerAd = require('../../../assets/images/bottomBanner.png');
 
 type Props = {};
+//Type definition for states of this class. Helps with type safety
 type State = {
   content: string,
   title: string,
@@ -46,12 +46,10 @@ export default class AddAdScreen extends Component<State, Props> {
     };
   }
 
+  //Setters for the different states
   setTitle = text => this.setState({title: text});
-
   setContent = text => this.setState({content: text});
-
   setPayment = text => this.setState({payment: text});
-
   setCompany = text => this.setState({company: text});
 
   //Add a new ad to the current issue
@@ -71,6 +69,8 @@ export default class AddAdScreen extends Component<State, Props> {
         payment: this.state.payment,
         owner: this.state.company,
       };
+
+      //Make a post request to the given URL with the content
       axios
         .post(url, content)
         .then(data => {
@@ -82,7 +82,6 @@ export default class AddAdScreen extends Component<State, Props> {
           });
         })
         .catch(err => {
-          //this.setState({data: [], isLoading: false, showSnackbar: true});
           console.log(err);
           return null;
         });
@@ -142,23 +141,3 @@ export default class AddAdScreen extends Component<State, Props> {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-  },
-  saveButton: {},
-  titleContainer: {},
-  contentContainer: {},
-  pickerContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  buttonContainer: {
-    alignItems: 'center',
-  },
-  textStyle: {
-    color: theme.setContrast(theme.colors.primary),
-    fontSize: theme.FONT_SIZE_LARGE,
-  },
-});

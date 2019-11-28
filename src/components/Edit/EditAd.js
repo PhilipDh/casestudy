@@ -16,6 +16,7 @@ const topBannerAd = require('../../../assets/images/topBanner.png');
 const inlineAd = require('../../../assets/images/inline.png');
 const bottomBannerAd = require('../../../assets/images/bottomBanner.png');
 
+//Type definition for states of this class. Helps with type safety
 type Props = {
   setPlacement: any,
   placement: string,

@@ -17,6 +17,7 @@ import RouteNames from '../../RouteNames';
 
 const axios = require('axios').default;
 
+//Type definition for states of this class. Helps with type safety
 type Props = {
   setTitle: any,
   setContent: any,
@@ -29,7 +30,6 @@ type Props = {
   setOwner: any,
   availablePeople: any,
   isLoading: boolean,
-  setCompany: any,
 };
 
 export default class AddArticle extends Component<Props> {

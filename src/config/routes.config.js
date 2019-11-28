@@ -13,6 +13,8 @@ import RouteNames from '../RouteNames';
 /*
   Configs for the navigation types
   Mostly used to change the color according the the theme defined in main.theme.js
+  For further details on the properties visit:
+  https://reactnavigation.org/docs/en/getting-started.html
 */
 
 export const PaymentConfig = {

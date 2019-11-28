@@ -15,9 +15,9 @@ function convertHex(hex) {
 //Default color, font size and container padding values
 export default {
   colors: {
-    primary: '#5d1049',
-    accent: '#fa3336',
-    surface: '#FFFFFF',
+    primary: '#5d1049', //Primary color used for the app
+    accent: '#fa3336', //Accent used to highlight different items
+    surface: '#FFFFFF', //Color of the surfaces used
     background: '#5d1049',
     text: '#FFFFFF',
     textAlt: '#565656',

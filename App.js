@@ -25,12 +25,9 @@ import {map, filter} from 'rxjs/operators';
 type State = {
   title: string,
   id: number,
+  showSnackbar: boolean,
 };
 
-type Props = {
-  title: string,
-  id: number,
-};
 export default class App extends Component<Props, State> {
   constructor(props) {
     super(props);
@@ -42,6 +39,7 @@ export default class App extends Component<Props, State> {
       releaseDate: '',
     };
 
+    //Disable warnings
     console.disableYellowBox = true;
   }
 

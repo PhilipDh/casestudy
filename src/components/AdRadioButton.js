@@ -3,9 +3,10 @@ import {Image, View, StyleSheet} from 'react-native';
 import {RadioButton, Text} from 'react-native-paper';
 
 /*
-
   Radio Button group that will be displayed in
 */
+
+//Type definition for states of this class. Helps with type safety
 type State = {
   value: any,
 };

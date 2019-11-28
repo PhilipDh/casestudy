@@ -11,6 +11,7 @@ import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
 import theme from '../../styles/main.theme.js';
 import common from '../../styles/common.style.js';
 
+//Type definition for props of this class. Helps with type safety
 type Props = {
   title: string,
   name: string,
@@ -24,28 +25,26 @@ type Props = {
   Payment List item that will be used in Payment Lists
 */
 export default class PaymentItem extends Component<Props> {
-  constructor() {
-    super();
-  }
   render() {
+    const {data, title, name, job, money} = this.props;
     return (
       <TouchableWithoutFeedback
         onPress={() => {
-          this.props.navigateToDetail(this.props.data);
+          this.props.navigateToDetail(data);
         }}>
         <View style={styles.container}>
           <View style={styles.nameContainer}>
-            <Text style={styles.nameText}>{this.props.title}</Text>
-            <Text style={styles.jobText}>{this.props.name}</Text>
+            <Text style={styles.nameText}>{title}</Text>
+            <Text style={styles.jobText}>{name}</Text>
           </View>
           <View style={styles.moneyContainer}>
             <Text
               style={
-                this.props.job != undefined
+                job != undefined
                   ? styles.moneyTextPerson
                   : styles.moneyTextCompany
               }>
-              {this.props.money}€
+              {money}€
             </Text>
           </View>
         </View>

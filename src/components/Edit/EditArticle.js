@@ -13,6 +13,7 @@ import TextInput from '../../components/common/TextInput';
 import Button from '../../components/common/Button';
 const axios = require('axios').default;
 
+//Type definition for states of this class. Helps with type safety
 type Props = {
   isLoading: boolean,
   title: string,

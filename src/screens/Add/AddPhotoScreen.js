@@ -7,7 +7,6 @@
  */
 import React, {Component} from 'react';
 import {View} from 'react-native';
-//import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
 import theme from '../../../styles/main.theme.js';
@@ -22,12 +21,8 @@ import AddPhotoComponent from '../../components/Add/AddPhoto';
 
 const axios = require('axios').default;
 
-type Props = {
-  size: string,
-  isLoading: boolean,
-  id: string,
-};
-
+type Props = {};
+//Type definition for states of this class. Helps with type safety
 type State = {
   size: string,
   isLoading: boolean,
@@ -39,6 +34,7 @@ type State = {
   title: string,
   payment: string,
   owner: string,
+  articleId: string,
 };
 
 export default class AddPhotoScreen extends Component<Props, State> {
@@ -63,6 +59,15 @@ export default class AddPhotoScreen extends Component<Props, State> {
     };
   }
 
+  //Setters for the different states
+  setTitle = text => this.setState({title: text});
+  setPayment = text => this.setState({payment: text});
+  setSize = text => this.setState({size: text});
+  setOwner = text => this.setState({owner: text});
+  setArticle = text => this.setState({articleId: text});
+
+  //Function that opens the Image Picker activity on the phone.
+  //Once an image has been picked the result will be stored in the photoLocation state
   handleChoosePhoto = () => {
     const options = {
       noData: true,
@@ -74,15 +79,11 @@ export default class AddPhotoScreen extends Component<Props, State> {
     });
   };
 
-  setTitle = text => this.setState({title: text});
-  setPayment = text => this.setState({payment: text});
-  setSize = text => this.setState({size: text});
-  setOwner = text => this.setState({owner: text});
-  setArticle = text => this.setState({articleId: text});
-
+  //Build the necessary content for uploading an image.
   createFormData = (photo, body) => {
     const data = new FormData();
 
+    //The name has to match the upload name on the backend, in this case 'avatar'
     data.append('avatar', {
       name: body.id,
       type: photo.type,
@@ -98,8 +99,8 @@ export default class AddPhotoScreen extends Component<Props, State> {
     return data;
   };
 
+  //Upload the photo to the database
   handleUploadPhoto = (id, size) => {
-    console.log(id);
     fetch(getUploadUrl(), {
       method: 'POST',
       body: this.createFormData(this.state.photoLocation, {
@@ -119,6 +120,7 @@ export default class AddPhotoScreen extends Component<Props, State> {
       });
   };
 
+  //Create a new Photo entry in the database
   addPhoto = () => {
     var url = addPhotoUrl(this.state.articleId);
 
@@ -128,13 +130,12 @@ export default class AddPhotoScreen extends Component<Props, State> {
       payment: this.state.payment,
       owner: this.state.owner,
     };
-    console.log(content);
-    console.log(url);
 
+    //Make a post request to the given URL with the content
     axios
       .post(url, content)
       .then(data => {
-        console.log(data);
+        //Once the photo entry has been created upload the image.
         this.handleUploadPhoto(data.data._id, data.data.size);
         this.state.reloadList();
         this.props.navigation.goBack();
@@ -145,11 +146,13 @@ export default class AddPhotoScreen extends Component<Props, State> {
       });
   };
 
+  //Get a list of all photographers
   getPeople = () => {
     let url = getPeopleUrl();
     return axios
       .get(url)
       .then(data => {
+        //Filter the returned data for people that have the job Photographer
         let people = data.data.filter(person =>
           person.job.includes('Photographer'),
         );
@@ -163,6 +166,7 @@ export default class AddPhotoScreen extends Component<Props, State> {
       });
   };
 
+  //Get a list of all articles that the photo can be shown in
   getArticleList = () => {
     var url = getEditByTypeUrl(this.state.id, 'article');
     return axios
@@ -174,20 +178,12 @@ export default class AddPhotoScreen extends Component<Props, State> {
         );
       })
       .catch(err => {
-        //this.setState({data: [], isLoading: false, showSnackbar: true});
         return null;
       });
   };
 
-  //Render a Picker item for each item in the company list
-  _renderPeoplePickerItem = item => {
-    return <Picker.Item label={item.name} value={item.name} />;
-  };
-  _renderArticlePickerItem = item => {
-    return <Picker.Item label={item.title} value={item._id} />;
-  };
-
   componentDidMount() {
+    //Execute both getPeople and getArticleList together, once this is done set the loading state to false
     axios.all([this.getArticleList(), this.getPeople()]).then(
       axios.spread(() => {
         this.setState({isLoading: false});

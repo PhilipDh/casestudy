@@ -15,6 +15,7 @@ import Button from '../../components/common/Button';
 
 const axios = require('axios').default;
 
+//Type definition for states of this class. Helps with type safety
 type Props = {
   size: string,
   isLoading: boolean,
@@ -115,14 +116,3 @@ const styles = StyleSheet.create({
     fontSize: theme.FONT_SIZE_LARGE,
   },
 });
-
-/*
-
-            <Image
-              source={{
-                uri: getPhotoLocationUrl(photoLocation),
-                cache: 'reload',
-              }}
-              style={{width: 300, height: 300}}
-            />
-*/

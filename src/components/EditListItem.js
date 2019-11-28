@@ -21,6 +21,8 @@ import common from '../../styles/common.style';
 /*
   List item that will be used in Edit Lists
 */
+
+//Type definition for states of this class. Helps with type safety
 type Props = {
   id: string,
   title: string,
@@ -28,20 +30,16 @@ type Props = {
   navigateToEdit: any,
 };
 
-export default class EditListItem extends Component<State, Props> {
-  constructor(props) {
-    super(props);
-  }
-
+export default class EditListItem extends Component<Props> {
   render() {
+    const {id, title, content} = this.props;
     return (
-      <TouchableOpacity
-        onPress={() => this.props.navigateToEdit(this.props.id)}>
+      <TouchableOpacity onPress={() => this.props.navigateToEdit(id)}>
         <View style={styles.container}>
           <View style={styles.contentContainer}>
-            <Text style={styles.titleText}> {this.props.title}</Text>
+            <Text style={styles.titleText}> {title}</Text>
             <Text numberOfLines={1} style={styles.subtitleText}>
-              {this.props.content}
+              {content}
             </Text>
           </View>
         </View>

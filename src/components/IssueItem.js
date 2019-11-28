@@ -19,6 +19,8 @@ import theme from '../../styles/main.theme';
 import common from '../../styles/common.style';
 import {formatDate} from '../../utils/formatting';
 
+const listImage = require('../../assets/images/hbr.png');
+//Type definition for states of this class. Helps with type safety
 type Props = {
   title: string,
   date: string,
@@ -33,26 +35,20 @@ type Props = {
 
 export default class IssueItem extends Component<Props> {
   render() {
+    const {title, id, date, setTitle, updateContext} = this.props;
     return (
       <TouchableRipple
         rippleColor={'white'}
         onPress={() => {
-          this.props.updateContext(
-            this.props.title,
-            this.props.id,
-            this.props.date,
-          );
-          this.props.setTitle(this.props.title);
+          updateContext(title, id, date);
+          setTitle(title);
         }}>
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-            <Image
-              source={require('../../assets/images/hbr.png')}
-              style={styles.itemImage}
-            />
+            <Image source={listImage} style={styles.itemImage} />
           </View>
           <View style={styles.textContainer}>
-            <Text style={styles.issueText}>{this.props.title}</Text>
+            <Text style={styles.issueText}>{title}</Text>
           </View>
           <View style={styles.dateIconTextContainer}>
             <View style={styles.dateIconTextInnerContainer}>
@@ -62,7 +58,7 @@ export default class IssueItem extends Component<Props> {
                 size={12}
                 style={{padding: 2}}
               />
-              <Text style={styles.dateText}>{formatDate(this.props.date)}</Text>
+              <Text style={styles.dateText}>{formatDate(date)}</Text>
             </View>
           </View>
         </View>

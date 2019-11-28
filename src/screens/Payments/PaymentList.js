@@ -23,14 +23,16 @@ type State = {
   title: string,
   showSnackbar: boolean,
 };
-type Props = {data: any, isLoading: boolean, id: number, title: string};
+type Props = {};
 
 export default class PaymentList extends Component<State, Props> {
+  /*
   static navigationOptions = ({navigation}) => {
     return {
       title: 'Payments',
     };
   };
+  */
 
   constructor(props) {
     super(props);
@@ -41,7 +43,6 @@ export default class PaymentList extends Component<State, Props> {
       title: this.props.screenProps.issueTitle,
       showSnackbar: false,
     };
-    console.log(this.props.screenProps);
   }
 
   updateSnackbar = () => this.setState({showSnackbar: false});
@@ -114,6 +115,7 @@ export default class PaymentList extends Component<State, Props> {
   );
 
   render() {
+    //Show a loading indicator while loading
     if (this.state.isLoading) {
       return (
         <View>

@@ -21,7 +21,7 @@ type Props = {
   id: string,
   isLoading: boolean,
 };
-
+//Type definition for states of this class. Helps with type safety
 type State = {
   data: any,
   id: string,
@@ -41,10 +41,27 @@ export default class EditList extends Component<Props, State> {
       showSnackbar: false,
     };
   }
-
+  //setter for the showSnackbar state
   updateSnackbar = () => this.setState({showSnackbar: false});
 
-  getAdList() {
+  //Navigates to the EditAd screen with the params id and reloadlist
+  navigateToEdit = id => {
+    this.props.navigation.navigate(RouteNames.EditAd, {
+      id: id,
+      reloadList: this.reloadList,
+    });
+  };
+
+  //Navigates to the AddAd screen witht he params id and reloadList
+  navigateToAdd = () => {
+    this.props.navigation.navigate(RouteNames.AddAd, {
+      id: this.state.id,
+      reloadList: this.reloadList,
+    });
+  };
+
+  //Gets a list of all ads from the server
+  getAdList = () => {
     var url = getEditByTypeUrl(this.state.id, 'ad');
     axios
       .get(url)
@@ -55,7 +72,7 @@ export default class EditList extends Component<Props, State> {
         this.setState({data: [], isLoading: false, showSnackbar: true});
         return null;
       });
-  }
+  };
 
   reloadList = () => {
     this.getAdList();
@@ -79,20 +96,6 @@ export default class EditList extends Component<Props, State> {
     this.focusListener.remove();
   }
 
-  navigateToEdit = id => {
-    this.props.navigation.navigate(RouteNames.EditAd, {
-      id: id,
-      reloadList: this.reloadList,
-    });
-  };
-
-  navigateToAdd = () => {
-    this.props.navigation.navigate(RouteNames.AddAd, {
-      id: this.state.id,
-      reloadList: this.reloadList,
-    });
-  };
-
   //Item that should be rendered with the StandardList
   renderListItem = item => (
     <EditListItem
@@ -104,12 +107,9 @@ export default class EditList extends Component<Props, State> {
   );
 
   render() {
+    //While the list is loading dont display anything
     if (this.state.isLoading) {
-      return (
-        <View style={styles.rootContainer}>
-          <Text> {this.props.screenProps.id} </Text>
-        </View>
-      );
+      return <View style={styles.rootContainer}></View>;
     } else {
       return (
         <View style={styles.rootView}>

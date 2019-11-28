@@ -15,6 +15,7 @@ import EditAdComponent from '../../components/Edit/EditAd';
 const axios = require('axios').default;
 
 type Props = {};
+//Type definition for states of this class. Helps with type safety
 type State = {
   isLoading: boolean,
   loading: boolean,
@@ -36,9 +37,11 @@ export default class EditAdScreen extends Component<State, Props> {
     };
   }
 
+  //Setter for the placement state
   setPlacement = placement =>
-    this.setState({placement: placement}, () => this.updateAd());
+    this.setState({placement: placement}, () => this.updateAd()); //Once the state has been updated, execture updateAd()
 
+  //Update the ad with the new placement data
   updateAd() {
     this.setState({loading: true});
 
@@ -56,6 +59,7 @@ export default class EditAdScreen extends Component<State, Props> {
           loading: false,
           placement: data.data.placement,
         });
+        //Reloads the ad list
         this.state.reloadList();
       })
       .catch(err => {
@@ -64,6 +68,7 @@ export default class EditAdScreen extends Component<State, Props> {
       });
   }
 
+  //Gets the ad with the given id from the database
   getAd() {
     var url = getAdUrl(this.state.id);
     axios

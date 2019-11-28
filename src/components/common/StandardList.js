@@ -59,10 +59,12 @@ export default StandardList;
 const styles = StyleSheet.create({
   rootContainer: {
     padding: theme.containerPadding,
+    height: '100%',
   },
   list: {},
   snackbar: {
     backgroundColor: theme.colors.accent,
     color: theme.colors.text,
+    justifyContent: 'flex-end',
   },
 });

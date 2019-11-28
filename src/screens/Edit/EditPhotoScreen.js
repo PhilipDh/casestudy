@@ -7,8 +7,8 @@
  */
 import React, {Component} from 'react';
 import {View} from 'react-native';
-//import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import ImagePicker from 'react-native-image-picker';
 import {getPhotoUrl, getUploadUrl, getPhotoLocationUrl} from '../../config/api';
 import EditPhotoComponent from '../../components/Edit/EditPhoto';
 
@@ -19,7 +19,7 @@ type Props = {
   isLoading: boolean,
   id: string,
 };
-
+//Type definition for states of this class. Helps with type safety
 type State = {
   payed: boolean,
   size: string,
@@ -104,7 +104,6 @@ export default class EditPhotoScreen extends Component<Props, State> {
       .then(response => response.json())
       .then(response => {
         console.log('upload succes', response);
-        //alert('Upload success!');
         this.setState({photoLocation: response.location});
       })
       .catch(error => {

@@ -7,7 +7,6 @@
  */
 import React, {Component} from 'react';
 import {View} from 'react-native';
-//import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../../styles/main.theme.js';
 import {getArticleUrl, getPeopleUrl, addArticleUrl} from '../../config/api';
@@ -17,7 +16,14 @@ import AddArticleComponent from '../../components/Add/AddArticle';
 const axios = require('axios').default;
 
 type Props = {};
-type State = {content: string, title: string, payment: number};
+//Type definition for states of this class. Helps with type safety
+type State = {
+  content: string,
+  title: string,
+  payment: number,
+  owner: string,
+  isLoading: boolean,
+};
 export default class AddArticleScreen extends Component<State, Props> {
   constructor(props) {
     super(props);
@@ -33,12 +39,10 @@ export default class AddArticleScreen extends Component<State, Props> {
     };
   }
 
+  //Setters for the different states
   setTitle = text => this.setState({title: text});
-
   setContent = text => this.setState({content: text});
-
   setPayment = text => this.setState({payment: text});
-
   setOwner = text => this.setState({owner: text});
 
   //Add a new ad to the current issue
@@ -53,6 +57,7 @@ export default class AddArticleScreen extends Component<State, Props> {
         payment: this.state.payment,
         owner: this.state.owner,
       };
+      //Make a post request to the given URL with the content
       axios
         .post(url, content)
         .then(data => {
@@ -60,7 +65,6 @@ export default class AddArticleScreen extends Component<State, Props> {
           this.props.navigation.goBack();
         })
         .catch(err => {
-          //this.setState({data: [], isLoading: false, showSnackbar: true});
           console.log(err.message);
           return null;
         });
@@ -69,21 +73,20 @@ export default class AddArticleScreen extends Component<State, Props> {
     }
   };
 
-  //Get a list of all the companies that can request an ad
+  //Get a list of all the people that can write an article
   getPeople = () => {
     let url = getPeopleUrl();
     axios
       .get(url)
       .then(data => {
+        //Filter the returned data for people that have the job Journalist
         let people = data.data.filter(person =>
           person.job.includes('Journalist'),
         );
 
         this.setState(
           {availablePeople: people, isLoading: false, owner: people[0].name},
-          function() {
-            // console.log(this.state.availablePeople);
-          },
+          function() {},
         );
       })
       .catch(err => {
@@ -104,7 +107,7 @@ export default class AddArticleScreen extends Component<State, Props> {
         setPayment={this.setPayment}
         setOwner={this.setOwner}
         addArticle={this.addArticle}
-        owner={this.setOwner}
+        owner={this.state.owner}
         availablePeople={this.state.availablePeople}
         title={this.state.title}
         content={this.state.content}

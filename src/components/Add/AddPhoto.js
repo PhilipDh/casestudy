@@ -17,6 +17,7 @@ import TextInput from '../../components/common/TextInput';
 
 const axios = require('axios').default;
 
+//Type definition for states of this class. Helps with type safety
 type Props = {
   setSize: any,
   setTitle: any,
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
   container: {height: '100%'},
   textContainer: {},
   textInputStyle: {
-    width: '100%',
+    width: '95%',
   },
 
   pickerContainer: {

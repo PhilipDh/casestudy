@@ -1,29 +1,21 @@
 package com.casestudy;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
-import com.facebook.react.uimanager.ViewProps;
 import com.facebook.react.uimanager.annotations.ReactProp;
-import com.facebook.react.views.image.GlobalImageLoadListener;
-import com.facebook.react.views.image.ImageResizeMode;
 import com.facebook.react.views.image.ReactImageView;
-
-import java.net.URL;
 
 public class ReactImageManager extends SimpleViewManager<ReactImageView> {
 
 
+    //Name of the React component that should be required
     public static final String REACT_CLASS = "RCTImageView1";
     private final @Nullable
     Object mCallerContext = null;
@@ -48,8 +40,10 @@ public class ReactImageManager extends SimpleViewManager<ReactImageView> {
     @Override
     protected ReactImageView createViewInstance(ThemedReactContext reactContext) {
 
+        //Create a new ReactImageView
         final ReactImageView reactImageView = new ReactImageView(reactContext, Fresco.newDraweeControllerBuilder(), null, mCallerContext);
 
+        //Upon creation of the image start loading with the loadWithGlide function
         final Handler handler = new Handler();
         imgStartListener = new ImgStartListener() {
             @Override
@@ -62,6 +56,13 @@ public class ReactImageManager extends SimpleViewManager<ReactImageView> {
         return reactImageView;
     }
 
+
+    /**
+     * Function that uses Glide as the HTTP request manager to load an image
+     * @param url location of the image
+     * @param imageView React component that the image should be loaded into
+     * @param context Context that Glide should use to avoid memory leaks
+     */
     private void loadWithGlide(String url, ReactImageView imageView, ThemedReactContext context){
         Glide
                 .with(context)
