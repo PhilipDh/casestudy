@@ -14,6 +14,7 @@ import {publish, refCount} from 'rxjs/operators';
 //Return an observable that will emit an event whenever a device shake is detected
 function returnObservable() {
   Accelerometer.setUpdateInterval(100);
+  //Create a new observable
   return Observable.create(function subscribe(observer) {
     this.unsubscribeCallback = () => {
       // stop the sensor

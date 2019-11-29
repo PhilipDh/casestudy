@@ -81,6 +81,7 @@ export default class AddAdScreen extends Component<State, Props> {
             reloadList: this.state.reloadList,
           });
         })
+        //If the server responds with an error handle it
         .catch(err => {
           console.log(err);
           return null;

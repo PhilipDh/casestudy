@@ -88,6 +88,7 @@ export default class AddPhotoScreen extends Component<Props, State> {
       name: body.id,
       type: photo.type,
       uri:
+        //Based on the OS of the device change the URI to match the needed pattern
         Platform.OS === 'android'
           ? photo.uri
           : photo.uri.replace('file://', ''),

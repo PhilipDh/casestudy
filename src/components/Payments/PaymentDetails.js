@@ -9,7 +9,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
-//import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Feather';
 import theme from '../../../styles/main.theme.js';
 import {API_URL, getUpdatePaymentUrl} from '../../config/api';
@@ -89,6 +88,7 @@ export default class PaymentDetails extends Component<Props, State> {
       updatePayment,
       disabled,
     } = this.props;
+    5;
     if (this.props.isLoading) {
       return <View></View>;
     } else {

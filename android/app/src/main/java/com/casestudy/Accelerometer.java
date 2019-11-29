@@ -37,7 +37,7 @@ public class Accelerometer extends ReactContextBaseJavaModule implements SensorE
         this.sensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
 
-    // RN Methods
+    //Checks if the phone has the Accelerometer sensor
     @ReactMethod
     public void isAvailable(Promise promise) {
         if (this.sensor == null) {
@@ -48,18 +48,21 @@ public class Accelerometer extends ReactContextBaseJavaModule implements SensorE
         promise.resolve(null);
     }
 
+    //Sets the interval in which updates should be sent
     @ReactMethod
     public void setUpdateInterval(int newInterval) {
         this.interval = newInterval;
     }
 
 
+    //Register a listerner with the SensorManager to listen for updates
     @ReactMethod
     public void startUpdates() {
         // Milisecond to Microsecond conversion
         sensorManager.registerListener(this, sensor, this.interval * 1000);
     }
 
+    //Unregister the listener to stop updates
     @ReactMethod
     public void stopUpdates() {
         sensorManager.unregisterListener(this);
@@ -80,8 +83,11 @@ public class Accelerometer extends ReactContextBaseJavaModule implements SensorE
         }
     }
 
+    //Event that is triggered by the sensors
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
+
+        //If the time that has passed between the last reading and the current reading is smaller then the threshold ignore it
         double tempMs = (double) System.currentTimeMillis();
         if (tempMs - lastReading >= interval){
             lastReading = tempMs;
@@ -89,6 +95,7 @@ public class Accelerometer extends ReactContextBaseJavaModule implements SensorE
             Sensor mySensor = sensorEvent.sensor;
             WritableMap map = arguments.createMap();
 
+            //If the type of data is returned by the Accelerometer do the following
             if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 
                 double diffTime = (tempMs - lastUpdate);
@@ -98,10 +105,12 @@ public class Accelerometer extends ReactContextBaseJavaModule implements SensorE
                 y = sensorEvent.values[1];
                 z = sensorEvent.values[2];
 
+                //calculate the speed at which the phone has moved
                 double speed = Math.abs(x+y+z - last_x - last_y - last_z) / diffTime * 10000;
 
                 Log.d("sensor", "speed: " + speed);
 
+                //If the calculated speed is greater then the shake threshold send the event to the react app
                 if (speed > SHAKE_THRESHOLD) {
                     Log.d("sensor", "shake detected w/ speed: " + speed);
                     map.putDouble("speed", speed);

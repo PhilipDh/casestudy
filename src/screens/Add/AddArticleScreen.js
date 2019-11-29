@@ -83,7 +83,7 @@ export default class AddArticleScreen extends Component<State, Props> {
         let people = data.data.filter(person =>
           person.job.includes('Journalist'),
         );
-
+        //Set states based on the result sent from the server
         this.setState(
           {availablePeople: people, isLoading: false, owner: people[0].name},
           function() {},
