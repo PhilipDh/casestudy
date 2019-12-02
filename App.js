@@ -21,12 +21,16 @@ import RouteNames from './src/RouteNames';
 import {AppNavigator} from './src/Routes';
 import {accelerometer} from './src/custom/Accelerometer';
 import {map, filter} from 'rxjs/operators';
+import {initStore} from './src/redux/store';
+import {Provider} from 'react-redux';
 
 type State = {
   title: string,
   id: number,
   showSnackbar: boolean,
 };
+
+const store = initStore();
 
 export default class App extends Component<Props, State> {
   constructor(props) {
@@ -58,24 +62,26 @@ export default class App extends Component<Props, State> {
       //Paper Provider: has to wrapped in the PaperProvider to pass its theme to the React Native Paper components
       //AppNavigator: Root navigator from the Routes.js file, screenProps has to be a parameter to pass props between bottom tab screens
       //Snackbar: Shows up when the phone is shaken
-      <PaperProvider theme={themes}>
-        <AppNavigator screenProps={{}} />
-        <Snackbar
-          theme={{...DefaultTheme, colors: {accent: 'white'}}}
-          style={styles.snackbar}
-          visible={this.state.showSnackbar}
-          onDismiss={() => {
-            this.updateSnackbar();
-          }}
-          action={{
-            label: 'Submit',
-            onPress: () => {
-              console.log('Submitted bug');
-            },
-          }}>
-          Submit a bug report?
-        </Snackbar>
-      </PaperProvider>
+      <Provider store={store}>
+        <PaperProvider theme={themes}>
+          <AppNavigator screenProps={{}} />
+          <Snackbar
+            theme={{...DefaultTheme, colors: {accent: 'white'}}}
+            style={styles.snackbar}
+            visible={this.state.showSnackbar}
+            onDismiss={() => {
+              this.updateSnackbar();
+            }}
+            action={{
+              label: 'Submit',
+              onPress: () => {
+                console.log('Submitted bug');
+              },
+            }}>
+            Submit a bug report?
+          </Snackbar>
+        </PaperProvider>
+      </Provider>
     );
   }
 }

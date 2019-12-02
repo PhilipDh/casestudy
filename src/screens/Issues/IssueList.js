@@ -7,18 +7,27 @@
  */
 
 import React, {Component} from 'react';
-import {View, ActivityIndicator, StyleSheet} from 'react-native';
+import {View, ActivityIndicator, StyleSheet, Text} from 'react-native';
 import {withTheme} from 'react-native-paper';
 import IssueItem from '../../components/IssueItem';
 import theme from '../../../styles/main.theme.js';
 import StandardList from '../../components/common/StandardList';
 import {getIssueUrl} from '../../config/api';
+import {connect} from 'react-redux';
+import {setTitle, selectIssue} from '../../redux/actions/issue.actions';
+import Title from '../../components/Title';
+import {getIssueList} from '../../redux/actions/issue.actions';
 
 const axios = require('axios').default;
 
 //Type definition for states of this class. Helps with type safety
-type State = {data: any, isLoading: boolean, showSnackbar: boolean};
-type Props = {};
+type State = {
+  data: any,
+  isLoading: boolean,
+  showSnackbar: boolean,
+  title: string,
+};
+type Props = {title: string};
 
 class IssueList extends Component<State, Props> {
   constructor(props) {
@@ -68,18 +77,22 @@ class IssueList extends Component<State, Props> {
       date={item.releaseDate}
       id={item._id}
       updateContext={this.updateProperties}
-      setTitle={this.setTitle}
+      setTitle={this.props.setTitle}
+      item={item}
+      selectIssue={this.props.selectIssue}
     />
   );
 
   componentDidMount() {
     //Upon mounting the component load all issues from the API
-    this.getIssueList();
+    //this.getIssueList();
+    this.props.getIssueList();
   }
 
   render() {
+    const {setTitle, title} = this.props;
     //Show a loading indicator while the list is loading
-    if (this.state.isLoading) {
+    if (this.props.isLoading) {
       return (
         <View>
           <ActivityIndicator />
@@ -88,8 +101,8 @@ class IssueList extends Component<State, Props> {
     } else {
       return (
         <StandardList
-          data={this.state.data}
-          setTitle={this.setTitle}
+          data={this.props.data}
+          setTitle={setTitle}
           reloadList={this.getIssueList}
           updateContext={this.props.screenProps.updateContext}
           renderItem={this.renderListItem}
@@ -101,4 +114,16 @@ class IssueList extends Component<State, Props> {
   }
 }
 
-export default withTheme(IssueList);
+const mapStateToProps = state => ({
+  title: state.issue.title,
+  data: state.issue.data,
+  isLoading: state.issue.isLoading,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setTitle: title => dispatch(setTitle(title)),
+  getIssueList: () => dispatch(getIssueList()),
+  selectIssue: item => dispatch(selectIssue(item)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(IssueList);

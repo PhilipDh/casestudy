@@ -3,7 +3,7 @@
  * https://github.com/facebook/react-native
  *
  * @format
- *
+ * @flow
  */
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, Picker} from 'react-native';

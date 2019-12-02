@@ -26,6 +26,7 @@ export default {
   FONT_SIZE_SMALL: 12,
   FONT_SIZE_MEDIUM: 14,
   FONT_SIZE_LARGE: 16,
+  FONT_SIZE_TITLE: 20,
   LIST_ITEM_PADDING: 24,
 
   //Calculates whether to display a white or black label based on the color(hex string) input

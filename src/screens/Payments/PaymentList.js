@@ -13,6 +13,8 @@ import theme from '../../../styles/main.theme.js';
 import RouteNames from '../../RouteNames';
 import SectionedList from '../../components/common/SectionedList';
 import {getPaymentsUrl} from '../../config/api';
+import {connect} from 'react-redux';
+import {getPaymentList} from '../../redux/actions/payment.action';
 
 const axios = require('axios').default;
 
@@ -25,7 +27,9 @@ type State = {
 };
 type Props = {};
 
-export default class PaymentList extends Component<State, Props> {
+var prevId = 0;
+
+class PaymentList extends Component<State, Props> {
   /*
   static navigationOptions = ({navigation}) => {
     return {
@@ -39,7 +43,7 @@ export default class PaymentList extends Component<State, Props> {
     this.state = {
       data: {},
       isLoading: true,
-      id: this.props.screenProps.issueTitle,
+      id: this.props.id,
       title: this.props.screenProps.issueTitle,
       showSnackbar: false,
     };
@@ -65,35 +69,37 @@ export default class PaymentList extends Component<State, Props> {
     this.props.navigation.navigate(RouteNames.PaymentDetails, {
       id: data._id,
       type: type,
-      date: this.props.screenProps.releaseDate,
+      date: this.props.date,
     });
   };
 
   //Returns the list of all Payments for the current issue, based on the screenProp ID from the Issue screen
   getPaymentList = () => {
     //After the state has been set to the new ID get the payments
-    this.setState({id: this.props.screenProps.id}, function() {
-      var pId = this.props.screenProps.id;
-      (async () => {
-        try {
-          const response = await axios.get(getPaymentsUrl(this.state.id));
-          this.setState({data: response.data, isLoading: false});
-        } catch (error) {
-          this.setState({
-            data: {ads: [], articles: [], photos: []},
-            isLoading: false,
-          });
-        }
-      })();
-    });
+    //this.setState({id: this.props.screenProps.id}, function() {
+    (async () => {
+      try {
+        const response = await axios.get(getPaymentsUrl(this.state.id));
+        this.setState({data: response.data, isLoading: false});
+      } catch (error) {
+        this.setState({
+          data: {ads: [], articles: [], photos: []},
+          isLoading: false,
+        });
+      }
+    })();
+    //});
   };
 
   componentDidMount() {
-    this.getPaymentList();
+    this.props.getPaymentList(this.props.id);
     //Listener that will be called whenver the Payment list is in focus
     //It will load the payment list in case the issue has changed
-    this.focusListener = this.props.navigation.addListener('didFocus', () => {
-      this.getPaymentList();
+    this.focusListener = this.props.navigation.addListener('willFocus', () => {
+      if (prevId != this.props.id) {
+        this.props.getPaymentList(this.props.id);
+        prevId = this.props.id;
+      }
     });
   }
 
@@ -103,20 +109,24 @@ export default class PaymentList extends Component<State, Props> {
   }
 
   //List item that should be rendered with the SectionList
-  renderListItem = item => (
-    <PaymentItem
-      title={item.title}
-      data={item}
-      money={item.payment}
-      name={item.owner.name}
-      job={item.owner.job}
-      navigateToDetail={this.navigateToDetail}
-    />
-  );
+  renderListItem = item => {
+    console.log(item);
+    return (
+      <PaymentItem
+        title={item.title}
+        data={item}
+        money={item.payment}
+        name={item.owner.name}
+        job={item.owner.job}
+        navigateToDetail={this.navigateToDetail}
+      />
+    );
+  };
 
   render() {
     //Show a loading indicator while loading
-    if (this.state.isLoading) {
+    if (this.props.isLoading) {
+      console.log('loading');
       return (
         <View>
           <ActivityIndicator />
@@ -125,8 +135,8 @@ export default class PaymentList extends Component<State, Props> {
     } else {
       return (
         <SectionedList
-          data={this.state.data}
-          reloadList={this.getPaymentList}
+          data={this.props.data}
+          reloadList={this.props.getPaymentList}
           renderItem={this.renderListItem}
           updateSnackbar={this.updateSnackbar}
           showSnackbar={this.state.showSnackbar}
@@ -135,3 +145,15 @@ export default class PaymentList extends Component<State, Props> {
     }
   }
 }
+
+const mapStateToProps = state => ({
+  id: state.issue.issueItem._id,
+  date: state.issue.issueItem.releaseDate,
+  isLoading: state.issue.isLoading,
+  data: state.issue.paymentData,
+});
+const mapDispatchToProps = dispatch => ({
+  getPaymentList: id => dispatch(getPaymentList(id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentList);

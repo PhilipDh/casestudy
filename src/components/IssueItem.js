@@ -27,6 +27,8 @@ type Props = {
   id: string,
   updateContext: any,
   setTitle: any,
+  selectIssue: any,
+  item: any,
 };
 
 /*
@@ -35,13 +37,22 @@ type Props = {
 
 export default class IssueItem extends Component<Props> {
   render() {
-    const {title, id, date, setTitle, updateContext} = this.props;
+    const {
+      title,
+      id,
+      date,
+      setTitle,
+      updateContext,
+      selectIssue,
+      item,
+    } = this.props;
     return (
       <TouchableRipple
         rippleColor={'white'}
         onPress={() => {
           updateContext(title, id, date);
           setTitle(title);
+          selectIssue(item);
         }}>
         <View style={styles.container}>
           <View style={styles.imageContainer}>

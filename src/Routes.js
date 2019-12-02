@@ -26,6 +26,7 @@ import AddArticle from './screens/Add/AddArticleScreen';
 import AddPhoto from './screens/Add/AddPhotoScreen';
 import UserLogin from './screens/Login/UserLogin';
 import theme from '../styles/main.theme.js';
+import Title from './components/Title';
 import {
   PaymentConfig,
   IssueConfig,
@@ -64,11 +65,13 @@ const IssueStack = createStackNavigator(
   {
     [RouteNames.IssueList]: {
       screen: IssueList,
-      params: {title: 'Issues'},
+      //params: {title: 'Issues'},
 
       navigationOptions: ({navigation}) => ({
         //Set the title for the Navigation header based on the navigation param "title"
-        title: `${navigation.state.params.title}`,
+        //title: `${navigation.state.params.title}`,
+        //title: <Title />,
+        headerTitle: <Title />,
       }),
     },
   },

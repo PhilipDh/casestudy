@@ -36,26 +36,30 @@ class SectionedList extends Component {
       data,
       ...extraProps
     } = this.props;
-
-    return (
-      <View style={styles.rootContainer}>
-        <SectionList
-          //ItemSeparatorComponent={this.FlatListItemSeparator}
-          ListEmptyComponent={
-            <EmptyListComponent reloadList={this.props.reloadList} />
-          }
-          sections={[
-            {title: 'Ads', data: data.ads},
-            {title: 'Articles', data: data.articles},
-            {title: 'Photos', data: data.photos},
-          ]}
-          renderSectionHeader={({section}) => this.renderSectionHeader(section)}
-          renderItem={({item}) => renderItem(item)}
-          keyExtractor={({_id}, index) => _id}
-          //keyExtractor={(item, index) => index}
-        />
-      </View>
-    );
+    if (data) {
+      return (
+        <View style={styles.rootContainer}>
+          <SectionList
+            //ItemSeparatorComponent={this.FlatListItemSeparator}
+            ListEmptyComponent={
+              <EmptyListComponent reloadList={this.props.reloadList} />
+            }
+            sections={[
+              {title: 'Ads', data: data.ads},
+              {title: 'Articles', data: data.articles},
+              {title: 'Photos', data: data.photos},
+            ]}
+            renderSectionHeader={({section}) =>
+              this.renderSectionHeader(section)
+            }
+            renderItem={({item}) => renderItem(item)}
+            keyExtractor={({_id}, index) => _id}
+            //keyExtractor={(item, index) => index}
+          />
+        </View>
+      );
+    }
+    return <View></View>;
   }
 }
 
