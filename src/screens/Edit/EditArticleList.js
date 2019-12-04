@@ -114,27 +114,23 @@ export default class EditArticleList extends Component<Props, State> {
   );
 
   render() {
-    //While the list is loading dont display anything
-    if (this.state.isLoading) {
-      return <View></View>;
-    } else {
-      return (
-        <View style={styles.rootContainer}>
-          <StandardList
-            data={this.state.data}
-            reloadList={this.reloadList}
-            renderItem={this.renderListItem}
-            updateSnackbar={this.updateSnackbar}
-            showSnackbar={this.state.showSnackbar}
-          />
-          <FAB
-            style={styles.fab}
-            icon="plus"
-            onPress={() => this.navigateToAdd()}
-          />
-        </View>
-      );
-    }
+    return (
+      <View style={styles.rootContainer}>
+        <StandardList
+          data={this.state.data}
+          reloadList={this.reloadList}
+          renderItem={this.renderListItem}
+          updateSnackbar={this.updateSnackbar}
+          showSnackbar={this.state.showSnackbar}
+          isLoading={this.state.isLoading}
+        />
+        <FAB
+          style={styles.fab}
+          icon="plus"
+          onPress={() => this.navigateToAdd()}
+        />
+      </View>
+    );
   }
 }
 

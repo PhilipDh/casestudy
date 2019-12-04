@@ -12,8 +12,8 @@ import {
 const defaultState = {
   title: 'Issues',
   issueItem: {title: 'Issues'},
-  data: null,
-  paymentData: null,
+  data: {},
+  paymentData: {},
   isLoading: false,
 };
 

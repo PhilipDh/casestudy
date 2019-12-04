@@ -7,7 +7,13 @@
  */
 
 import React, {Component} from 'react';
-import {View, FlatList, StyleSheet, Text} from 'react-native';
+import {
+  View,
+  FlatList,
+  StyleSheet,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
 import theme from '../../../styles/main.theme';
 import {TextInput, Snackbar, DefaultTheme} from 'react-native-paper';
 import EmptyListComponent from './EmptyListComponent';
@@ -15,13 +21,22 @@ import EmptyListComponent from './EmptyListComponent';
 /*
   Custom FlatList that will be used throughout the app to keep a consistent look
 */
-class StandardList extends Component {
+
+type Props = {
+  updateSnackbar: any,
+  showSnackbar: any,
+  renderItem: any,
+  data: any,
+  isLoading: boolean,
+};
+class StandardList extends Component<Props> {
   render() {
     const {
       updateSnackbar,
       showSnackbar,
       renderItem,
       data,
+      isLoading,
       ...extraProps
     } = this.props;
     return (
@@ -49,6 +64,11 @@ class StandardList extends Component {
           }}>
           Network Error
         </Snackbar>
+        {isLoading && (
+          <View style={styles.loading}>
+            <ActivityIndicator size="large" />
+          </View>
+        )}
       </View>
     );
   }
@@ -66,5 +86,15 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.accent,
     color: theme.colors.text,
     justifyContent: 'flex-end',
+  },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#5d104988',
   },
 });

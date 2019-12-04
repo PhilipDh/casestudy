@@ -27,3 +27,7 @@ export const dateDiff = (date, difference = 60) => {
 
   return Math.floor((now - due) / (1000 * 60 * 60 * 24)) > difference;
 };
+
+export const initCap = inp => {
+  return inp.charAt(0).toUpperCase() + inp.slice(1);
+};

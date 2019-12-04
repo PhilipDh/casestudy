@@ -92,25 +92,19 @@ class IssueList extends Component<State, Props> {
   render() {
     const {setTitle, title} = this.props;
     //Show a loading indicator while the list is loading
-    if (this.props.isLoading) {
-      return (
-        <View>
-          <ActivityIndicator />
-        </View>
-      );
-    } else {
-      return (
-        <StandardList
-          data={this.props.data}
-          setTitle={setTitle}
-          reloadList={this.getIssueList}
-          updateContext={this.props.screenProps.updateContext}
-          renderItem={this.renderListItem}
-          updateSnackbar={this.updateSnackbar}
-          showSnackbar={this.state.showSnackbar}
-        />
-      );
-    }
+
+    return (
+      <StandardList
+        data={this.props.data}
+        setTitle={setTitle}
+        reloadList={this.getIssueList}
+        updateContext={this.props.screenProps.updateContext}
+        renderItem={this.renderListItem}
+        updateSnackbar={this.updateSnackbar}
+        showSnackbar={this.state.showSnackbar}
+        isLoading={this.props.isLoading}
+      />
+    );
   }
 }
 

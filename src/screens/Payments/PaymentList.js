@@ -15,6 +15,7 @@ import SectionedList from '../../components/common/SectionedList';
 import {getPaymentsUrl} from '../../config/api';
 import {connect} from 'react-redux';
 import {getPaymentList} from '../../redux/actions/payment.action';
+import {initCap} from '../../../utils/formatting';
 
 const axios = require('axios').default;
 
@@ -108,6 +109,20 @@ class PaymentList extends Component<State, Props> {
     this.focusListener.remove();
   }
 
+  populateSections = () => {
+    const result = [];
+    const {data} = this.props;
+    Object.keys(data).forEach(key => {
+      if (key === 'issue') return;
+      let row = {};
+      row.title = initCap(key);
+      row.data = data[key];
+      result.push(row);
+    });
+
+    return result;
+  };
+
   //List item that should be rendered with the SectionList
   renderListItem = item => {
     console.log(item);
@@ -125,7 +140,7 @@ class PaymentList extends Component<State, Props> {
 
   render() {
     //Show a loading indicator while loading
-    if (this.props.isLoading) {
+    /*  if (this.props.isLoading) {
       console.log('loading');
       return (
         <View>
@@ -133,16 +148,19 @@ class PaymentList extends Component<State, Props> {
         </View>
       );
     } else {
-      return (
-        <SectionedList
-          data={this.props.data}
-          reloadList={this.props.getPaymentList}
-          renderItem={this.renderListItem}
-          updateSnackbar={this.updateSnackbar}
-          showSnackbar={this.state.showSnackbar}
-        />
-      );
-    }
+      */
+    return (
+      <SectionedList
+        data={this.props.data}
+        reloadList={this.props.getPaymentList}
+        renderItem={this.renderListItem}
+        updateSnackbar={this.updateSnackbar}
+        showSnackbar={this.state.showSnackbar}
+        sections={this.populateSections}
+        isLoading={this.props.isLoading}
+      />
+    );
+    //}
   }
 }
 
