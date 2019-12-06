@@ -17,7 +17,10 @@ import {
   getEditByTypeUrl,
   getPeopleUrl,
 } from '../../config/api';
+import {makeId} from '../../../utils/formatting';
 import AddPhotoComponent from '../../components/Add/AddPhoto';
+import {connect} from 'react-redux';
+import {addPhotoToIssue} from '../../redux/actions/issue.actions';
 
 const axios = require('axios').default;
 
@@ -37,7 +40,7 @@ type State = {
   articleId: string,
 };
 
-export default class AddPhotoScreen extends Component<Props, State> {
+class AddPhotoScreen extends Component<Props, State> {
   constructor(props) {
     super(props);
 
@@ -85,7 +88,7 @@ export default class AddPhotoScreen extends Component<Props, State> {
 
     //The name has to match the upload name on the backend, in this case 'avatar'
     data.append('avatar', {
-      name: body.id,
+      name: body.location,
       type: photo.type,
       uri:
         //Based on the OS of the device change the URI to match the needed pattern
@@ -123,16 +126,25 @@ export default class AddPhotoScreen extends Component<Props, State> {
 
   //Create a new Photo entry in the database
   addPhoto = () => {
-    var url = addPhotoUrl(this.state.articleId);
+    var url = addPhotoUrl(this.state.id);
 
-    var content = {
+    var c = {
       size: this.state.size,
       title: this.state.title,
-      payment: this.state.payment,
+      amount: this.state.payment,
       owner: this.state.owner,
+      due: '2019-10-30',
+      location: makeId(10),
     };
 
+    var content = this.createFormData(this.state.photoLocation, c);
+
+    console.log(content);
+
+    this.props.addPhotoToIssue(this.state.id, content);
+
     //Make a post request to the given URL with the content
+    /*
     axios
       .post(url, content)
       .then(data => {
@@ -145,6 +157,7 @@ export default class AddPhotoScreen extends Component<Props, State> {
         console.log(err);
         return null;
       });
+      */
   };
 
   //Get a list of all photographers
@@ -216,3 +229,11 @@ export default class AddPhotoScreen extends Component<Props, State> {
     );
   }
 }
+
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = dispatch => ({
+  addPhotoToIssue: (id, content) => dispatch(addPhotoToIssue(id, content)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddPhotoScreen);

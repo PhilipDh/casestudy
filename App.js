@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ToastAndroid} from 'react-native';
 import {
   Snackbar,
   DefaultTheme,
@@ -32,7 +32,7 @@ type State = {
 
 const store = initStore();
 
-export default class App extends Component<Props, State> {
+class App extends Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,6 +55,10 @@ export default class App extends Component<Props, State> {
     });
   }
 
+  showToast = message => {
+    AndroidToast.show(message, ToastAndroid.SHORT);
+  };
+
   updateSnackbar = () => this.setState({showSnackbar: false});
 
   render() {
@@ -64,7 +68,7 @@ export default class App extends Component<Props, State> {
       //Snackbar: Shows up when the phone is shaken
       <Provider store={store}>
         <PaperProvider theme={themes}>
-          <AppNavigator screenProps={{}} />
+          <AppNavigator screenProps={{showToast: this.showToast}} />
           <Snackbar
             theme={{...DefaultTheme, colors: {accent: 'white'}}}
             style={styles.snackbar}
@@ -85,6 +89,8 @@ export default class App extends Component<Props, State> {
     );
   }
 }
+
+export default App;
 
 const themes = {
   ...DefaultTheme,

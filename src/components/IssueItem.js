@@ -45,6 +45,8 @@ export default class IssueItem extends Component<Props> {
       updateContext,
       selectIssue,
       item,
+      getCurrentIssue,
+      cover,
     } = this.props;
     return (
       <TouchableRipple
@@ -53,10 +55,11 @@ export default class IssueItem extends Component<Props> {
           updateContext(title, id, date);
           setTitle(title);
           selectIssue(item);
+          getCurrentIssue(id);
         }}>
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-            <Image source={listImage} style={styles.itemImage} />
+            <Image source={{uri: cover}} style={styles.itemImage} />
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.issueText}>{title}</Text>

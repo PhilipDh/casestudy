@@ -14,7 +14,7 @@ import theme from '../../../styles/main.theme.js';
 import StandardList from '../../components/common/StandardList';
 import RouteNames from '../../RouteNames';
 import {getEditByTypeUrl} from '../../config/api';
-
+import {connect} from 'react-redux';
 const axios = require('axios').default;
 
 type Props = {};
@@ -25,8 +25,7 @@ type State = {
   id: string,
   showSnackbar: boolean,
 };
-
-export default class EditPhotoList extends Component<Props, State> {
+class EditPhotoList extends Component<Props, State> {
   constructor(props) {
     super(props);
 
@@ -110,12 +109,12 @@ export default class EditPhotoList extends Component<Props, State> {
     return (
       <View style={styles.rootContainer}>
         <StandardList
-          data={this.state.data}
+          data={this.props.editList}
           reloadList={this.reloadList}
           renderItem={this.renderListItem}
           updateSnackbar={this.updateSnackbar}
           showSnackbar={this.state.showSnackbar}
-          isLoading={this.state.isLoading}
+          isLoading={this.props.isLoading}
         />
         <FAB
           style={styles.fab}
@@ -126,6 +125,16 @@ export default class EditPhotoList extends Component<Props, State> {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  editList: state.issue.currentIssue.photos,
+  isLoading: state.issue.isLoading,
+  errorMessage: state.issue.errorMessage,
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditPhotoList);
 
 const styles = StyleSheet.create({
   rootContainer: {

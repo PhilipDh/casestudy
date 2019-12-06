@@ -24,9 +24,8 @@ export default EmptyListComponent;
 
 const styles = StyleSheet.create({
   emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   emptyListText: {
     color: theme.colors.text,

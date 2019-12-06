@@ -4,6 +4,7 @@
 */
 
 export const API_URL = 'http://10.0.2.2:3000';
+//export const API_URL = 'http://100.88.92.11:3000';
 
 export const getAdUrl = id => `${API_URL}/ad/${id}`;
 export const getArticleUrl = id => `${API_URL}/article/${id}`;
@@ -26,6 +27,8 @@ export const getEditByTypeUrl = (id, type) =>
   `${API_URL}/edit/${id}?type=${type}`;
 
 export const getIssueUrl = () => `${API_URL}/issue`;
+export const getIssueByIdUrl = id => `${API_URL}/issue/${id}`;
+
 export const getPaymentsUrl = id => `${API_URL}/payment/${id}`;
 export const getUpdatePaymentUrl = (id, type) =>
   `${API_URL}/payment/${id}?type=${type}`;

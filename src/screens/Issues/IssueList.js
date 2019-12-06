@@ -14,9 +14,14 @@ import theme from '../../../styles/main.theme.js';
 import StandardList from '../../components/common/StandardList';
 import {getIssueUrl} from '../../config/api';
 import {connect} from 'react-redux';
-import {setTitle, selectIssue} from '../../redux/actions/issue.actions';
 import Title from '../../components/Title';
-import {getIssueList} from '../../redux/actions/issue.actions';
+import NetworkError from '../../components/common/NetworkError';
+import {
+  setTitle,
+  selectIssue,
+  getIssueList,
+  getCurrentIssue,
+} from '../../redux/actions/issue.actions';
 
 const axios = require('axios').default;
 
@@ -78,46 +83,63 @@ class IssueList extends Component<State, Props> {
       id={item._id}
       updateContext={this.updateProperties}
       setTitle={this.props.setTitle}
+      getCurrentIssue={this.props.getCurrentIssue}
       item={item}
       selectIssue={this.props.selectIssue}
+      cover={item.cover}
     />
   );
 
   componentDidMount() {
     //Upon mounting the component load all issues from the API
-    //this.getIssueList();
     this.props.getIssueList();
   }
 
   render() {
-    const {setTitle, title} = this.props;
+    const {setTitle, title, errorMessage} = this.props;
     //Show a loading indicator while the list is loading
-
     return (
-      <StandardList
-        data={this.props.data}
-        setTitle={setTitle}
-        reloadList={this.getIssueList}
-        updateContext={this.props.screenProps.updateContext}
-        renderItem={this.renderListItem}
-        updateSnackbar={this.updateSnackbar}
-        showSnackbar={this.state.showSnackbar}
-        isLoading={this.props.isLoading}
-      />
+      <View>
+        <StandardList
+          data={this.props.data}
+          setTitle={setTitle}
+          reloadList={this.props.getIssueList}
+          updateContext={this.props.screenProps.updateContext}
+          renderItem={this.renderListItem}
+          updateSnackbar={this.updateSnackbar}
+          showSnackbar={this.state.showSnackbar}
+          isLoading={this.props.isLoading}
+        />
+        {errorMessage !== '' && (
+          <View style={styles.networkMessage}>
+            <NetworkError message={errorMessage} />
+          </View>
+        )}
+      </View>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  title: state.issue.title,
+  title: state.issue.currentIssue.title,
   data: state.issue.data,
   isLoading: state.issue.isLoading,
+  errorMessage: state.issue.errorMessage,
 });
 
 const mapDispatchToProps = dispatch => ({
   setTitle: title => dispatch(setTitle(title)),
   getIssueList: () => dispatch(getIssueList()),
   selectIssue: item => dispatch(selectIssue(item)),
+  getCurrentIssue: id => dispatch(getCurrentIssue(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(IssueList);
+
+const styles = StyleSheet.create({
+  networkMessage: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+  },
+});

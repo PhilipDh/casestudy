@@ -11,6 +11,8 @@ import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {getArticleUrl} from '../../config/api';
 import EditArticleComponent from '../../components/Edit/EditArticle';
+import {connect} from 'react-redux';
+import {addArticleToIssue} from '../../redux/actions/issue.actions';
 const axios = require('axios').default;
 
 type Props = {};
@@ -25,7 +27,7 @@ type State = {
   reloadList: any,
 };
 
-export default class EditArticleScreen extends Component<State, Props> {
+class EditArticleScreen extends Component<State, Props> {
   constructor(props) {
     super(props);
 
@@ -56,6 +58,7 @@ export default class EditArticleScreen extends Component<State, Props> {
     };
 
     //TODO SHow toast if content is empty -> error
+
     axios
       .put(url, body)
       .then(data => {
@@ -106,3 +109,13 @@ export default class EditArticleScreen extends Component<State, Props> {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  editList: state.issue.currentIssue.articles,
+  isLoading: state.issue.isLoading,
+  errorMessage: state.issue.errorMessage,
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditArticleScreen);

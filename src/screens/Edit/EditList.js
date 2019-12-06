@@ -14,6 +14,8 @@ import EditListItem from '../../components/EditListItem';
 import StandardList from '../../components/common/StandardList';
 import RouteNames from '../../RouteNames';
 import {getEditByTypeUrl} from '../../config/api';
+import {StackActions, NavigationActions} from 'react-navigation';
+import {connect} from 'react-redux';
 const axios = require('axios').default;
 
 type Props = {
@@ -30,7 +32,7 @@ type State = {
   open: false,
 };
 
-export default class EditList extends Component<Props, State> {
+class EditList extends Component<Props, State> {
   constructor(props) {
     super(props);
 
@@ -112,12 +114,10 @@ export default class EditList extends Component<Props, State> {
     return (
       <View style={styles.rootView}>
         <StandardList
-          data={this.state.data}
+          data={this.props.editList}
           reloadList={this.reloadList}
           renderItem={this.renderListItem}
-          updateSnackbar={this.updateSnackbar}
-          showSnackbar={this.state.showSnackbar}
-          isLoading={this.state.isLoading}
+          isLoading={this.props.isLoading}
         />
         <FAB
           style={styles.fab}
@@ -128,6 +128,16 @@ export default class EditList extends Component<Props, State> {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  editList: state.issue.currentIssue.ads,
+  isLoading: state.issue.isLoading,
+  errorMessage: state.issue.errorMessage,
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditList);
 
 const styles = StyleSheet.create({
   rootContainer: {

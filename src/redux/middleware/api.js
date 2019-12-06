@@ -24,7 +24,8 @@ const apiMiddleware = ({dispatch}) => next => action => {
   if (label) {
     dispatch(apiStart(label));
   }
-
+  console.log('INn middleware content is: ');
+  console.log(data);
   axios
     .request({
       url,
@@ -32,12 +33,13 @@ const apiMiddleware = ({dispatch}) => next => action => {
       [dataOrParams]: data,
     })
     .then(data => {
-      console.log('loaded data');
       dispatch(onSuccess(data.data));
+      dispatch(onFailure(''));
     })
     .catch(error => {
+      console.log(error.message);
       dispatch(apiError(error));
-      dispatch(onFailure(error));
+      dispatch(onFailure(error.message));
     })
     .finally(() => {
       if (label) {

@@ -36,15 +36,7 @@ class SectionedList extends Component<Props> {
   );
 
   render() {
-    const {
-      updateSnackbar,
-      showSnackbar,
-      renderItem,
-      data,
-      sections,
-      isLoading,
-      ...extraProps
-    } = this.props;
+    const {renderItem, data, sections, isLoading, ...extraProps} = this.props;
 
     return (
       <View style={styles.rootContainer}>
@@ -74,15 +66,7 @@ export default SectionedList;
 const styles = StyleSheet.create({
   rootContainer: {
     padding: theme.containerPadding,
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emptyListText: {
-    color: theme.colors.text,
-    fontSize: 20,
+    height: '100%',
   },
   reloadText: {
     color: theme.colors.accent,

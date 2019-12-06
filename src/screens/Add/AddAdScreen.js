@@ -66,8 +66,9 @@ export default class AddAdScreen extends Component<State, Props> {
       let content = {
         title: this.state.title,
         content: this.state.content,
-        payment: this.state.payment,
+        amount: this.state.payment,
         owner: this.state.company,
+        due: '2019-10-30',
       };
 
       //Make a post request to the given URL with the content

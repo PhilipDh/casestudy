@@ -12,6 +12,8 @@ import theme from '../../../styles/main.theme.js';
 import {getArticleUrl, getPeopleUrl, addArticleUrl} from '../../config/api';
 import RouteNames from '../../RouteNames';
 import AddArticleComponent from '../../components/Add/AddArticle';
+import {connect} from 'react-redux';
+import {addArticleToIssue} from '../../redux/actions/issue.actions';
 
 const axios = require('axios').default;
 
@@ -24,7 +26,7 @@ type State = {
   owner: string,
   isLoading: boolean,
 };
-export default class AddArticleScreen extends Component<State, Props> {
+class AddArticleScreen extends Component<State, Props> {
   constructor(props) {
     super(props);
     this.state = {
@@ -54,10 +56,13 @@ export default class AddArticleScreen extends Component<State, Props> {
       let content = {
         title: this.state.title,
         content: this.state.content,
-        payment: this.state.payment,
+        amount: this.state.payment,
         owner: this.state.owner,
+        due: '2019-10-30',
       };
       //Make a post request to the given URL with the content
+      this.props.addArticleToIssue(this.state.id, content);
+      /*
       axios
         .post(url, content)
         .then(data => {
@@ -68,6 +73,7 @@ export default class AddArticleScreen extends Component<State, Props> {
           console.log(err.message);
           return null;
         });
+        */
     } else {
       alert('Fields cant be empty');
     }
@@ -117,3 +123,11 @@ export default class AddArticleScreen extends Component<State, Props> {
     );
   }
 }
+
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = dispatch => ({
+  addArticleToIssue: (id, content) => dispatch(addArticleToIssue(id, content)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddArticleScreen);

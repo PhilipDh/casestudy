@@ -1,5 +1,10 @@
 import {createAction} from 'redux-actions';
-import {API, SET_PAYMENT_LIST, GET_PAYMENT_LIST} from './types.actions';
+import {
+  API,
+  SET_PAYMENT_LIST,
+  GET_PAYMENT_LIST,
+  SET_ERROR_MESSAGE,
+} from './types.actions';
 import {getPaymentsUrl} from '../../config/api';
 
 export function getPaymentList(id) {
@@ -7,7 +12,7 @@ export function getPaymentList(id) {
     url: getPaymentsUrl(id),
     method: 'GET',
     onSuccess: setPaymentList,
-    onFailure: () => console.log('Error in network request'),
+    onFailure: setErrorMessage,
     label: GET_PAYMENT_LIST,
   });
 }
@@ -16,6 +21,13 @@ function setPaymentList(data) {
   return {
     type: SET_PAYMENT_LIST,
     payload: data,
+  };
+}
+
+function setErrorMessage(message) {
+  return {
+    type: SET_ERROR_MESSAGE,
+    payload: message,
   };
 }
 

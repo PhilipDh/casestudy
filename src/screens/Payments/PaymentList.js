@@ -16,6 +16,7 @@ import {getPaymentsUrl} from '../../config/api';
 import {connect} from 'react-redux';
 import {getPaymentList} from '../../redux/actions/payment.action';
 import {initCap} from '../../../utils/formatting';
+import NetworkError from '../../components/common/NetworkError';
 
 const axios = require('axios').default;
 
@@ -112,20 +113,20 @@ class PaymentList extends Component<State, Props> {
   populateSections = () => {
     const result = [];
     const {data} = this.props;
-    Object.keys(data).forEach(key => {
-      if (key === 'issue') return;
-      let row = {};
-      row.title = initCap(key);
-      row.data = data[key];
-      result.push(row);
-    });
+    if (data)
+      Object.keys(data).forEach(key => {
+        if (key === 'issue') return;
+        let row = {};
+        row.title = initCap(key);
+        row.data = data[key];
+        result.push(row);
+      });
 
     return result;
   };
 
   //List item that should be rendered with the SectionList
   renderListItem = item => {
-    console.log(item);
     return (
       <PaymentItem
         title={item.title}
@@ -139,28 +140,23 @@ class PaymentList extends Component<State, Props> {
   };
 
   render() {
-    //Show a loading indicator while loading
-    /*  if (this.props.isLoading) {
-      console.log('loading');
-      return (
-        <View>
-          <ActivityIndicator />
-        </View>
-      );
-    } else {
-      */
+    const {data, getPaymentList, isLoading, errorMessage} = this.props;
     return (
-      <SectionedList
-        data={this.props.data}
-        reloadList={this.props.getPaymentList}
-        renderItem={this.renderListItem}
-        updateSnackbar={this.updateSnackbar}
-        showSnackbar={this.state.showSnackbar}
-        sections={this.populateSections}
-        isLoading={this.props.isLoading}
-      />
+      <View>
+        <SectionedList
+          data={data}
+          reloadList={getPaymentList}
+          renderItem={this.renderListItem}
+          sections={this.populateSections}
+          isLoading={isLoading}
+        />
+        {errorMessage !== '' && (
+          <View style={styles.networkMessage}>
+            <NetworkError message={errorMessage} />
+          </View>
+        )}
+      </View>
     );
-    //}
   }
 }
 
@@ -169,9 +165,18 @@ const mapStateToProps = state => ({
   date: state.issue.issueItem.releaseDate,
   isLoading: state.issue.isLoading,
   data: state.issue.paymentData,
+  errorMessage: state.issue.errorMessage,
 });
 const mapDispatchToProps = dispatch => ({
   getPaymentList: id => dispatch(getPaymentList(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentList);
+
+const styles = StyleSheet.create({
+  networkMessage: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+  },
+});

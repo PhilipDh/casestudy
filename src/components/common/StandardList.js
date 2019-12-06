@@ -23,22 +23,13 @@ import EmptyListComponent from './EmptyListComponent';
 */
 
 type Props = {
-  updateSnackbar: any,
-  showSnackbar: any,
   renderItem: any,
   data: any,
   isLoading: boolean,
 };
 class StandardList extends Component<Props> {
   render() {
-    const {
-      updateSnackbar,
-      showSnackbar,
-      renderItem,
-      data,
-      isLoading,
-      ...extraProps
-    } = this.props;
+    const {renderItem, data, isLoading, ...extraProps} = this.props;
     return (
       <View style={styles.rootContainer}>
         <FlatList
@@ -48,22 +39,10 @@ class StandardList extends Component<Props> {
             <EmptyListComponent reloadList={this.props.reloadList} />
           }
           renderItem={({item}) => renderItem(item)}
-          keyExtractor={({_id}, index) => _id}
-        />
-        <Snackbar
-          style={styles.snackbar}
-          visible={showSnackbar}
-          onDismiss={() => {
-            updateSnackbar();
+          keyExtractor={({_id}, index) => {
+            return _id;
           }}
-          action={{
-            label: 'Undo',
-            onPress: () => {
-              // Do something
-            },
-          }}>
-          Network Error
-        </Snackbar>
+        />
         {isLoading && (
           <View style={styles.loading}>
             <ActivityIndicator size="large" />
