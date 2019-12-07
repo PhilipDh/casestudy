@@ -18,7 +18,7 @@ class Title extends Component {
 }
 
 const mapStateToProps = state => ({
-  title: state.issue.issueItem.title,
+  title: state.issue.currentIssue.title,
 });
 
 export default connect(mapStateToProps)(Title);

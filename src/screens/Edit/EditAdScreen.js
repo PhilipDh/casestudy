@@ -12,6 +12,9 @@ import AdRadioButton from '../../components/AdRadioButton';
 import theme from '../../../styles/main.theme.js';
 import {getAdUrl} from '../../config/api';
 import EditAdComponent from '../../components/Edit/EditAd';
+import {connect} from 'react-redux';
+import {updateAd, setAdPlacement} from '../../redux/actions/issue.actions';
+
 const axios = require('axios').default;
 
 type Props = {};
@@ -24,80 +27,56 @@ type State = {
   reloadList: any,
   payed: any,
 };
-export default class EditAdScreen extends Component<State, Props> {
+class EditAdScreen extends Component<State, Props> {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
       loading: false,
       id: this.props.navigation.getParam('id'),
-      placement: '',
       reloadList: this.props.navigation.getParam('reloadList'),
-      payed: null,
     };
   }
 
   //Setter for the placement state
-  setPlacement = placement =>
-    this.setState({placement: placement}, () => this.updateAd()); //Once the state has been updated, execture updateAd()
+  setPlacement = placement => this.props.setAdPlacement(placement); //Once the state has been updated, execture updateAd()
 
   //Update the ad with the new placement data
-  updateAd() {
-    this.setState({loading: true});
-
-    var url = getAdUrl(this.state.id);
+  updateAd = () => {
     var body = {
-      placement: this.state.placement,
-      payed: this.state.payed.toString(),
+      placement: this.props.data.placement,
+      issueId: this.props.issueId,
     };
 
-    axios
-      .put(url, body)
-      .then(data => {
-        this.setState({
-          isLoading: false,
-          loading: false,
-          placement: data.data.placement,
-        });
-        //Reloads the ad list
-        this.state.reloadList();
-      })
-      .catch(err => {
-        console.log(err);
-        return null;
-      });
-  }
-
-  //Gets the ad with the given id from the database
-  getAd() {
-    var url = getAdUrl(this.state.id);
-    axios
-      .get(url)
-      .then(data => {
-        this.setState({
-          isLoading: false,
-          loading: false,
-          placement: data.data.placement,
-          payed: data.data.payed,
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        return null;
-      });
-  }
-
-  componentDidMount() {
-    this.getAd();
-  }
+    this.props.updateAd(this.props.data._id, body);
+    this.props.navigation.goBack();
+  };
 
   render() {
-    return (
-      <EditAdComponent
-        setPlacement={this.setPlacement}
-        placement={this.state.placement}
-        isLoading={this.state.isLoading}
-      />
-    );
+    if (this.props.isLoading) {
+      return <View></View>;
+    } else {
+      return (
+        <EditAdComponent
+          setPlacement={this.setPlacement}
+          placement={this.props.data.placement}
+          isLoading={this.props.isLoading}
+          updateAd={this.updateAd}
+        />
+      );
+    }
   }
 }
+
+const mapStateToProps = state => ({
+  data: state.issue.currentAd,
+  issueId: state.issue.currentIssue._id,
+  isLoading: state.issue.isLoading,
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateAd: (id, content) => dispatch(updateAd(id, content)),
+  setAdPlacement: placement => dispatch(setAdPlacement(placement)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditAdScreen);

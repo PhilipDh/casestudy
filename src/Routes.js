@@ -16,11 +16,11 @@ import IssueList from './screens/Issues/IssueList';
 import PaymentList from './screens/Payments/PaymentList';
 import PaymentDetails from './screens/Payments/PaymentDetails';
 import EditList from './screens/Edit/EditList';
-import EditAd from './screens/Edit/EditAdScreen';
+import EditAdScreen from './screens/Edit/EditAdScreen';
 import EditArticleList from './screens/Edit/EditArticleList';
 import EditPhotoList from './screens/Edit/EditPhotoList';
-import EditArticle from './screens/Edit/EditArticleScreen';
-import EditPhoto from './screens/Edit/EditPhotoScreen';
+import EditArticleScreen from './screens/Edit/EditArticleScreen';
+import EditPhotoScreen from './screens/Edit/EditPhotoScreen';
 import AddAd from './screens/Add/AddAdScreen';
 import AddArticle from './screens/Add/AddArticleScreen';
 import AddPhoto from './screens/Add/AddPhotoScreen';
@@ -104,21 +104,21 @@ const EditStack = createStackNavigator(
       title: 'Edit',
     },
     [RouteNames.EditAd]: {
-      screen: EditAd,
+      screen: EditAdScreen,
       navigationOptions: ({navigation}) => ({
         //Set the title for the Navigation header based on the navigation param "title"
         title: 'Edit Ad',
       }),
     },
     [RouteNames.EditArticle]: {
-      screen: EditArticle,
+      screen: EditArticleScreen,
       navigationOptions: ({navigation}) => ({
         //Set the title for the Navigation header based on the navigation param "title"
         title: 'Edit Article',
       }),
     },
     [RouteNames.EditPhoto]: {
-      screen: EditPhoto,
+      screen: EditPhotoScreen,
       navigationOptions: ({navigation}) => ({
         //Set the title for the Navigation header based on the navigation param "title"
         title: 'Add Photograph',

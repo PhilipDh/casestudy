@@ -16,6 +16,7 @@ import RouteNames from '../../RouteNames';
 import {getEditByTypeUrl} from '../../config/api';
 import {StackActions, NavigationActions} from 'react-navigation';
 import {connect} from 'react-redux';
+import {getCurrentAd} from '../../redux/actions/issue.actions';
 const axios = require('axios').default;
 
 type Props = {
@@ -62,49 +63,28 @@ class EditList extends Component<Props, State> {
     });
   };
 
-  //Gets a list of all ads from the server
-  getAdList = () => {
-    var url = getEditByTypeUrl(this.state.id, 'ad');
-    axios
-      .get(url)
-      .then(data => {
-        this.setState({data: data.data, isLoading: false}, function() {});
-      })
-      .catch(err => {
-        this.setState({data: [], isLoading: false, showSnackbar: true});
-        return null;
-      });
-  };
-
   reloadList = () => {
-    this.getAdList();
+    //this.getAdList();
   };
 
   componentDidMount() {
     //Since the Ad list itself is in a Top Navigator, directly adding a listener to it would only listen to the top navigation events
     //To access the bottom tab navigation events I have to call dangerouslyGetParent() to add a listener
-    this.focusListener = this.props.navigation
-      .dangerouslyGetParent()
-      .addListener('didFocus', () => {
-        this.setState({id: this.props.screenProps.id}, () => {
-          this.reloadList();
-        });
-      });
-    this.getAdList();
   }
 
   componentWillUnmount() {
     // Remove the event listener
-    this.focusListener.remove();
   }
 
   //Item that should be rendered with the StandardList
-  renderListItem = item => (
+  renderListItem = (item, index) => (
     <EditListItem
       title={item.title}
       content={item.content}
       id={item._id}
       navigateToEdit={this.navigateToEdit}
+      index={index}
+      getCurrentItem={this.props.getCurrentAd}
     />
   );
 
@@ -130,12 +110,14 @@ class EditList extends Component<Props, State> {
 }
 
 const mapStateToProps = state => ({
-  editList: state.issue.currentIssue.ads,
+  editList: state.issue.ads,
   isLoading: state.issue.isLoading,
   errorMessage: state.issue.errorMessage,
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  getCurrentAd: id => dispatch(getCurrentAd(id)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditList);
 

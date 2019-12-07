@@ -16,12 +16,7 @@ import {getIssueUrl} from '../../config/api';
 import {connect} from 'react-redux';
 import Title from '../../components/Title';
 import NetworkError from '../../components/common/NetworkError';
-import {
-  setTitle,
-  selectIssue,
-  getIssueList,
-  getCurrentIssue,
-} from '../../redux/actions/issue.actions';
+import {getIssueList, getCurrentIssue} from '../../redux/actions/issue.actions';
 
 const axios = require('axios').default;
 
@@ -76,19 +71,20 @@ class IssueList extends Component<State, Props> {
   };
 
   //Defines which type of list item should be rendered
-  renderListItem = item => (
-    <IssueItem
-      title={item.title}
-      date={item.releaseDate}
-      id={item._id}
-      updateContext={this.updateProperties}
-      setTitle={this.props.setTitle}
-      getCurrentIssue={this.props.getCurrentIssue}
-      item={item}
-      selectIssue={this.props.selectIssue}
-      cover={item.cover}
-    />
-  );
+  renderListItem = (item, index) => {
+    return (
+      <IssueItem
+        title={item.title}
+        date={item.releaseDate}
+        id={item._id}
+        updateContext={this.updateProperties}
+        getCurrentIssue={this.props.getCurrentIssue}
+        item={item}
+        selectIssue={this.props.selectIssue}
+        cover={item.cover}
+      />
+    );
+  };
 
   componentDidMount() {
     //Upon mounting the component load all issues from the API
@@ -96,18 +92,15 @@ class IssueList extends Component<State, Props> {
   }
 
   render() {
-    const {setTitle, title, errorMessage} = this.props;
+    const {title, errorMessage} = this.props;
     //Show a loading indicator while the list is loading
     return (
       <View>
         <StandardList
           data={this.props.data}
-          setTitle={setTitle}
           reloadList={this.props.getIssueList}
           updateContext={this.props.screenProps.updateContext}
           renderItem={this.renderListItem}
-          updateSnackbar={this.updateSnackbar}
-          showSnackbar={this.state.showSnackbar}
           isLoading={this.props.isLoading}
         />
         {errorMessage !== '' && (
@@ -128,9 +121,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setTitle: title => dispatch(setTitle(title)),
   getIssueList: () => dispatch(getIssueList()),
-  selectIssue: item => dispatch(selectIssue(item)),
   getCurrentIssue: id => dispatch(getCurrentIssue(id)),
 });
 

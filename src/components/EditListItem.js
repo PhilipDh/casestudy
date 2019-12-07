@@ -28,13 +28,19 @@ type Props = {
   title: string,
   content: string,
   navigateToEdit: any,
+  index: number,
+  setCurrentItem: any,
 };
 
 export default class EditListItem extends Component<Props> {
   render() {
-    const {id, title, content} = this.props;
+    const {id, title, content, index} = this.props;
     return (
-      <TouchableOpacity onPress={() => this.props.navigateToEdit(id)}>
+      <TouchableOpacity
+        onPress={() => {
+          this.props.getCurrentItem(id);
+          this.props.navigateToEdit(id);
+        }}>
         <View style={styles.container}>
           <View style={styles.contentContainer}>
             <Text style={styles.titleText}> {title}</Text>

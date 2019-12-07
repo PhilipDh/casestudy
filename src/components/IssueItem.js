@@ -26,7 +26,6 @@ type Props = {
   date: string,
   id: string,
   updateContext: any,
-  setTitle: any,
   selectIssue: any,
   item: any,
 };
@@ -41,7 +40,6 @@ export default class IssueItem extends Component<Props> {
       title,
       id,
       date,
-      setTitle,
       updateContext,
       selectIssue,
       item,
@@ -53,8 +51,6 @@ export default class IssueItem extends Component<Props> {
         rippleColor={'white'}
         onPress={() => {
           updateContext(title, id, date);
-          setTitle(title);
-          selectIssue(item);
           getCurrentIssue(id);
         }}>
         <View style={styles.container}>

@@ -21,7 +21,7 @@ export const addArticleUrl = id => `${API_URL}/add/article/${id}`;
 
 export const addPhotoUrl = id => `${API_URL}/add/photo/${id}`;
 
-export const getPhotoLocationUrl = location => `${API_URL}/${location}`;
+export const getPhotoLocationUrl = location => `${API_URL}/upload/${location}`;
 
 export const getEditByTypeUrl = (id, type) =>
   `${API_URL}/edit/${id}?type=${type}`;

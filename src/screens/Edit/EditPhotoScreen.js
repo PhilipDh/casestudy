@@ -11,7 +11,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
 import {getPhotoUrl, getUploadUrl, getPhotoLocationUrl} from '../../config/api';
 import EditPhotoComponent from '../../components/Edit/EditPhoto';
-
+import {getPhotoDetails} from '../../redux/selectors/issue.selectors';
+import {connect} from 'react-redux';
+import {
+  updatePhoto,
+  updatePhotoWithImage,
+  setPhotoSize,
+} from '../../redux/actions/issue.actions';
 const axios = require('axios').default;
 
 type Props = {
@@ -31,7 +37,7 @@ type State = {
   uploadPhoto: any,
 };
 
-export default class EditPhotoScreen extends Component<Props, State> {
+class EditPhotoScreen extends Component<Props, State> {
   constructor(props) {
     super(props);
 
@@ -47,8 +53,7 @@ export default class EditPhotoScreen extends Component<Props, State> {
     };
   }
 
-  setSize = size => this.setState({size: size});
-
+  setSize = size => this.props.setPhotoSize(size);
   //Function that will open the Image Gallery of the phone and sets the selected photo to be the photo that should be uploaded
   handleChoosePhoto = () => {
     const options = {
@@ -68,7 +73,7 @@ export default class EditPhotoScreen extends Component<Props, State> {
       return this.state.uploadPhoto.uri;
     } else {
       //Otherwise show the photo returned by the server
-      return getPhotoLocationUrl(this.state.photoLocation);
+      return getPhotoLocationUrl(this.props.data._id);
     }
   };
 
@@ -92,84 +97,55 @@ export default class EditPhotoScreen extends Component<Props, State> {
     return data;
   };
 
-  //Uploads the currently selected photo
-  handleUploadPhoto = () => {
-    fetch(getUploadUrl(), {
-      method: 'POST',
-      body: this.createFormData(this.state.uploadPhoto, {
-        id: this.state.id,
-        size: this.state.size,
-      }),
-    })
-      .then(response => response.json())
-      .then(response => {
-        console.log('upload succes', response);
-        this.setState({photoLocation: response.location});
-      })
-      .catch(error => {
-        console.log('upload error', error);
-        alert('Upload failed!');
-      });
-  };
-
   //Function that is called on button click that will update the Photograph
   updatePhoto = () => {
-    //If there is no locally selected photo don't trigger the upload function
-    if (this.state.uploadPhoto != null) {
-      this.handleUploadPhoto();
-    }
-    var url = getPhotoUrl(this.state.id);
-
     var content = {
-      size: this.state.size,
-      payed: this.state.payed.toString(),
+      size: this.props.data.size,
+      issueId: this.props.issueId,
+      id: this.props.data._id,
     };
-    axios
-      .put(url, content)
-      .then(data => {
-        this.setState({
-          loading: false,
-          size: data.data.size,
-        });
-        this.state.reloadList();
-        this.props.navigation.goBack();
-      })
-      .catch(err => {
-        console.log(err);
-        return null;
-      });
+    //If there is no locally selected photo don't trigger the upload function
+    if (this.state.uploadPhoto == null) {
+      this.props.updatePhoto(this.props.data._id, content);
+    } else {
+      this.props.updatePhotoWithImage(
+        this.props.data._id,
+        this.createFormData(this.state.uploadPhoto, content),
+      );
+    }
+    this.props.navigation.goBack();
   };
 
-  componentDidMount() {
-    var url = 'http://10.0.2.2:3000/photograph/' + this.state.id;
-    axios
-      .get(url)
-      .then(data => {
-        this.setState({
-          payed: data.data.payed,
-          isLoading: false,
-          loading: false,
-          size: data.data.size,
-          photoLocation: data.data.location,
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        return null;
-      });
-  }
-
   render() {
-    return (
-      <EditPhotoComponent
-        photoLocation={this.state.photoLocation}
-        handleChoosePhoto={this.handleChoosePhoto}
-        setSize={this.setSize}
-        size={this.state.size}
-        updatePhoto={this.updatePhoto}
-        getPhoto={this.getPhoto}
-        isLoading={this.state.isLoading}
-      />
-    );
+    if (this.props.isLoading) {
+      return <View></View>;
+    } else {
+      return (
+        <EditPhotoComponent
+          photoLocation={this.props.data.location}
+          handleChoosePhoto={this.handleChoosePhoto}
+          setSize={this.setSize}
+          size={this.props.data.size}
+          updatePhoto={this.updatePhoto}
+          getPhoto={this.getPhoto}
+          isLoading={this.props.isLoading}
+        />
+      );
+    }
   }
 }
+
+const mapStateToProps = state => ({
+  data: state.issue.currentPhoto,
+  isLoading: state.issue.isLoading,
+  issueId: state.issue.currentIssue._id,
+});
+
+const mapDispatchToProps = dispatch => ({
+  updatePhotoWithImage: (id, content) =>
+    dispatch(updatePhotoWithImage(id, content)),
+  updatePhoto: (id, content) => dispatch(updatePhoto(id, content)),
+  setPhotoSize: size => dispatch(setPhotoSize(size)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditPhotoScreen);

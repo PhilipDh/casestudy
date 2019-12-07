@@ -11,6 +11,7 @@ import {RadioButton, DefaultTheme} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AdRadioButton from '../../components/AdRadioButton';
 import theme from '../../../styles/main.theme.js';
+import Button from '../../components/common/Button';
 
 const topBannerAd = require('../../../assets/images/topBanner.png');
 const inlineAd = require('../../../assets/images/inline.png');
@@ -29,60 +30,69 @@ export default class EditAd extends Component<Props> {
   }
 
   render() {
-    const {setPlacement, placement, isLoading} = this.props;
-    return (
-      <View style={styles.rootContainer}>
-        <RadioButton.Group
-          style={styles.radioButtonGroup}
-          onValueChange={placement => {
-            setPlacement(placement);
-          }}
-          value={placement}>
-          <View style={styles.cardContainer}>
-            <View style={styles.contentContainer}>
-              <Text style={styles.typeText}>Top Banner Ad</Text>
-              <View style={styles.imageContainer}>
-                <Image source={topBannerAd} style={styles.bannerImage} />
+    const {setPlacement, placement, isLoading, updateAd} = this.props;
+    if (isLoading) {
+      return <View></View>;
+    } else {
+      return (
+        <View style={styles.rootContainer}>
+          <RadioButton.Group
+            style={styles.radioButtonGroup}
+            onValueChange={placement => {
+              setPlacement(placement);
+            }}
+            value={placement}>
+            <View style={styles.cardContainer}>
+              <View style={styles.contentContainer}>
+                <Text style={styles.typeText}>Top Banner Ad</Text>
+                <View style={styles.imageContainer}>
+                  <Image source={topBannerAd} style={styles.bannerImage} />
+                </View>
+              </View>
+              <View style={styles.radioItemContainer}>
+                <RadioButton
+                  theme={{...DefaultTheme, colors: {text: 'black'}}}
+                  value="topBanner"
+                />
               </View>
             </View>
-            <View style={styles.radioItemContainer}>
-              <RadioButton
-                theme={{...DefaultTheme, colors: {text: 'black'}}}
-                value="topBanner"
-              />
-            </View>
-          </View>
-          <View style={styles.cardContainer}>
-            <View style={styles.contentContainer}>
-              <Text style={styles.typeText}>Inline Ad</Text>
-              <View style={styles.imageContainer}>
-                <Image source={inlineAd} style={styles.bannerImage} />
+            <View style={styles.cardContainer}>
+              <View style={styles.contentContainer}>
+                <Text style={styles.typeText}>Inline Ad</Text>
+                <View style={styles.imageContainer}>
+                  <Image source={inlineAd} style={styles.bannerImage} />
+                </View>
+              </View>
+              <View style={styles.radioItemContainer}>
+                <RadioButton
+                  theme={{...DefaultTheme, colors: {text: 'black'}}}
+                  value="inlineBanner"
+                />
               </View>
             </View>
-            <View style={styles.radioItemContainer}>
-              <RadioButton
-                theme={{...DefaultTheme, colors: {text: 'black'}}}
-                value="inlineBanner"
-              />
-            </View>
-          </View>
-          <View style={styles.cardContainer}>
-            <View style={styles.contentContainer}>
-              <Text style={styles.typeText}>Bottom Banner Ad</Text>
-              <View style={styles.imageContainer}>
-                <Image source={bottomBannerAd} style={styles.bannerImage} />
+            <View style={styles.cardContainer}>
+              <View style={styles.contentContainer}>
+                <Text style={styles.typeText}>Bottom Banner Ad</Text>
+                <View style={styles.imageContainer}>
+                  <Image source={bottomBannerAd} style={styles.bannerImage} />
+                </View>
+              </View>
+              <View style={styles.radioItemContainer}>
+                <RadioButton
+                  theme={{...DefaultTheme, colors: {text: 'black'}}}
+                  value="bottomBanner"
+                />
               </View>
             </View>
-            <View style={styles.radioItemContainer}>
-              <RadioButton
-                theme={{...DefaultTheme, colors: {text: 'black'}}}
-                value="bottomBanner"
-              />
-            </View>
-          </View>
-        </RadioButton.Group>
-      </View>
-    );
+          </RadioButton.Group>
+          <Button
+            buttonStyle={styles.saveButton}
+            text={'Save'}
+            onPress={updateAd}
+          />
+        </View>
+      );
+    }
   }
 }
 
@@ -128,5 +138,11 @@ const styles = StyleSheet.create({
     width: '100%',
     borderWidth: 1,
     borderColor: 'black',
+  },
+  saveButton: {
+    padding: 8,
+    width: 120,
+    borderRadius: 4,
+    backgroundColor: theme.colors.accent,
   },
 });

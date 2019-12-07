@@ -12,7 +12,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {getArticleUrl} from '../../config/api';
 import EditArticleComponent from '../../components/Edit/EditArticle';
 import {connect} from 'react-redux';
-import {addArticleToIssue} from '../../redux/actions/issue.actions';
+import {
+  updateArticle,
+  setArticleTitle,
+  setArticleContent,
+} from '../../redux/actions/issue.actions';
 const axios = require('axios').default;
 
 type Props = {};
@@ -42,80 +46,51 @@ class EditArticleScreen extends Component<State, Props> {
     };
   }
 
-  setTitle = text => this.setState({title: text});
+  setTitle = text => this.props.setArticleTitle(text);
 
-  setContent = text => this.setState({content: text});
+  setContent = text => this.props.setArticleContent(text);
 
   updateArticle = () => {
-    this.setState({loading: true});
-
-    var url = getArticleUrl(this.state.id);
     var body = {
-      title: this.state.title,
-      content: this.state.content,
-      //Has to be called to string because of request constraints
-      payed: this.state.data.payed.toString(),
+      title: this.props.data.title,
+      content: this.props.data.content,
+      issueId: this.props.issueId,
     };
 
     //TODO SHow toast if content is empty -> error
-
-    axios
-      .put(url, body)
-      .then(data => {
-        this.setState({
-          isLoading: false,
-          loading: false,
-          data: data.data,
-        });
-
-        this.state.reloadList();
-        this.props.navigation.goBack();
-      })
-      .catch(err => {
-        console.log(err);
-        return null;
-      });
+    this.props.updateArticle(this.props.data._id, body);
+    this.props.navigation.goBack();
   };
 
-  componentDidMount() {
-    var url = getArticleUrl(this.state.id);
-    axios
-      .get(url)
-      .then(data => {
-        this.setState({
-          isLoading: false,
-          loading: false,
-          data: data.data,
-          title: data.data.title,
-          content: data.data.content,
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        return null;
-      });
-  }
-
   render() {
-    return (
-      <EditArticleComponent
-        setTitle={this.setTitle}
-        setContent={this.setContent}
-        title={this.state.title}
-        content={this.state.content}
-        isLoading={this.state.isLoading}
-        updateArticle={this.updateArticle}
-      />
-    );
+    if (this.props.isLoading) {
+      return <View></View>;
+    } else {
+      return (
+        <EditArticleComponent
+          setTitle={this.setTitle}
+          setContent={this.setContent}
+          title={this.props.data.title}
+          content={this.props.data.content}
+          isLoading={this.props.isLoading}
+          updateArticle={this.updateArticle}
+        />
+      );
+    }
   }
 }
 
 const mapStateToProps = state => ({
-  editList: state.issue.currentIssue.articles,
+  data: state.issue.currentArticle,
   isLoading: state.issue.isLoading,
   errorMessage: state.issue.errorMessage,
+  issueId: state.issue.currentIssue._id,
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  updateArticle: (id, content) => dispatch(updateArticle(id, content)),
+  setArticleTitle: title => dispatch(setArticleTitle(title)),
+  setArticleContent: content => dispatch(setArticleContent(content)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditArticleScreen);

@@ -15,6 +15,7 @@ import StandardList from '../../components/common/StandardList';
 import RouteNames from '../../RouteNames';
 import {getEditByTypeUrl} from '../../config/api';
 import {connect} from 'react-redux';
+import {getCurrentPhoto} from '../../redux/actions/issue.actions';
 const axios = require('axios').default;
 
 type Props = {};
@@ -94,12 +95,14 @@ class EditPhotoList extends Component<Props, State> {
   }
 
   //Item that should be rendered with the StandardList
-  renderListItem = item => (
+  renderListItem = (item, index) => (
     <EditListItem
       title={item.title}
       content={item.size}
       id={item._id}
       navigateToEdit={this.navigateToEdit}
+      index={index}
+      getCurrentItem={this.props.getCurrentPhoto}
     />
   );
 
@@ -127,12 +130,14 @@ class EditPhotoList extends Component<Props, State> {
 }
 
 const mapStateToProps = state => ({
-  editList: state.issue.currentIssue.photos,
+  editList: state.issue.photos,
   isLoading: state.issue.isLoading,
   errorMessage: state.issue.errorMessage,
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  getCurrentPhoto: id => dispatch(getCurrentPhoto(id)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditPhotoList);
 

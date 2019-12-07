@@ -38,7 +38,7 @@ class StandardList extends Component<Props> {
           ListEmptyComponent={
             <EmptyListComponent reloadList={this.props.reloadList} />
           }
-          renderItem={({item}) => renderItem(item)}
+          renderItem={item => renderItem(item.item, item.index)}
           keyExtractor={({_id}, index) => {
             return _id;
           }}

@@ -15,6 +15,7 @@ import StandardList from '../../components/common/StandardList';
 import RouteNames from '../../RouteNames';
 import {dateDiff} from '../../../utils/formatting';
 import {getEditByTypeUrl} from '../../config/api';
+import {getCurrentArticle} from '../../redux/actions/issue.actions';
 import {connect} from 'react-redux';
 
 const axios = require('axios').default;
@@ -105,12 +106,14 @@ class EditArticleList extends Component<Props, State> {
   }
 
   //Item that should be rendered with the StandardList
-  renderListItem = item => (
+  renderListItem = (item, index) => (
     <EditListItem
       title={item.title}
       content={item.content}
       id={item._id}
+      index={index}
       navigateToEdit={this.navigateToEdit}
+      getCurrentItem={this.props.getCurrentArticle}
     />
   );
 
@@ -136,12 +139,14 @@ class EditArticleList extends Component<Props, State> {
 }
 
 const mapStateToProps = state => ({
-  editList: state.issue.currentIssue.articles,
+  editList: state.issue.articles,
   isLoading: state.issue.isLoading,
   errorMessage: state.issue.errorMessage,
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  getCurrentArticle: id => dispatch(getCurrentArticle(id)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditArticleList);
 
