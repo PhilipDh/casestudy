@@ -19,16 +19,9 @@ const axios = require('axios').default;
 
 //Type definition for states of this class. Helps with type safety
 type Props = {
-  title: string,
-  payment: number,
-  owner: string,
-  payed: boolean,
-  date: string,
-  id: string,
-  type: string,
   isLoading: boolean,
   updatePayment: any,
-  disabled: boolean,
+  data: any,
 };
 type State = {};
 
@@ -41,73 +34,82 @@ export default class PaymentDetails extends Component<Props, State> {
   getIcon() {
     var result = '';
 
-    if (this.props.type == 'Ad') {
-      result = this.props.payed ? 'check' : '';
+    if (this.props.data.type == 'Ad') {
+      result = this.props.data.payed ? 'check' : '';
     } else {
-      result = this.props.payed ? 'check' : '';
+      result = this.props.data.payed ? 'check' : '';
     }
     return result;
-  }
-
-  //Returns the due date for the payment
-  getDate() {
-    //Different format for an Ad payment
-    if (this.props.type == 'Ad') {
-      return formatDate(this.props.date, true);
-    }
-    return formatDate(this.props.date);
   }
 
   //Determine the screens properties based on the current item type
   getButtonText() {
     var result = '';
 
-    if (this.props.type == 'Ad') {
-      result = this.props.payed ? 'Payed' : 'Pending';
-      if (dateDiff(this.props.date)) {
-        if (this.props.payed) result = 'Escalated';
-        else result = 'Escalate';
+    if (this.props.data.type == 'Ad') {
+      result = this.props.data.payed ? 'Payed' : 'Pending';
+      var now = new Date();
+      if (now > new Date(this.props.data.due) && !this.props.data.payed) {
+        result = this.props.data.escalated ? 'Escalated' : 'Escalate';
       }
     } else {
-      result = this.props.payed ? 'Payed' : 'Pay';
+      result = this.props.data.payed ? 'Payed' : 'Pay';
     }
     return result;
+  }
+
+  getTitle() {
+    switch (this.props.data.type) {
+      case 'Ad':
+        return this.props.data.ad.title;
+      case 'Article':
+        return this.props.data.article.title;
+      case 'Photograph':
+        return this.props.data.photo.title;
+      default:
+        break;
+    }
+  }
+
+  getOwner() {
+    return this.props.data.type == 'Ad'
+      ? this.props.data.debtor.name
+      : this.props.data.payee.name;
+  }
+
+  isDisabled() {
+    if (
+      this.props.data.payed ||
+      this.props.data.escalated ||
+      this.props.data.type == 'Ad'
+    )
+      return true;
+    return false;
   }
 
   componentDidMount() {}
 
   render() {
-    const {
-      isLoading,
-      title,
-      type,
-      payment,
-      owner,
-      payed,
-      date,
-      updatePayment,
-      disabled,
-    } = this.props;
-    5;
     if (this.props.isLoading) {
       return <View></View>;
     } else {
+      const {type, amount, payed, due} = this.props.data;
       return (
         <View style={styles.card}>
           <View style={styles.titleContainer}>
-            <Text style={styles.titleText}>{title}</Text>
+            <Text style={styles.titleText}>{this.getTitle()}</Text>
             <Text style={styles.subtitleText}>{type}</Text>
           </View>
           <View style={styles.contentContainer}>
-            <Text style={styles.contentText}>Payment: {payment}</Text>
-            <Text style={styles.contentText}>Due: {this.getDate()}</Text>
-            <Text style={styles.contentText}>Owner: {owner}</Text>
+            <Text style={styles.contentText}>Payment: {amount}</Text>
+            <Text style={styles.contentText}>Due: {due}</Text>
+            <Text style={styles.contentText}>Owner: {this.getOwner()}</Text>
           </View>
           <View style={styles.buttonContainer}>
             <Button
-              onPress={updatePayment}
+              onPress={this.props.updatePayment}
               icon={this.getIcon()}
-              disabled={disabled}
+              disabled={this.isDisabled()}
               text={this.getButtonText()}
               buttonStyle={{
                 padding: 8,

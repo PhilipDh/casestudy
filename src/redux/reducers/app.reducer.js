@@ -30,15 +30,22 @@ import {
   UPDATE_PHOTO_WITH_IMAGE,
   SET_PHOTOS,
   SET_PHOTO_SIZE,
+  SET_CURRENT_PAYMENT,
+  SET_PAYMENT_STATUS,
+  UPDATE_PAYMENT,
+  SET_PAYMENT_FILTER,
 } from '../actions/types.actions';
 
+//Default state for store
 const defaultState = {
+  currentPayment: undefined,
   currentAd: undefined,
   currentPhoto: undefined,
   currentArticle: undefined,
   articles: undefined,
   photos: undefined,
   ads: undefined,
+  paymentFilter: {payed: 'ALL'},
   currentIssue: {title: 'Issues'},
   data: [],
   paymentData: undefined,
@@ -47,6 +54,7 @@ const defaultState = {
 };
 
 const content = (state = defaultState, action) => {
+  //The reducer receives the actions and determines based on its label what to do with them
   switch (action.type) {
     //Ad related actions
     case SET_ADS:
@@ -97,10 +105,28 @@ const content = (state = defaultState, action) => {
       };
     case SET_PAYMENT_LIST:
       return {...state, paymentData: action.payload};
+    case SET_CURRENT_PAYMENT:
+      return {...state, currentPayment: action.payload};
+    case SET_PAYMENT_STATUS:
+      return {
+        ...state,
+        currentPayment: {
+          ...state.currentPayment,
+          payed: action.payload.payed,
+          escalated: action.payload.escalated,
+        },
+      };
+    case SET_PAYMENT_FILTER:
+      return {
+        ...state,
+        paymentFilter: {...state.paymentFilter, payed: action.payload},
+      };
     case SET_ERROR_MESSAGE:
       return {...state, errorMessage: action.payload};
+    //If the label is API start and the payload contains the following labels set the loading state to true
     case API_START:
       if (
+        action.payload === UPDATE_PAYMENT ||
         action.payload === UPDATE_PHOTO_WITH_IMAGE ||
         action.payload === UPDATE_PHOTO_WITH_ID ||
         action.payload === UPDATE_ARTICLE_WITH_ID ||
@@ -118,8 +144,10 @@ const content = (state = defaultState, action) => {
         return {...state, isLoading: true};
       }
       break;
+    //If the label is API end and the payload contains the following labels set the loading state to false
     case API_END:
       if (
+        action.payload === UPDATE_PAYMENT ||
         action.payload === UPDATE_PHOTO_WITH_IMAGE ||
         action.payload === UPDATE_PHOTO_WITH_ID ||
         action.payload === UPDATE_ARTICLE_WITH_ID ||
@@ -129,6 +157,7 @@ const content = (state = defaultState, action) => {
         action.payload === GET_CURRENT_PHOTO ||
         action.payload === ADD_PHOTO_TO_ISSUE ||
         action.payload === ADD_ARTICLE_TO_ISSUE ||
+        action.payload === ADD_AD_TO_ISSUE ||
         action.payload === GET_CURRENT_ISSUE ||
         action.payload === GET_ISSUE_LIST ||
         action.payload === GET_PAYMENT_LIST

@@ -8,15 +8,15 @@ import theme from '../../../styles/main.theme';
   Uses TouchableOpacity to handle click events and a Text componentn with an optional Icon
 */
 class Button extends Component {
-  renderIcon = icon => {
+  renderIcon = (icon, color = 'grey', size = 18) => {
     if (!icon) return;
     return (
-      <Icon name={icon} color={'grey'} size={18} style={{paddingRight: 5}} />
+      <Icon name={icon} color={color} size={size} style={{paddingRight: 5}} />
     );
   };
 
   render() {
-    const {text, disabled} = this.props;
+    const {text, disabled, size, iconColor} = this.props;
 
     const buttonProps = {};
 
@@ -39,8 +39,12 @@ class Button extends Component {
 
     return (
       <TouchableOpacity {...buttonProps} style={style}>
-        {this.renderIcon(this.props.icon)}
-        <Text style={textStyle}>{text.toUpperCase()}</Text>
+        {this.renderIcon(
+          this.props.icon,
+          iconColor ? iconColor : 'grey',
+          size ? size : 18,
+        )}
+        <Text style={textStyle}>{text ? text.toUpperCase() : ''}</Text>
       </TouchableOpacity>
     );
   }

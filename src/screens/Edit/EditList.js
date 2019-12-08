@@ -16,7 +16,7 @@ import RouteNames from '../../RouteNames';
 import {getEditByTypeUrl} from '../../config/api';
 import {StackActions, NavigationActions} from 'react-navigation';
 import {connect} from 'react-redux';
-import {getCurrentAd} from '../../redux/actions/issue.actions';
+import {getCurrentAd, getCurrentIssue} from '../../redux/actions/issue.actions';
 const axios = require('axios').default;
 
 type Props = {
@@ -44,46 +44,28 @@ class EditList extends Component<Props, State> {
       showSnackbar: false,
     };
   }
-  //setter for the showSnackbar state
-  updateSnackbar = () => this.setState({showSnackbar: false});
 
   //Navigates to the EditAd screen with the params id and reloadlist
   navigateToEdit = id => {
-    this.props.navigation.navigate(RouteNames.EditAd, {
-      id: id,
-      reloadList: this.reloadList,
-    });
+    this.props.navigation.navigate(RouteNames.EditAd, {});
   };
 
   //Navigates to the AddAd screen witht he params id and reloadList
   navigateToAdd = () => {
-    this.props.navigation.navigate(RouteNames.AddAd, {
-      id: this.state.id,
-      reloadList: this.reloadList,
-    });
+    this.props.navigation.navigate(RouteNames.AddAd, {});
   };
 
   reloadList = () => {
-    //this.getAdList();
+    this.props.getCurrentIssue(this.props.currentIssue._id);
   };
 
-  componentDidMount() {
-    //Since the Ad list itself is in a Top Navigator, directly adding a listener to it would only listen to the top navigation events
-    //To access the bottom tab navigation events I have to call dangerouslyGetParent() to add a listener
-  }
-
-  componentWillUnmount() {
-    // Remove the event listener
-  }
-
   //Item that should be rendered with the StandardList
-  renderListItem = (item, index) => (
+  renderListItem = item => (
     <EditListItem
       title={item.title}
       content={item.content}
       id={item._id}
       navigateToEdit={this.navigateToEdit}
-      index={index}
       getCurrentItem={this.props.getCurrentAd}
     />
   );
@@ -110,6 +92,7 @@ class EditList extends Component<Props, State> {
 }
 
 const mapStateToProps = state => ({
+  currentIssue: state.issue.currentIssue,
   editList: state.issue.ads,
   isLoading: state.issue.isLoading,
   errorMessage: state.issue.errorMessage,
@@ -117,6 +100,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getCurrentAd: id => dispatch(getCurrentAd(id)),
+  getCurrentIssue: id => dispatch(getCurrentIssue(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditList);

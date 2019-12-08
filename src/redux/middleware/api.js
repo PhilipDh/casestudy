@@ -11,6 +11,14 @@ import {apiError, apiStart, apiEnd} from '../actions/api.actions';
 
 const axios = require('axios').default;
 
+/*
+  This is my custom middle for my redux store
+  Everytime an action is dispatched it will go throug this middleware
+  If the aciton has an API label it will execute a network request with the data in the payload
+  If it does not have an api label it will just go straight to the reducer
+  
+*/
+
 const apiMiddleware = ({dispatch}) => next => action => {
   console.log(action.type);
   next(action);

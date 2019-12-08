@@ -21,54 +21,13 @@ import {getIssueList, getCurrentIssue} from '../../redux/actions/issue.actions';
 const axios = require('axios').default;
 
 //Type definition for states of this class. Helps with type safety
-type State = {
-  data: any,
-  isLoading: boolean,
-  showSnackbar: boolean,
-  title: string,
-};
+
 type Props = {title: string};
 
 class IssueList extends Component<State, Props> {
   constructor(props) {
     super(props);
-    this.state = {
-      data: {},
-      isLoading: true,
-      showSnackbar: false,
-    };
   }
-
-  //Set the title state
-  setTitle = title => this.props.navigation.setParams({title: title});
-
-  //Set the showSnackbar state
-  updateSnackbar = () => this.setState({showSnackbar: false});
-
-  //Returns the list of Issues from the server
-  getIssueList = () => {
-    (async () => {
-      try {
-        const response = await axios.get(getIssueUrl());
-        this.setState({
-          isLoading: false,
-          data: response.data,
-        });
-      } catch (error) {
-        console.log(error);
-        this.setState({isLoading: false, data: [], showSnackbar: true});
-      }
-    })();
-  };
-
-  //Sets the id, title and release date properties that will be used by the other screens to know which issue is currently active
-  updateProperties = (title, id, date) => {
-    this.setTitle(title);
-    //Screen props are a navigation property supplied by the bottom tab navigator
-    this.props.screenProps.id = id;
-    this.props.screenProps.issueTitle = title;
-    this.props.screenProps.releaseDate = date;
-  };
 
   //Defines which type of list item should be rendered
   renderListItem = (item, index) => {
@@ -77,7 +36,6 @@ class IssueList extends Component<State, Props> {
         title={item.title}
         date={item.releaseDate}
         id={item._id}
-        updateContext={this.updateProperties}
         getCurrentIssue={this.props.getCurrentIssue}
         item={item}
         selectIssue={this.props.selectIssue}

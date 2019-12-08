@@ -14,14 +14,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import IssueList from './screens/Issues/IssueList';
 import PaymentList from './screens/Payments/PaymentList';
-import PaymentDetails from './screens/Payments/PaymentDetails';
+import PaymentDetailsScreen from './screens/Payments/PaymentDetails';
 import EditList from './screens/Edit/EditList';
 import EditAdScreen from './screens/Edit/EditAdScreen';
 import EditArticleList from './screens/Edit/EditArticleList';
 import EditPhotoList from './screens/Edit/EditPhotoList';
 import EditArticleScreen from './screens/Edit/EditArticleScreen';
 import EditPhotoScreen from './screens/Edit/EditPhotoScreen';
-import AddAd from './screens/Add/AddAdScreen';
+import AddAdScreen from './screens/Add/AddAdScreen';
 import AddArticle from './screens/Add/AddArticleScreen';
 import AddPhoto from './screens/Add/AddPhotoScreen';
 import UserLogin from './screens/Login/UserLogin';
@@ -43,7 +43,7 @@ const PaymentStack = createStackNavigator(
       params: {issueTitle: 'Payments'},
     },
     [RouteNames.PaymentDetails]: {
-      screen: PaymentDetails,
+      screen: PaymentDetailsScreen,
       params: {data: 'dest'},
     },
   },
@@ -125,7 +125,7 @@ const EditStack = createStackNavigator(
       }),
     },
     [RouteNames.AddAd]: {
-      screen: AddAd,
+      screen: AddAdScreen,
       navigationOptions: ({navigation}) => ({
         //Set the title for the Navigation header based on the navigation param "title"
         title: 'Add an Ad',

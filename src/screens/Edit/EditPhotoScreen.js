@@ -27,13 +27,6 @@ type Props = {
 };
 //Type definition for states of this class. Helps with type safety
 type State = {
-  payed: boolean,
-  size: string,
-  isLoading: boolean,
-  id: string,
-  loading: boolean,
-  reloadList: any,
-  photoLocation: any,
   uploadPhoto: any,
 };
 
@@ -42,13 +35,6 @@ class EditPhotoScreen extends Component<Props, State> {
     super(props);
 
     this.state = {
-      payed: null,
-      size: '',
-      id: this.props.navigation.getParam('id'),
-      isLoading: true,
-      loading: false,
-      reloadList: this.props.navigation.getParam('reloadList'),
-      photoLocation: null,
       uploadPhoto: null,
     };
   }
@@ -82,7 +68,7 @@ class EditPhotoScreen extends Component<Props, State> {
     const data = new FormData();
 
     data.append('avatar', {
-      name: this.state.id,
+      name: this.props.data.location.slice(8),
       type: photo.type,
       uri:
         Platform.OS === 'android'

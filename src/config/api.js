@@ -29,6 +29,5 @@ export const getEditByTypeUrl = (id, type) =>
 export const getIssueUrl = () => `${API_URL}/issue`;
 export const getIssueByIdUrl = id => `${API_URL}/issue/${id}`;
 
-export const getPaymentsUrl = id => `${API_URL}/payment/${id}`;
-export const getUpdatePaymentUrl = (id, type) =>
-  `${API_URL}/payment/${id}?type=${type}`;
+export const getPaymentsUrl = () => `${API_URL}/payment`;
+export const getUpdatePaymentUrl = id => `${API_URL}/payment/${id}`;

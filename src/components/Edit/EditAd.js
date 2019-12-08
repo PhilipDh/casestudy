@@ -144,5 +144,6 @@ const styles = StyleSheet.create({
     width: 120,
     borderRadius: 4,
     backgroundColor: theme.colors.accent,
+    alignSelf: 'center',
   },
 });

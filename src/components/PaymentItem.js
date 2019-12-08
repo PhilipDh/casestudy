@@ -13,38 +13,55 @@ import common from '../../styles/common.style.js';
 
 //Type definition for props of this class. Helps with type safety
 type Props = {
-  title: string,
-  name: string,
-  money: number,
-  job: string,
+  amount: number,
   navigateToDetail: any,
   data: any,
+  type: string,
+  setCurrentPayment: any,
 };
 
 /*
   Payment List item that will be used in Payment Lists
 */
 export default class PaymentItem extends Component<Props> {
+  getName() {
+    return this.props.type == 'Ad'
+      ? this.props.data.debtor.name
+      : this.props.data.payee.name;
+  }
+
+  getTitle() {
+    switch (this.props.type) {
+      case 'Ad':
+        return this.props.data.ad.title;
+      case 'Article':
+        return this.props.data.article.title;
+      case 'Photograph':
+        return this.props.data.photo.title;
+      default:
+        break;
+    }
+  }
+
   render() {
-    const {data, title, name, job, money} = this.props;
+    const {data, title, name, job, amount, type} = this.props;
     return (
       <TouchableWithoutFeedback
         onPress={() => {
+          this.props.setCurrentPayment(data);
           this.props.navigateToDetail(data);
         }}>
         <View style={styles.container}>
           <View style={styles.nameContainer}>
-            <Text style={styles.nameText}>{title}</Text>
-            <Text style={styles.jobText}>{name}</Text>
+            <Text style={styles.nameText}>{this.getName()}</Text>
+            <Text style={styles.jobText}>{this.getTitle()}</Text>
           </View>
           <View style={styles.moneyContainer}>
             <Text
               style={
-                job != undefined
-                  ? styles.moneyTextPerson
-                  : styles.moneyTextCompany
+                type != 'Ad' ? styles.moneyTextPerson : styles.moneyTextCompany
               }>
-              {money}€
+              {amount}€
             </Text>
           </View>
         </View>

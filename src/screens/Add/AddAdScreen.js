@@ -14,6 +14,8 @@ import {getArticleUrl, getCompaniesUrl, addAdUrl} from '../../config/api';
 import Button from '../../components/common/Button';
 import RouteNames from '../../RouteNames';
 import AddAdComponent from '../../components/Add/AddAd';
+import {connect} from 'react-redux';
+import {addAdToIssue} from '../../redux/actions/issue.actions';
 
 const axios = require('axios').default;
 
@@ -31,18 +33,16 @@ type State = {
   setContent: any,
   setPayment: any,
 };
-export default class AddAdScreen extends Component<State, Props> {
+class AddAdScreen extends Component<State, Props> {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
-      id: this.props.navigation.getParam('id'),
+      isLoading: false,
       content: '',
       title: '',
       payment: '',
       company: '',
       availableCompanies: {},
-      reloadList: this.props.navigation.getParam('reloadList'),
     };
   }
 
@@ -62,31 +62,25 @@ export default class AddAdScreen extends Component<State, Props> {
       !isNaN(this.state.payment) &&
       this.state.payment
     ) {
-      let url = addAdUrl(this.state.id);
+      //Set the due date to two month into the future
+      let dueDate = new Date(this.props.currentIssue.releaseDate);
+      dueDate = new Date(dueDate.setMonth(dueDate.getMonth() + 2));
+
       let content = {
         title: this.state.title,
         content: this.state.content,
         amount: this.state.payment,
         owner: this.state.company,
-        due: '2019-10-30',
+        due:
+          dueDate.getFullYear() +
+          '-' +
+          (dueDate.getMonth() + 1) +
+          '-' +
+          dueDate.getDate(),
       };
 
       //Make a post request to the given URL with the content
-      axios
-        .post(url, content)
-        .then(data => {
-          this.state.reloadList();
-          this.props.navigation.goBack();
-          this.props.navigation.navigate(RouteNames.EditAd, {
-            id: data.data._id,
-            reloadList: this.state.reloadList,
-          });
-        })
-        //If the server responds with an error handle it
-        .catch(err => {
-          console.log(err);
-          return null;
-        });
+      this.props.addAdToIssue(this.props.currentIssue._id, content);
     } else {
       alert('Fields cant be empty');
     }
@@ -98,16 +92,11 @@ export default class AddAdScreen extends Component<State, Props> {
     axios
       .get(url)
       .then(data => {
-        this.setState(
-          {
-            availableCompanies: data.data,
-            isLoading: false,
-            company: data.data[0].name,
-          },
-          function() {
-            console.log(this.state.availableCompanies);
-          },
-        );
+        this.setState({
+          availableCompanies: data.data,
+          isLoading: false,
+          company: data.data[0].name,
+        });
       })
       .catch(err => {
         this.setState({data: [], isLoading: false});
@@ -143,3 +132,13 @@ export default class AddAdScreen extends Component<State, Props> {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  currentIssue: state.issue.currentIssue,
+});
+
+const mapDispatchToProps = dispatch => ({
+  addAdToIssue: (id, content) => dispatch(addAdToIssue(id, content)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddAdScreen);

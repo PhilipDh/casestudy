@@ -31,7 +31,6 @@ type State = {
   isLoading: boolean,
   id: string,
   loading: boolean,
-  reloadList: any,
   photoLocation: any,
   uploadPhoto: any,
   title: string,
@@ -49,7 +48,6 @@ class AddPhotoScreen extends Component<Props, State> {
       id: this.props.navigation.getParam('id'),
       isLoading: true,
       loading: false,
-      reloadList: this.props.navigation.getParam('reloadList'),
       photoLocation: null,
       uploadPhoto: null,
       title: '',
@@ -126,38 +124,27 @@ class AddPhotoScreen extends Component<Props, State> {
 
   //Create a new Photo entry in the database
   addPhoto = () => {
-    var url = addPhotoUrl(this.state.id);
-
+    var url = addPhotoUrl(this.props.currentIssue._id);
+    let dueDate = new Date(this.props.currentIssue.releaseDate);
     var c = {
       size: this.state.size,
       title: this.state.title,
       amount: this.state.payment,
       owner: this.state.owner,
-      due: '2019-10-30',
+      due:
+        dueDate.getFullYear() +
+        '-' +
+        (dueDate.getMonth() + 1) +
+        '-' +
+        dueDate.getDate(),
       location: makeId(10),
+      articleId: this.state.articleId,
     };
 
     var content = this.createFormData(this.state.photoLocation, c);
 
-    console.log(content);
-
-    this.props.addPhotoToIssue(this.state.id, content);
-
-    //Make a post request to the given URL with the content
-    /*
-    axios
-      .post(url, content)
-      .then(data => {
-        //Once the photo entry has been created upload the image.
-        this.handleUploadPhoto(data.data._id, data.data.size);
-        this.state.reloadList();
-        this.props.navigation.goBack();
-      })
-      .catch(err => {
-        console.log(err);
-        return null;
-      });
-      */
+    this.props.addPhotoToIssue(this.props.currentIssue._id, content);
+    this.props.navigation.goBack();
   };
 
   //Get a list of all photographers
@@ -186,10 +173,7 @@ class AddPhotoScreen extends Component<Props, State> {
     return axios
       .get(url)
       .then(data => {
-        this.setState(
-          {availableArticles: data.data, articleId: data.data[0]._id},
-          function() {},
-        );
+        this.setState({availableArticles: data.data}, function() {});
       })
       .catch(err => {
         return null;
@@ -230,7 +214,9 @@ class AddPhotoScreen extends Component<Props, State> {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  currentIssue: state.issue.currentIssue,
+});
 
 const mapDispatchToProps = dispatch => ({
   addPhotoToIssue: (id, content) => dispatch(addPhotoToIssue(id, content)),

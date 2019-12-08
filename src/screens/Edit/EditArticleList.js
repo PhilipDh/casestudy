@@ -15,7 +15,10 @@ import StandardList from '../../components/common/StandardList';
 import RouteNames from '../../RouteNames';
 import {dateDiff} from '../../../utils/formatting';
 import {getEditByTypeUrl} from '../../config/api';
-import {getCurrentArticle} from '../../redux/actions/issue.actions';
+import {
+  getCurrentArticle,
+  getCurrentIssue,
+} from '../../redux/actions/issue.actions';
 import {connect} from 'react-redux';
 
 const axios = require('axios').default;
@@ -34,76 +37,21 @@ type State = {
 class EditArticleList extends Component<Props, State> {
   constructor(props) {
     super(props);
-
-    this.state = {
-      data: {},
-      isLoading: true,
-      id: props.screenProps.id,
-      dataChanged: true,
-      showSnackbar: false,
-      editable: dateDiff(props.screenProps.releaseDate, 1),
-      issueDate: props.screenProps.releaseDate,
-    };
   }
-
-  //setter for the showSnackbar state
-  updateSnackbar = () => this.setState({showSnackbar: false});
 
   //Navigates to the EditArticle screen with the params id and reloadlist
   navigateToEdit = id => {
-    this.props.navigation.navigate(RouteNames.EditArticle, {
-      id: id,
-      reloadList: this.reloadList,
-    });
+    this.props.navigation.navigate(RouteNames.EditArticle, {});
   };
 
   //Navigates to the AddArticle screen witht he params id and reloadList
   navigateToAdd = () => {
-    this.props.navigation.navigate(RouteNames.AddArticle, {
-      id: this.state.id,
-      reloadList: this.reloadList,
-    });
-  };
-
-  //Gets a list of all articles from the server
-  getArticleList = () => {
-    var url = getEditByTypeUrl(this.state.id, 'article');
-    axios
-      .get(url)
-      .then(data => {
-        this.setState(
-          {data: data.data, isLoading: false, dataChanged: false},
-          function() {},
-        );
-      })
-      .catch(err => {
-        this.setState({data: [], isLoading: false, showSnackbar: true});
-        return null;
-      });
+    this.props.navigation.navigate(RouteNames.AddArticle, {});
   };
 
   reloadList = () => {
-    this.getArticleList();
+    this.props.getCurrentIssue(this.props.currentIssue._id);
   };
-
-  componentDidMount() {
-    //Since the Article list itself is in a Top Navigator, directly adding a listener to it would only listen to the top navigation events
-    //To access the bottom tab navigation events I have to call dangerouslyGetParent() to add a listener
-    this.focusListener = this.props.navigation
-      .dangerouslyGetParent()
-      .addListener('didFocus', () => {
-        this.setState({id: this.props.screenProps.id}, () => {
-          this.reloadList();
-        });
-      });
-
-    this.getArticleList();
-  }
-
-  componentWillUnmount() {
-    // Remove the event listener
-    this.focusListener.remove();
-  }
 
   //Item that should be rendered with the StandardList
   renderListItem = (item, index) => (
@@ -124,8 +72,6 @@ class EditArticleList extends Component<Props, State> {
           data={this.props.editList}
           reloadList={this.reloadList}
           renderItem={this.renderListItem}
-          updateSnackbar={this.updateSnackbar}
-          showSnackbar={this.state.showSnackbar}
           isLoading={this.props.isLoading}
         />
         <FAB
@@ -139,6 +85,7 @@ class EditArticleList extends Component<Props, State> {
 }
 
 const mapStateToProps = state => ({
+  currentIssue: state.issue.currentIssue,
   editList: state.issue.articles,
   isLoading: state.issue.isLoading,
   errorMessage: state.issue.errorMessage,
@@ -146,6 +93,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getCurrentArticle: id => dispatch(getCurrentArticle(id)),
+  getCurrentIssue: id => dispatch(getCurrentIssue(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditArticleList);

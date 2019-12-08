@@ -11,6 +11,7 @@ import apiMiddleware from './middleware/api';
 
 const enhancerList = [];
 
+//Store with custom middleware
 const initStore = () =>
   createStore(rootReducer, applyMiddleware(apiMiddleware));
 

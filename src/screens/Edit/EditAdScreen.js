@@ -19,23 +19,10 @@ const axios = require('axios').default;
 
 type Props = {};
 //Type definition for states of this class. Helps with type safety
-type State = {
-  isLoading: boolean,
-  loading: boolean,
-  placement: string,
-  id: string,
-  reloadList: any,
-  payed: any,
-};
+type State = {};
 class EditAdScreen extends Component<State, Props> {
   constructor(props) {
     super(props);
-    this.state = {
-      isLoading: true,
-      loading: false,
-      id: this.props.navigation.getParam('id'),
-      reloadList: this.props.navigation.getParam('reloadList'),
-    };
   }
 
   //Setter for the placement state
@@ -47,7 +34,6 @@ class EditAdScreen extends Component<State, Props> {
       placement: this.props.data.placement,
       issueId: this.props.issueId,
     };
-
     this.props.updateAd(this.props.data._id, body);
     this.props.navigation.goBack();
   };

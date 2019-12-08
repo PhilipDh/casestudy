@@ -16,6 +16,12 @@ import {API_URL, getUpdatePaymentUrl} from '../../config/api';
 import {formatDate, dateDiff} from '../../../utils/formatting';
 import Button from '../../components/common/Button';
 import PaymentDetailsComponent from '../../components/Payments/PaymentDetails';
+import {connect} from 'react-redux';
+import {
+  getPaymentList,
+  updatePayment,
+  setPaymentStatus,
+} from '../../redux/actions/payment.action';
 
 const axios = require('axios').default;
 
@@ -30,97 +36,55 @@ type State = {
   date: string,
 };
 
-export default class PaymentDetails extends Component<Props, State> {
-  static navigationOptions = ({navigation}) => {
-    return {
-      title: navigation.getParam('person', 'Details'),
-    };
-  };
-
+class PaymentDetails extends Component<Props, State> {
   constructor(props) {
     super(props);
     //Initiallizing the different states
-    this.state = {
-      isLoading: true,
-      data: {},
-      type: this.props.navigation.getParam('type'), //Set type to the parameter that was passed to the navigation action
-      loading: false,
-      disabled: false,
-      id: this.props.navigation.getParam('id'), //Set id to the parameter that was passed to the navigation action
-      date: this.props.navigation.getParam('date'), //Set date to the parameter that was passed to the navigation action
-    };
   }
 
   //Function that will update the payment for the current ad/article/photo
   updatePayment = () => {
-    this.setState({loading: true});
-    //Build the request URL based on ID and type
-    var url = getUpdatePaymentUrl(
-      this.state.data._id,
-      this.state.type.toLowerCase(),
-    );
-    var content = {payed: 'true'};
+    var content;
+    if (this.props.data.type != 'Ad') {
+      content = {
+        payed: true,
+        escalated: false,
+      };
+    } else {
+      content = {
+        payed: false,
+        escalated: true,
+      };
+    }
 
-    //Perform put request and save the resulting data in state data
-    axios
-      .put(url, content)
-      .then(data => {
-        this.setState({
-          loading: false,
-          data: data.data,
-          disabled: data.data.payed,
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        return null;
-      });
+    this.props.updatePayment(this.props.data._id, content);
+    this.props.setPaymentStatus(content);
   };
-
-  //Once the component did mount get the information for the ad/article/photo from the database
-  componentDidMount() {
-    var url =
-      API_URL + '/' + this.state.type.toLowerCase() + '/' + this.state.id;
-
-    axios
-      .get(url)
-      .then(data => {
-        this.setState(
-          {data: data.data, isLoading: false, disabled: data.data.payed},
-          function() {
-            //If the details page is an ad change the button based on the status of the payment
-            if (this.state.type == 'Ad') {
-              if (dateDiff(this.state.date)) this.setState({disabled: false});
-              else this.setState({disabled: true});
-            }
-          },
-        );
-      })
-      .catch(err => {
-        console.log(err);
-        return null;
-      });
-  }
 
   render() {
     //Show nothing while loading
-    if (this.state.isLoading) {
+    if (this.props.isLoading) {
       return <View></View>;
     } else {
       return (
         <PaymentDetailsComponent
-          title={this.state.data.title}
-          type={this.state.type}
-          payment={this.state.data.payment}
-          owner={this.state.data.owner.name}
-          payed={this.state.data.payed}
-          date={this.state.date}
-          id={this.state.data._id}
+          data={this.props.data}
           updatePayment={this.updatePayment}
-          isLoading={this.state.isLoading}
-          disabled={this.state.disabled}
+          isLoading={this.props.isLoading}
         />
       );
     }
   }
 }
+
+const mapStateToProps = state => ({
+  isLoading: state.issue.isLoading,
+  data: state.issue.currentPayment,
+  errorMessage: state.issue.errorMessage,
+});
+const mapDispatchToProps = dispatch => ({
+  setPaymentStatus: content => dispatch(setPaymentStatus(content)),
+  updatePayment: (id, content) => dispatch(updatePayment(id, content)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentDetails);

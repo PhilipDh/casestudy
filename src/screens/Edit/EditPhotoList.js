@@ -15,7 +15,10 @@ import StandardList from '../../components/common/StandardList';
 import RouteNames from '../../RouteNames';
 import {getEditByTypeUrl} from '../../config/api';
 import {connect} from 'react-redux';
-import {getCurrentPhoto} from '../../redux/actions/issue.actions';
+import {
+  getCurrentPhoto,
+  getCurrentIssue,
+} from '../../redux/actions/issue.actions';
 const axios = require('axios').default;
 
 type Props = {};
@@ -37,15 +40,10 @@ class EditPhotoList extends Component<Props, State> {
       showSnackbar: false,
     };
   }
-  //setter for the showSnackbar state
-  updateSnackbar = () => this.setState({showSnackbar: false});
 
   //Navigates to the EditPhoto screen with the params id and reloadlist
   navigateToEdit = id => {
-    this.props.navigation.navigate(RouteNames.EditPhoto, {
-      id: id,
-      reloadList: this.reloadList,
-    });
+    this.props.navigation.navigate(RouteNames.EditPhoto, {});
   };
 
   //Navigates to the AddPhoto screen witht he params id and reloadList
@@ -56,43 +54,9 @@ class EditPhotoList extends Component<Props, State> {
     });
   };
 
-  //Gets a list of all photos from the server
-  getPhotoList = () => {
-    var url = getEditByTypeUrl(this.state.id, 'photo');
-    axios
-      .get(url)
-      .then(data => {
-        this.setState({data: data.data, isLoading: false}, function() {});
-      })
-      .catch(err => {
-        this.setState({data: [], isLoading: false, showSnackbar: true});
-        return null;
-      });
-  };
-
   reloadList = () => {
-    this.getPhotoList();
+    this.props.getCurrentIssue(this.props.currentIssue._id);
   };
-
-  componentDidMount() {
-    //Since the Photo list itself is in a Top Navigator, directly adding a listener to it would only listen to the top navigation events
-    //To access the bottom tab navigation events I have to call dangerouslyGetParent() to add a listener
-    this.focusListener = this.props.navigation
-      .dangerouslyGetParent()
-      .addListener('didFocus', () => {
-        this.setState({id: this.props.screenProps.id}, () => {
-          this.reloadList();
-        });
-
-        console.log(this.props.screenProps.id);
-      });
-    this.getPhotoList();
-  }
-
-  componentWillUnmount() {
-    // Remove the event listener
-    this.focusListener.remove();
-  }
 
   //Item that should be rendered with the StandardList
   renderListItem = (item, index) => (
@@ -115,8 +79,6 @@ class EditPhotoList extends Component<Props, State> {
           data={this.props.editList}
           reloadList={this.reloadList}
           renderItem={this.renderListItem}
-          updateSnackbar={this.updateSnackbar}
-          showSnackbar={this.state.showSnackbar}
           isLoading={this.props.isLoading}
         />
         <FAB
@@ -130,6 +92,7 @@ class EditPhotoList extends Component<Props, State> {
 }
 
 const mapStateToProps = state => ({
+  currentIssue: state.issue.currentIssue,
   editList: state.issue.photos,
   isLoading: state.issue.isLoading,
   errorMessage: state.issue.errorMessage,
@@ -137,6 +100,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getCurrentPhoto: id => dispatch(getCurrentPhoto(id)),
+  getCurrentIssue: id => dispatch(getCurrentIssue(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditPhotoList);

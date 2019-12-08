@@ -20,7 +20,7 @@ import RouteNames from '../RouteNames';
 export const PaymentConfig = {
   defaultNavigationOptions: ({navigation}) => {
     return {
-      title: 'Second',
+      title: 'Payments',
       headerStyle: {
         backgroundColor: theme.colors.primary,
       },

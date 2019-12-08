@@ -31,13 +31,11 @@ class AddArticleScreen extends Component<State, Props> {
     super(props);
     this.state = {
       isLoading: true,
-      id: this.props.navigation.getParam('id'),
       content: '',
       title: '',
       payment: '',
       owner: '',
       availablePeople: {},
-      reloadList: this.props.navigation.getParam('reloadList'),
     };
   }
 
@@ -52,28 +50,22 @@ class AddArticleScreen extends Component<State, Props> {
     //If the title,content or payment field is empty throw an error
     //If the payment is Not a Number (NaN) it will throw an error
     if (this.state.title && !isNaN(this.state.payment) && this.state.payment) {
-      let url = addArticleUrl(this.state.id);
+      let dueDate = new Date(this.props.currentIssue.releaseDate);
       let content = {
         title: this.state.title,
         content: this.state.content,
         amount: this.state.payment,
         owner: this.state.owner,
-        due: '2019-10-30',
+        due:
+          dueDate.getFullYear() +
+          '-' +
+          (dueDate.getMonth() + 1) +
+          '-' +
+          dueDate.getDate(),
       };
       //Make a post request to the given URL with the content
-      this.props.addArticleToIssue(this.state.id, content);
-      /*
-      axios
-        .post(url, content)
-        .then(data => {
-          this.state.reloadList();
-          this.props.navigation.goBack();
-        })
-        .catch(err => {
-          console.log(err.message);
-          return null;
-        });
-        */
+      this.props.addArticleToIssue(this.props.currentIssue._id, content);
+      this.props.navigation.goBack();
     } else {
       alert('Fields cant be empty');
     }
@@ -124,7 +116,9 @@ class AddArticleScreen extends Component<State, Props> {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  currentIssue: state.issue.currentIssue,
+});
 
 const mapDispatchToProps = dispatch => ({
   addArticleToIssue: (id, content) => dispatch(addArticleToIssue(id, content)),

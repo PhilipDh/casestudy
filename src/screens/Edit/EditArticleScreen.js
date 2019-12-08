@@ -34,20 +34,12 @@ type State = {
 class EditArticleScreen extends Component<State, Props> {
   constructor(props) {
     super(props);
-
-    this.state = {
-      data: {},
-      id: this.props.navigation.getParam('id'),
-      loading: false,
-      isLoading: true,
-      title: '',
-      content: '',
-      reloadList: this.props.navigation.getParam('reloadList'),
-    };
   }
 
+  //Set title of current article in store
   setTitle = text => this.props.setArticleTitle(text);
 
+  //Set content of current article in store
   setContent = text => this.props.setArticleContent(text);
 
   updateArticle = () => {
