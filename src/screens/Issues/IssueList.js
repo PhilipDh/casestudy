@@ -71,6 +71,7 @@ class IssueList extends Component<State, Props> {
   }
 }
 
+//States from the redux store that should be mapped to props in this component
 const mapStateToProps = state => ({
   title: state.issue.currentIssue.title,
   data: state.issue.data,
@@ -78,6 +79,7 @@ const mapStateToProps = state => ({
   errorMessage: state.issue.errorMessage,
 });
 
+//Actions that should be mapped to props in this component
 const mapDispatchToProps = dispatch => ({
   getIssueList: () => dispatch(getIssueList()),
   getCurrentIssue: id => dispatch(getCurrentIssue(id)),

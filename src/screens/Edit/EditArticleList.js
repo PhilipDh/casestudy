@@ -25,14 +25,7 @@ const axios = require('axios').default;
 
 type Props = {};
 //Type definition for states of this class. Helps with type safety
-type State = {
-  data: any,
-  isLoading: boolean,
-  id: string,
-  dataChanged: boolean,
-  showSnackbar: boolean,
-  editable: boolean,
-};
+type State = {};
 
 class EditArticleList extends Component<Props, State> {
   constructor(props) {
@@ -84,6 +77,7 @@ class EditArticleList extends Component<Props, State> {
   }
 }
 
+//States from the redux store that should be mapped to props in this component
 const mapStateToProps = state => ({
   currentIssue: state.issue.currentIssue,
   editList: state.issue.articles,
@@ -91,6 +85,7 @@ const mapStateToProps = state => ({
   errorMessage: state.issue.errorMessage,
 });
 
+//Actions that should be mapped to props in this component
 const mapDispatchToProps = dispatch => ({
   getCurrentArticle: id => dispatch(getCurrentArticle(id)),
   getCurrentIssue: id => dispatch(getCurrentIssue(id)),

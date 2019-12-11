@@ -1,6 +1,9 @@
 import {createAction} from 'redux-actions';
 import {API_END, API_ERROR, API_START} from './types.actions.js';
 
+/*
+  Actions that are related to the API middleware
+*/
 export const apiStart = label => ({
   type: API_START,
   payload: label,

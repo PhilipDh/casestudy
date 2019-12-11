@@ -23,22 +23,10 @@ const axios = require('axios').default;
 
 type Props = {};
 //Type definition for states of this class. Helps with type safety
-type State = {
-  data: any,
-  isLoading: boolean,
-  id: string,
-  showSnackbar: boolean,
-};
+type State = {};
 class EditPhotoList extends Component<Props, State> {
   constructor(props) {
     super(props);
-
-    this.state = {
-      data: {},
-      isLoading: true,
-      id: props.screenProps.id,
-      showSnackbar: false,
-    };
   }
 
   //Navigates to the EditPhoto screen with the params id and reloadlist
@@ -48,10 +36,7 @@ class EditPhotoList extends Component<Props, State> {
 
   //Navigates to the AddPhoto screen witht he params id and reloadList
   navigateToAdd = () => {
-    this.props.navigation.navigate(RouteNames.AddPhoto, {
-      id: this.state.id,
-      reloadList: this.reloadList,
-    });
+    this.props.navigation.navigate(RouteNames.AddPhoto, {});
   };
 
   reloadList = () => {
@@ -71,8 +56,6 @@ class EditPhotoList extends Component<Props, State> {
   );
 
   render() {
-    //While the list is loading dont display anything
-
     return (
       <View style={styles.rootContainer}>
         <StandardList
@@ -91,6 +74,7 @@ class EditPhotoList extends Component<Props, State> {
   }
 }
 
+//States from the redux store that should be mapped to props in this component
 const mapStateToProps = state => ({
   currentIssue: state.issue.currentIssue,
   editList: state.issue.photos,
@@ -98,6 +82,7 @@ const mapStateToProps = state => ({
   errorMessage: state.issue.errorMessage,
 });
 
+//Actions that should be mapped to props in this component
 const mapDispatchToProps = dispatch => ({
   getCurrentPhoto: id => dispatch(getCurrentPhoto(id)),
   getCurrentIssue: id => dispatch(getCurrentIssue(id)),

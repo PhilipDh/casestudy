@@ -26,15 +26,7 @@ import {
 const axios = require('axios').default;
 
 //Type definition for states of this class. Helps with type safety
-type State = {
-  data: any,
-  type: string,
-  id: string,
-  loading: boolean,
-  disabled: boolean,
-  isLoading: boolean,
-  date: string,
-};
+type State = {};
 
 class PaymentDetails extends Component<Props, State> {
   constructor(props) {
@@ -56,7 +48,6 @@ class PaymentDetails extends Component<Props, State> {
         escalated: true,
       };
     }
-
     this.props.updatePayment(this.props.data._id, content);
     this.props.setPaymentStatus(content);
   };
@@ -77,11 +68,13 @@ class PaymentDetails extends Component<Props, State> {
   }
 }
 
+//States from the redux store that should be mapped to props in this component
 const mapStateToProps = state => ({
   isLoading: state.issue.isLoading,
   data: state.issue.currentPayment,
   errorMessage: state.issue.errorMessage,
 });
+//Actions that should be mapped to props in this component
 const mapDispatchToProps = dispatch => ({
   setPaymentStatus: content => dispatch(setPaymentStatus(content)),
   updatePayment: (id, content) => dispatch(updatePayment(id, content)),

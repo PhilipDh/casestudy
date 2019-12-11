@@ -36,21 +36,14 @@ type State = {
 class EditList extends Component<Props, State> {
   constructor(props) {
     super(props);
-
-    this.state = {
-      id: props.screenProps.id,
-      data: {},
-      isLoading: true,
-      showSnackbar: false,
-    };
   }
 
-  //Navigates to the EditAd screen with the params id and reloadlist
+  //Navigates to the EditAd screen
   navigateToEdit = id => {
     this.props.navigation.navigate(RouteNames.EditAd, {});
   };
 
-  //Navigates to the AddAd screen witht he params id and reloadList
+  //Navigates to the AddAd screen
   navigateToAdd = () => {
     this.props.navigation.navigate(RouteNames.AddAd, {});
   };
@@ -91,6 +84,7 @@ class EditList extends Component<Props, State> {
   }
 }
 
+//States from the redux store that should be mapped to props in this component
 const mapStateToProps = state => ({
   currentIssue: state.issue.currentIssue,
   editList: state.issue.ads,
@@ -98,6 +92,7 @@ const mapStateToProps = state => ({
   errorMessage: state.issue.errorMessage,
 });
 
+//Actions that should be mapped to props in this component
 const mapDispatchToProps = dispatch => ({
   getCurrentAd: id => dispatch(getCurrentAd(id)),
   getCurrentIssue: id => dispatch(getCurrentIssue(id)),

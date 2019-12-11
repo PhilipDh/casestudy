@@ -121,12 +121,14 @@ class EditPhotoScreen extends Component<Props, State> {
   }
 }
 
+//States from the redux store that should be mapped to props in this component
 const mapStateToProps = state => ({
   data: state.issue.currentPhoto,
   isLoading: state.issue.isLoading,
   issueId: state.issue.currentIssue._id,
 });
 
+//Actions that should be mapped to props in this component
 const mapDispatchToProps = dispatch => ({
   updatePhotoWithImage: (id, content) =>
     dispatch(updatePhotoWithImage(id, content)),

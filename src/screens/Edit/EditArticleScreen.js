@@ -72,6 +72,7 @@ class EditArticleScreen extends Component<State, Props> {
   }
 }
 
+//States from the redux store that should be mapped to props in this component
 const mapStateToProps = state => ({
   data: state.issue.currentArticle,
   isLoading: state.issue.isLoading,
@@ -79,6 +80,7 @@ const mapStateToProps = state => ({
   issueId: state.issue.currentIssue._id,
 });
 
+//Actions that should be mapped to props in this component
 const mapDispatchToProps = dispatch => ({
   updateArticle: (id, content) => dispatch(updateArticle(id, content)),
   setArticleTitle: title => dispatch(setArticleTitle(title)),

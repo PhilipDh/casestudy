@@ -54,12 +54,14 @@ class EditAdScreen extends Component<State, Props> {
   }
 }
 
+//States from the redux store that should be mapped to props in this component
 const mapStateToProps = state => ({
   data: state.issue.currentAd,
   issueId: state.issue.currentIssue._id,
   isLoading: state.issue.isLoading,
 });
 
+//Actions that should be mapped to props in this component
 const mapDispatchToProps = dispatch => ({
   updateAd: (id, content) => dispatch(updateAd(id, content)),
   setAdPlacement: placement => dispatch(setAdPlacement(placement)),

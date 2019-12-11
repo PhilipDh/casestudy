@@ -29,7 +29,6 @@ type Props = {};
 type State = {
   size: string,
   isLoading: boolean,
-  id: string,
   loading: boolean,
   photoLocation: any,
   uploadPhoto: any,
@@ -45,7 +44,6 @@ class AddPhotoScreen extends Component<Props, State> {
 
     this.state = {
       size: '200x200',
-      id: this.props.navigation.getParam('id'),
       isLoading: true,
       loading: false,
       photoLocation: null,
@@ -125,6 +123,7 @@ class AddPhotoScreen extends Component<Props, State> {
   //Create a new Photo entry in the database
   addPhoto = () => {
     var url = addPhotoUrl(this.props.currentIssue._id);
+    //Set the due date to the date the issue releases
     let dueDate = new Date(this.props.currentIssue.releaseDate);
     var c = {
       size: this.state.size,
@@ -169,7 +168,7 @@ class AddPhotoScreen extends Component<Props, State> {
 
   //Get a list of all articles that the photo can be shown in
   getArticleList = () => {
-    var url = getEditByTypeUrl(this.state.id, 'article');
+    var url = getEditByTypeUrl(this.props.currentIssue._id, 'article');
     return axios
       .get(url)
       .then(data => {
@@ -214,10 +213,12 @@ class AddPhotoScreen extends Component<Props, State> {
   }
 }
 
+//States from the redux store that should be mapped to props in this component
 const mapStateToProps = state => ({
   currentIssue: state.issue.currentIssue,
 });
 
+//Actions that should be mapped to props in this component
 const mapDispatchToProps = dispatch => ({
   addPhotoToIssue: (id, content) => dispatch(addPhotoToIssue(id, content)),
 });

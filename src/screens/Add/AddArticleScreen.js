@@ -50,6 +50,7 @@ class AddArticleScreen extends Component<State, Props> {
     //If the title,content or payment field is empty throw an error
     //If the payment is Not a Number (NaN) it will throw an error
     if (this.state.title && !isNaN(this.state.payment) && this.state.payment) {
+      //Set the due date to the date that the issue releases
       let dueDate = new Date(this.props.currentIssue.releaseDate);
       let content = {
         title: this.state.title,
@@ -116,10 +117,12 @@ class AddArticleScreen extends Component<State, Props> {
   }
 }
 
+//States from the redux store that should be mapped to props in this component
 const mapStateToProps = state => ({
   currentIssue: state.issue.currentIssue,
 });
 
+//Actions that should be mapped to props in this component
 const mapDispatchToProps = dispatch => ({
   addArticleToIssue: (id, content) => dispatch(addArticleToIssue(id, content)),
 });

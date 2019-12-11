@@ -62,7 +62,7 @@ class AddAdScreen extends Component<State, Props> {
       !isNaN(this.state.payment) &&
       this.state.payment
     ) {
-      //Set the due date to two month into the future
+      //Set the due date to two month from when the issue releases
       let dueDate = new Date(this.props.currentIssue.releaseDate);
       dueDate = new Date(dueDate.setMonth(dueDate.getMonth() + 2));
 
@@ -133,10 +133,12 @@ class AddAdScreen extends Component<State, Props> {
   }
 }
 
+//States from the redux store that should be mapped to props in this component
 const mapStateToProps = state => ({
   currentIssue: state.issue.currentIssue,
 });
 
+//Actions that should be mapped to props in this component
 const mapDispatchToProps = dispatch => ({
   addAdToIssue: (id, content) => dispatch(addAdToIssue(id, content)),
 });

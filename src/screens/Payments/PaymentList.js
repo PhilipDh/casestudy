@@ -90,12 +90,15 @@ class PaymentList extends Component<State, Props> {
   }
 }
 
+//States from the redux store that should be mapped to props in this component
 const mapStateToProps = state => ({
   isLoading: state.issue.isLoading,
   data: getPayments(state),
   errorMessage: state.issue.errorMessage,
   paymentFilter: state.issue.paymentFilter,
 });
+
+//Actions that should be mapped to props in this component
 const mapDispatchToProps = dispatch => ({
   getPaymentList: () => dispatch(getPaymentList()),
   setCurrentPayment: data => dispatch(setCurrentPayment(data)),
